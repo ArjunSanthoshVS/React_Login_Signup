@@ -17,23 +17,46 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    googleId: {
+        type: String,
+        required: false  
+    },
+    id: {
+        type:String
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+    bloodGroup: {
+        type: String,
+    },
+    birthDate: {
+        type: Date,
+    },
+    weight: {
+        type: Number,
+    },
+    age: {
+        type: Number,
+    },
+    question: {
+        type: String,
+    },
+    gender: {
+        type: String,
+    },
+    locality: {
+        type: String,
+    },
 })
 
-userSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({ _id: this._id }, 'REDWINGSUSER', { expiresIn: '7d' })
-    return token
-}
+// userSchema.methods.generateAuthToken = function () {
+//     const token = jwt.sign({ _id: this._id }, 'REDWINGSUSER', { expiresIn: '7d' })
+//     return token
+// }
 
 const User = mongoose.model("user", userSchema)
 
 module.exports = { User }
-
-User.find((err, users) => {
-    if (err) {
-        console.log('Error retrieving products from database', err);
-        return;
-    }
-
-    console.log('Users:', users);
-});

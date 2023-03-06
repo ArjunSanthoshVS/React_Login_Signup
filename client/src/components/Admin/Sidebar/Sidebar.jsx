@@ -109,6 +109,11 @@ export default function Sidebar() {
 
     const navigate = useNavigate()
 
+    const handleLogout = () => {
+        localStorage.removeItem("adminToken")
+        window.location = '/admin_login'
+    }
+
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -127,7 +132,7 @@ export default function Sidebar() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Mini variant drawer
+                        Red Wings Admin
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -148,7 +153,9 @@ export default function Sidebar() {
                         { name: 'Blood Groups', icon: <BloodtypeIcon /> },
                         { name: 'Branches', icon: <BranchIcon /> },
                         { name: 'Blood Report', icon: <ReportIcon /> },
-                        { name: 'Other Donations', icon: <OthersIcon /> }
+                        { name: 'Other Donations', icon: <OthersIcon /> },
+                        { name: 'Logout', icon: <OthersIcon /> }
+
                     ].map((text, index) => (
                         <ListItem key={text.name} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
@@ -172,6 +179,7 @@ export default function Sidebar() {
                                         console.log(text.name);
                                         let text2 = text.name.toLowerCase()
                                         text2 === "users" ? navigate('/admin') : navigate(`/admin/${text2}`)
+                                        text2 === "logout" ? handleLogout() : navigate('/admin')
                                     }} />
                             </ListItemButton>
                         </ListItem>

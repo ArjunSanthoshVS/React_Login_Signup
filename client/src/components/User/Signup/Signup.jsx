@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './Signup.css'
-import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import Spinner from 'react-bootstrap/esm/Spinner'
+import { signUp } from '../../../Redux/Features/userSlice'
 
 
 function Signup() {
@@ -13,27 +15,21 @@ function Signup() {
         password: ""
     })
 
-    const [error, setError] = useState("")
-    const navigate = useNavigate();
+    const { loading, error } = useSelector((state) => ({ ...state.user }))
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
 
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]: input.value })
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            const url = "http://localhost:5000/api/signup"
-            const { data: res } = await axios.post(url, data)
-            navigate("/login")
-            console.log(res.message);
-        } catch (error) {
-            if (error.response && error.response.status >= 400
-                && error.response.status <= 500) {
-                setError(error.response.data.message)
-            }
-        }
-    }
+        e.preventDefault();
+        console.log(data, 'lllll');
+        dispatch(signUp({ data, navigate }))
+    };
 
     return (
         <div className='signup_container'>
@@ -78,6 +74,9 @@ function Signup() {
                         />
                         {error && <div className="error_msg">{error}</div>}
                         <button type='submit' className='green_btn'>
+                            {loading && (
+                                <Spinner className='me-2' animation="border" size="sm" />
+                            )}
                             Signup
                         </button>
                     </form>

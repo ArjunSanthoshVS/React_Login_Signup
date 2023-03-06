@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './Login.css'
-import axios from 'axios'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../../../Redux/Features/userSlice'
+import Spinner from 'react-bootstrap/Spinner';
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google"
 
 function Login() {
 
@@ -11,28 +13,19 @@ function Login() {
         password: ""
     })
 
-    const [error, setError] = useState("")
+    const { loading, error } = useSelector((state) => ({ ...state.user }))
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]: input.value });
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const { data: res } = await axios.post("http://localhost:5000/api/login", data);
-            localStorage.setItem("token", res.data);
-            window.location = "/";
-        } catch (error) {
-            if (
-                error.response &&
-                error.response.status >= 400 &&
-                error.response.status <= 500
-            ) {
-                setError(error.response.data.message);
-            }
-        }
+        console.log(data, 'lllll');
+        dispatch(login({ data, navigate }))
     };
 
     return (
@@ -64,9 +57,20 @@ function Login() {
                         />
                         {error && <div className="error_msg">{error}</div>}
                         <button type='submit' className='green_btn'>
+                            {loading && (
+                                <Spinner className='me-2' animation="border" size="sm" />
+                            )}
                             Login
                         </button>
                     </form>
+                    <GoogleOAuthProvider clientId='...'>
+                        <GoogleLogin onSuccess={credentialResponse => {
+                            console.log(credentialResponse);
+                        }}
+                            onError={() => {
+                                console.log('Login Failed');
+                            }} />
+                    </GoogleOAuthProvider>
                     <Link to={'/signup'}>
                         <button type='button' className='white_btn'>
                             SignUp

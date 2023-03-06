@@ -20,14 +20,16 @@ import {
 } from 'mdb-react-ui-kit';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import DonorProfile from '../Profile/DonorProfile';
-import ReceiverProfile from '../Profile/ReceiverProfile'
+import { useNavigate } from 'react-router-dom';
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Logout'];
 
 function HomeNav() {
+
+    const navigate = useNavigate();
+
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -47,19 +49,12 @@ function HomeNav() {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("token")
-        window.location.reload()
+        localStorage.removeItem("userToken")
+        window.location='/login'
     }
 
     const [centredModal, setCentredModal] = React.useState(false);
     const modalShow = () => setCentredModal(!centredModal);
-
-    const donorProfile = () => {
-
-    }
-    const receiverProfile = () => {
-
-    }
 
     return (
         <>
@@ -88,7 +83,7 @@ function HomeNav() {
                             sx={{
                                 mr: 2,
                                 display: { xs: 'none', md: 'flex' },
-                                fontFamily: 'monospace',
+                                fontFamily: '',
                                 fontWeight: "bolder",
                                 letterSpacing: '.3rem',
                                 color: 'inherit',
@@ -226,7 +221,8 @@ function HomeNav() {
                                 Be the reason for someone's heartbeat.
                             </h5>
                             <Row>
-                                <Col className='text-center' onClick={donorProfile}>
+                                <Col className='text-center' onClick={() => navigate('/donor')}
+                                    style={{ cursor: 'pointer' }}>
                                     <lord-icon
                                         style={{ width: "200px", height: "200px" }}
                                         colors="primary:#e83a30,secondary:#ebe6ef"
@@ -239,7 +235,8 @@ function HomeNav() {
                                             color: "#e83a30",
                                         }}>Donate</h3>
                                 </Col>
-                                <Col className='text-center' onClick={receiverProfile}>
+                                <Col className='text-center' onClick={() => navigate('/receiver')}
+                                    style={{ cursor: 'pointer' }}>
                                     <lord-icon
                                         src="https://cdn.lordicon.com/uiaaaqiz.json"
                                         trigger="hover"

@@ -22,6 +22,7 @@ function AdminLogin() {
 
     const [error, setError] = useState('')
 
+
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]: input.value });
     };
@@ -29,8 +30,9 @@ function AdminLogin() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { data: res } = await axios.post("http://localhost:5000/api/admin_login", data)
+            const { data: res } = await axios.post("http://localhost:5000/auth/admin_login", data)
             localStorage.setItem("adminToken", res.data)
+            console.log(data,'jdjdjdjdjd');
             window.location = "/admin"
         } catch (error) {
             if (
