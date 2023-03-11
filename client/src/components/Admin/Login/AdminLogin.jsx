@@ -12,6 +12,10 @@ import {
     from 'mdb-react-ui-kit';
 import axios from 'axios';
 import './AdminLogin.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { adminLogin } from '../../../Redux/Features/Admin/adminSlice';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import { useNavigate } from 'react-router-dom';
 
 function AdminLogin() {
 
@@ -20,8 +24,10 @@ function AdminLogin() {
         password: ""
     })
 
-    const [error, setError] = useState('')
+    const { loading, error } = useSelector((state) => ({ ...state.admin }))
 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]: input.value });
@@ -29,21 +35,10 @@ function AdminLogin() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const { data: res } = await axios.post("http://localhost:5000/auth/admin_login", data)
-            localStorage.setItem("adminToken", res.data)
-            console.log(data,'jdjdjdjdjd');
-            window.location = "/admin"
-        } catch (error) {
-            if (
-                error.response &&
-                error.response.status >= 400 &&
-                error.response.status <= 500
-            ) {
-                setError(error.response.data.message)
-            }
-        }
-    }
+        console.log(data, 'lllll');
+        dispatch(adminLogin({ data, navigate }))
+    };
+
     return (
         <MDBContainer >
 
@@ -83,6 +78,9 @@ function AdminLogin() {
                                 <p className="small mb-3 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p>
                                 <div className="text-center">
                                     <MDBBtn outline className='px-5' color='white' size='lg'>
+                                        {loading && (
+                                            <Spinner className='me-2' animation="border" size="sm" />
+                                        )}
                                         Login
                                     </MDBBtn>
                                 </div>

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import './Signup.css'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from 'react-bootstrap/esm/Spinner'
-import { signUp } from '../../../Redux/Features/userSlice'
+import { signUp } from '../../../Redux/Features/User/userSlice'
 
 
 function Signup() {
@@ -22,6 +22,7 @@ function Signup() {
 
 
     const handleChange = ({ currentTarget: input }) => {
+        console.log({ ...data, [input.name]: input.value });
         setData({ ...data, [input.name]: input.value })
     }
 

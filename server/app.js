@@ -22,7 +22,7 @@ const connection = require('./DB/db')
 // const receiverProfile = require('./routes/UserRoutes/receiverProfile')
 
 const userController=require('./controllers/User/userController')
-const profileController = require('./Controllers/User/profileController')
+// const profileController = require('./Controllers/User/profileController')
 const adminController=require('./controllers/Admin/adminController')
 // const uploadController = require('./Controllers/uploadController');
 
@@ -58,7 +58,7 @@ app.use(cors())
 
 
 app.use('/user', userController);
-app.use('/profile', profileController);
+// app.use('/profile', profileController);
 app.use('/admin',adminController)
 // app.use('/upload', uploadController)
 

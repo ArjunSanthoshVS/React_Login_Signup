@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { adminSignUp } from '../../../Redux/Features/Admin/adminSlice'
 
 
 function AdminSignup() {
@@ -11,27 +13,20 @@ function AdminSignup() {
         password: ""
     })
 
-    const [error, setError] = useState("")
-    const navigate = useNavigate();
+    const { loading, error } = useSelector((state) => ({ ...state.admin }))
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]: input.value })
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            const url = "http://localhost:5000/api/admin_signup"
-            const { data: res } = await axios.post(url, data)
-            navigate("/admin_login")
-            console.log(res.message);
-        } catch (error) {
-            if (error.response && error.response.status >= 400
-                && error.response.status <= 500) {
-                setError(error.response.data.message)
-            }
-        }
-    }
+        e.preventDefault();
+        console.log(data, 'lllll');
+        dispatch(adminSignUp({ data, navigate }))
+    };
 
     return (
         <div className='signup_container'>

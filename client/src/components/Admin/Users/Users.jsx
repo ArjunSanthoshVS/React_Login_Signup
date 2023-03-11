@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,10 +8,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import axios from 'axios';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box } from '@mui/material';
 import SideBar from '../Sidebar/Sidebar'
-import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers } from '../../../Redux/Features/Admin/getUsersSlice';
+import { fetchUser } from '../../../Redux/Features/Admin/getUserDetails';
+import { useNavigate } from 'react-router-dom';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -34,20 +37,18 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 export default function CustomizedTables() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
 
-    const [users, setUsers] = React.useState([])
-    const dispatch=useDispatch()
 
-    React.useEffect(() => {
-        const user = async () => {
-            const result = await axios.get('http://localhost:5000/admin/activeUsers')
-            console.log(result.data);
-            let data=result.data
-            setUsers(result.data)
-            // dispatch()
-        }
-        user()
-    }, [])
+    useEffect(() => {
+        console.log('kerii');
+        dispatch(fetchUsers());
+        console.log('klklklk');
+    }, [dispatch]);
+
+    const users = useSelector((state) => state?.getUsers?.users);
+    console.log(users);
 
     const DrawerHeader = styled('div')(({ theme }) => ({
         display: 'flex',
@@ -58,6 +59,11 @@ export default function CustomizedTables() {
         ...theme.mixins.toolbar,
     }));
 
+    const viewUser = async(id) => {
+        console.log(id,'1233444');
+        await dispatch(fetchUser(id));
+        navigate('/view')
+    }
 
     return (
         <>
@@ -76,21 +82,29 @@ export default function CustomizedTables() {
                                     <StyledTableCell align="center">Age</StyledTableCell>
                                     <StyledTableCell align="center">Locality</StyledTableCell>
                                     <StyledTableCell align="center">Email</StyledTableCell>
+                                    <StyledTableCell align="center">View</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {users.map((user) => (
-                                    <StyledTableRow key={user.id}>
-                                        <StyledTableCell align="center" component="th" scope="row">
-                                            {user.firstName} {user.lastName}
-                                        </StyledTableCell>
-                                        <StyledTableCell align="center">{user.blood}{user.blood}<span>Not Selected</span></StyledTableCell>
-                                        <StyledTableCell align="center">{user.dob}{user.dob}<span>Not Selected</span></StyledTableCell>
-                                        <StyledTableCell align="center">{user.age}{user.age}<span>Not Selected</span></StyledTableCell>
-                                        <StyledTableCell align="center">{user.locality}{user.locality}<span>Not Selected</span></StyledTableCell>
-                                        <StyledTableCell align="center">{user.email}</StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
+                                {users.length > 0 ? (
+                                    users.map((user) => (
+                                        <StyledTableRow key={user._id}>
+                                            <StyledTableCell align="center" component="th" scope="row">
+                                                {user.firstName} {user.lastName}
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">{user.blood}{user.blood}<span>Not Selected</span></StyledTableCell>
+                                            <StyledTableCell align="center">{user.dob}{user.dob}<span>Not Selected</span></StyledTableCell>
+                                            <StyledTableCell align="center">{user.age}{user.age}<span>Not Selected</span></StyledTableCell>
+                                            <StyledTableCell align="center">{user.locality}{user.locality}<span>Not Selected</span></StyledTableCell>
+                                            <StyledTableCell align="center">{user.email}</StyledTableCell>
+                                            <StyledTableCell align="center" onClick={() => viewUser(user._id)}><VisibilityIcon/></StyledTableCell>
+                                        </StyledTableRow>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="3">No {users.length} users found.</td>
+                                    </tr>
+                                )}
                             </TableBody>
                         </Table>
                     </TableContainer>

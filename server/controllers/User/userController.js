@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
 require('dotenv').config()
 const { validateSignup, validatelogin } = require("../../validation/loginValidation");
+const { default: auth } = require("../../Middlewares/auth");
 
 
 userController.post("/signup", async (req, res) => {
@@ -20,7 +21,7 @@ userController.post("/signup", async (req, res) => {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         const newUser = await User.create({ ...req.body, password: hashedPassword })
         const token = jwt.sign({ email: newUser.email, id: newUser._id, isAdmin: newUser.isAdmin }, process.env.JWT_SECRET, { expiresIn: "5h" })
-        return res.status(201).json({ result:newUser, token })
+        return res.status(201).json({ newUser, token })
     } catch (error) {
         return res.status(500).send({ message: "Internal Server Error" });
     }
@@ -36,7 +37,7 @@ userController.post("/login", async (req, res) => {
         if (error) {
             return res.status(400).send({ message: error.details[0].message });
         }
-        
+
         console.log('111111');
         const user = await User.findOne({ email: req.body.email })
         console.log('111111');
@@ -48,14 +49,27 @@ userController.post("/login", async (req, res) => {
         if (!checkPass) {
             return res.status(400).send({ message: "User credentials are wrong" })
         }
-        const token = jwt.sign({ email:user.email, id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: "5h" })
-        
+        const token = jwt.sign({ email: user.email, id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: "5h" })
+
         console.log('111111');
-        return res.status(201).json({ result:user, token, msg: "Work aayiyii" })
+        return res.status(201).json({ user, token, msg: "Work aayiyii" })
 
     } catch (error) {
         return res.status(500).send({ message: "Internal Server Error" });
     }
 });
+
+
+userController.put("/profile", async (req, res) => {
+    console.log(req.body, 'vannneee');
+    try {
+        console.log('ppppppprrrrrro');
+        const result = await User.updateOne({ _id: req.body.user._id }, { firstName: req.body.user.firstName })
+        console.log(result);
+        return res.status(201).json({ result, message: "updated" })
+    } catch (error) {
+        return res.status(500).send({ message: "Profile Error" });
+    }
+})
 
 module.exports = userController

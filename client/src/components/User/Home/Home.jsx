@@ -7,6 +7,7 @@ export default function Home() {
     return (
         <>
             <HomeNav />
+            <h1 style={{margin:'100px'}}>Home page</h1>
         </>
     );
 }

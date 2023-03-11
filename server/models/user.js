@@ -20,14 +20,17 @@ const userSchema = new mongoose.Schema({
     },
     googleId: {
         type: String,
-        required: false  
+        required: false
     },
     id: {
-        type:String
+        type: String
     },
     isAdmin: {
         type: Boolean,
         default: false
+    },
+    mobile: {
+        type: String
     },
     bloodGroup: {
         type: String,

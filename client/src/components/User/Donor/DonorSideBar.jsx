@@ -1,126 +1,87 @@
 import * as React from 'react';
-import Swal from 'sweetalert2'
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import AppBar from '@mui/material/AppBar';
+import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import { ListItemText } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLogout } from '../../../Redux/Features/User/userSlice';
-
-
-const pages = ['Products', 'Pricing', 'Blog'];
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+import { Avatar, Container, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 const settings = ['Profile', 'Logout'];
 
-function HomeNav() {
 
-    const navigate = useNavigate();
 
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
+const drawerWidth = 240;
+
+export default function DonorSideBar() {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
+    
+    
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
-
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
+    
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { user } = useSelector((state) => ({ ...state?.user?.user }))
     console.log(user, 'mmmmmmmmmmm');
-
+    
     const handleLogout = () => {
         dispatch(setLogout())
         // navigate("/login")
         window.location = "/login"
     }
-
+    
     const handleDonor = () => {
-        if (user?.mobile && user?.bloodGroup && user?.birthDate && user?.weight && user?.age && user?.gender && user?.locality) {
-            console.log('handle donor');
-            Swal.fire({
-                title: `Hi ${user?.firstName}`,
-                text: 'Continue as a Donor?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#054D60',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, I want to Donate', // change confirm button text
-            }).then((result) => { // use then to perform an action on confirmation
-                if (result.isConfirmed) {
-                    navigate('/donor') // navigate to next page
-                }
-            });
-        } else {
-            Swal.fire({
-                title: `Complete Your Profile`,
-                text: 'First you want to complete your profile..!',
-                icon: 'error',
-                showCancelButton: true,
-                confirmButtonColor: '#054D60',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yeh Sure..!', // change confirm button text
-            }).then((result) => { // use then to perform an action on confirmation
-                if (result.isConfirmed) {
-                    navigate('/profile') // navigate to next page
-                }
-            });
-        }
+        console.log('handle donor');
+        Swal.fire({
+            title: `Hi ${user?.firstName}`,
+            text: 'Continue as a Donor?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, I want to Donate', // change confirm button text
+        }).then((result) => { // use then to perform an action on confirmation
+            if (result.isConfirmed) {
+                navigate('/donor') // navigate to next page
+            }
+        });
     }
     const handleReceiver = () => {
-        if (user?.mobile && user?.bloodGroup && user?.birthDate && user?.weight && user?.age && user?.gender && user?.locality) {
-            console.log('handle receiver');
-            Swal.fire({
-                title: `Hi ${user?.firstName}`,
-                text: 'Are you ready for Transfusion?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#054D60',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes', // change confirm button text
-            }).then((result) => { // use then to perform an action on confirmation
-                if (result.isConfirmed) {
-                    navigate('/receiver') // navigate to next page
-                }
-            });
-        } else {
-            Swal.fire({
-                title: `Complete Your Profile`,
-                text: 'First you want to complete your profile..!',
-                icon: 'error',
-                showCancelButton: true,
-                confirmButtonColor: '#054D60',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yeh Sure..!', // change confirm button text
-            }).then((result) => { // use then to perform an action on confirmation
-                if (result.isConfirmed) {
-                    navigate('/profile') // navigate to next page
-                }
-            });
-        }
+        console.log('handle receiver');
+        Swal.fire({
+            title: `Hi ${user?.firstName}`,
+            text: 'Are you ready for Transfusion?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes', // change confirm button text
+        }).then((result) => { // use then to perform an action on confirmation
+            if (result.isConfirmed) {
+                navigate('/receiver') // navigate to next page
+            }
+        });
     }
-
     return (
-        <>
-            <AppBar style={{ backgroundColor: "#054D60" }} position="fixed">
+        <Box sx={{ display: 'flex' }}>
+            <CssBaseline />
+            <AppBar style={{ backgroundColor: "#054D60" }} position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
@@ -161,14 +122,11 @@ function HomeNav() {
                                 aria-label="account of current user"
                                 aria-controls="menu-appbar"
                                 aria-haspopup="true"
-                                onClick={handleOpenNavMenu}
                                 color="inherit"
                             >
-                                <MenuIcon />
                             </IconButton>
                             <Menu
                                 id="menu-appbar"
-                                anchorEl={anchorElNav}
                                 anchorOrigin={{
                                     vertical: 'bottom',
                                     horizontal: 'left',
@@ -178,17 +136,11 @@ function HomeNav() {
                                     vertical: 'top',
                                     horizontal: 'left',
                                 }}
-                                open={Boolean(anchorElNav)}
-                                onClose={handleCloseNavMenu}
                                 sx={{
                                     display: { xs: 'block', md: 'none' },
                                 }}
                             >
-                                {pages.map((page) => (
-                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">{page}</Typography>
-                                    </MenuItem>
-                                ))}
+                            
                             </Menu>
                         </Box>
                         {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
@@ -223,15 +175,7 @@ function HomeNav() {
                             REDWINGS
                         </Typography> */}
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            {pages.map((page) => (
-                                <Button
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
-                                >
-                                    {page}
-                                </Button>
-                            ))}
+                            
                         </Box>
 
                         {user?._id && (
@@ -240,7 +184,7 @@ function HomeNav() {
                         <Tooltip title="Donate">
                             <lord-icon
                                 onClick={handleDonor}
-                                style={{ width: "60px", height: "60px",cursor:"pointer" }}
+                                style={{ width: "60px", height: "60px", cursor: "pointer" }}
                                 colors="primary:#e83a30,secondary:#ebe6ef"
                                 src="https://cdn.lordicon.com/tlyvkjxa.json"
                                 trigger="hover"
@@ -253,11 +197,9 @@ function HomeNav() {
                                 src="https://cdn.lordicon.com/uiaaaqiz.json"
                                 trigger="hover"
                                 colors="primary:#e83a30,secondary:#ffffff"
-                                style={{ width: "60px", height: "60px",cursor:"pointer" }}>
+                                style={{ width: "60px", height: "60px", cursor: "pointer" }}>
                             </lord-icon>
                         </Tooltip>
-            
-                        
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
 
@@ -295,54 +237,62 @@ function HomeNav() {
                     </Toolbar>
                 </Container>
             </AppBar >
+            <Drawer
+                variant="permanent"
+                sx={{
+                    width: drawerWidth,
+                    flexShrink: 0,
+                    [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+                }}
+            >
+                <Toolbar />
+                <Box sx={{ overflow: 'auto' }}>
+                    <List>
+                        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                            <ListItem key={text} disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                    </ListItemIcon>
+                                    <ListItemText primary={text} />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                    </List>
+                </Box>
 
-
-            {/* 
-            <MDBModal tabIndex='-1' show={centredModal} setShow={setCentredModal}>
-                <MDBModalDialog centered>
-                    <MDBModalContent>
-
-                        <MDBModalBody className='p-4'>
-                            <h3 className='fw-bold text-center' >RED WINGS</h3>
-                            <h5 className='fw-bold text-center'>
-                                Be the reason for someone's heartbeat.
-                            </h5>
-                            <Row>
-                                <Col className='text-center' onClick={() => navigate('/donor')}
-                                    style={{ cursor: 'pointer' }}>
-                                    <lord-icon
-                                        style={{ width: "200px", height: "200px" }}
-                                        colors="primary:#e83a30,secondary:#ebe6ef"
-                                        src="https://cdn.lordicon.com/tlyvkjxa.json"
-                                        trigger="hover">
-                                    </lord-icon>
-                                    <h3 className='text-center'
-                                        style={{
-                                            fontWeight: "bold",
-                                            color: "#e83a30",
-                                        }}>Donate</h3>
-                                </Col>
-                                <Col className='text-center' onClick={() => navigate('/receiver')}
-                                    style={{ cursor: 'pointer' }}>
-                                    <lord-icon
-                                        src="https://cdn.lordicon.com/uiaaaqiz.json"
-                                        trigger="hover"
-                                        colors="primary:#e83a30,secondary:#ffffff"
-                                        style={{ width: "200px", height: "200px" }}>
-                                    </lord-icon>
-                                    <h3 className='text-center'
-                                        style={{
-                                            fontWeight: "bold",
-                                            color: "#e83a30"
-                                        }}>Receive</h3>
-                                </Col>
-                            </Row>
-                        </MDBModalBody>
-
-                    </MDBModalContent>
-                </MDBModalDialog>
-            </MDBModal > */}
-        </>
+                
+            </Drawer>
+            {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                <Toolbar />
+                <Typography paragraph>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
+                    enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
+                    imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+                    Convallis convallis tellus id interdum velit laoreet id donec ultrices.
+                    Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
+                    adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
+                    nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
+                    leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
+                    feugiat vivamus at augue. At augue eget arcu dictum varius duis at
+                    consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
+                    sapien faucibus et molestie ac.
+                </Typography>
+                <Typography paragraph>
+                    Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
+                    eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
+                    neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
+                    tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
+                    sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
+                    tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
+                    gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
+                    et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
+                    tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
+                    eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
+                    posuere sollicitudin aliquam ultrices sagittis orci a.
+                </Typography>
+            </Box> */}
+        </Box>
     );
 }
-export default HomeNav;

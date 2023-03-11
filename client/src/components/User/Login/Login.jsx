@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './Login.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../../../Redux/Features/userSlice'
+import { login } from '../../../Redux/Features/User/userSlice'
 import Spinner from 'react-bootstrap/Spinner';
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google"
+import { GoogleLogin } from "@react-oauth/google"
 
 function Login() {
 
@@ -63,14 +63,15 @@ function Login() {
                             Login
                         </button>
                     </form>
-                    <GoogleOAuthProvider clientId='...'>
-                        <GoogleLogin onSuccess={credentialResponse => {
+
+                    <GoogleLogin
+                        onSuccess={credentialResponse => {
                             console.log(credentialResponse);
                         }}
-                            onError={() => {
-                                console.log('Login Failed');
-                            }} />
-                    </GoogleOAuthProvider>
+                        onError={() => {
+                            console.log('Login Failed');
+                        }}
+                    />
                     <Link to={'/signup'}>
                         <button type='button' className='white_btn'>
                             SignUp

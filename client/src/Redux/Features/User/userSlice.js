@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import * as api from "../api"
+import * as api from "../../api"
+
 export const login = createAsyncThunk("user/login", async ({ data, navigate }, { rejectWithValue }) => {
     try {
         console.log(data);
         const response = await api.signIn(data)
-        navigate('/')
+        // navigate('/')
+        window.location="/"
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -23,13 +25,43 @@ export const signUp = createAsyncThunk("user/signup", async ({ data, navigate },
     }
 })
 
+
+
+export const profile = createAsyncThunk("user/profile", async ({ user, navigate }, { rejectWithValue }) => {
+    try {
+        console.log({ user }, 'profileData');
+        const response = await api.profile({ user })
+        navigate('/profile')
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
+
 const userSlice = createSlice({
     name: "user",
     initialState: {
         user: null,
         error: "",
         loading: false,
-    }, extraReducers: {
+        isEditing: false
+    },
+    reducers: {
+        setUser: (state, action) => {
+            state.user = action.payload
+        },
+        setLogout: (state, action) => {
+            state.user = null
+            localStorage.removeItem("userToken")
+        },
+        setIsEditing: (state, action) => {
+            state.isEditing = action.payload;
+        },
+        updateUser: (state, action) => {
+            state.user.user = action.payload
+        }
+    },
+    extraReducers: {
         [login.pending]: (state, action) => {
             state.loading = true
         },
@@ -57,4 +89,6 @@ const userSlice = createSlice({
     }
 })
 
-export default userSlice.reducer
+export const { setUser, setLogout, setIsEditing, updateUser } = userSlice.actions
+
+export default userSlice.reducer 

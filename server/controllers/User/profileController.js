@@ -14,7 +14,7 @@ profileController.get("/donor", async (req, res) => {
     }
 })
 
-profileController.post("/donor", async (req, res) => {
+profileController.post("/profile", async (req, res) => {
     try {
         console.log(req.body, 'bodyyyyyy');
         const updated = await User.updateMany({ _id: req.params.id },
