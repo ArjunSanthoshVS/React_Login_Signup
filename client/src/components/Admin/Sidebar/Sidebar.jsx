@@ -147,8 +147,8 @@ export default function Sidebar() {
 
                     {[
                         { name: 'Dashboard', icon: <DashboardIcon /> },
-                        { name: 'Donor Request', icon: <DonorIcon /> },
-                        { name: 'Receiver Request', icon: <ReceiverIcon /> },
+                        { name: 'Donations', icon: <DonorIcon /> },
+                        { name: 'Transfusion Request', icon: <ReceiverIcon /> },
                         { name: 'Users', icon: <UsersIcon /> },
                         { name: 'Blood Groups', icon: <BloodtypeIcon /> },
                         { name: 'Branches', icon: <BranchIcon /> },
@@ -178,8 +178,15 @@ export default function Sidebar() {
                                     onClick={() => {
                                         console.log(text.name);
                                         let text2 = text.name.toLowerCase()
-                                        text2 === "users" ? navigate('/admin') : navigate(`/admin/${text2}`)
-                                        text2 === "logout" ? handleLogout() : navigate('/admin')
+                                        text2 === "dashboard" && navigate('/dashboard')
+                                        text2 === "donations" && navigate('/donations')
+                                        text2 === "transfusion request" && navigate('/requests')
+                                        text2 === "users" && navigate('/users')
+                                        text2 === "blood groups" && navigate('/blood_groups')
+                                        text2 === "branches" && navigate('/branches')
+                                        text2 === "blood report" && navigate('/blood_report')
+                                        text2 === "other donations" && navigate('/other_donation')
+                                        text2 === "logout" && handleLogout() 
                                     }} />
                             </ListItemButton>
                         </ListItem>

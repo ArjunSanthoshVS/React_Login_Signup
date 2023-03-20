@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './HomeNav.css'
 import Swal from 'sweetalert2'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -54,7 +55,7 @@ function HomeNav() {
     }
 
     const handleDonor = () => {
-        if (user?.mobile && user?.bloodGroup && user?.birthDate && user?.weight && user?.age && user?.gender && user?.locality) {
+        if (user?.mobile && user?.bloodGroup && user?.birthDate && user?.weight && user?.age && user?.gender && user?.district) {
             console.log('handle donor');
             Swal.fire({
                 title: `Hi ${user?.firstName}`,
@@ -86,7 +87,7 @@ function HomeNav() {
         }
     }
     const handleReceiver = () => {
-        if (user?.mobile && user?.bloodGroup && user?.birthDate && user?.weight && user?.age && user?.gender && user?.locality) {
+        if (user?.mobile && user?.bloodGroup && user?.birthDate && user?.weight && user?.age && user?.gender && user?.district) {
             console.log('handle receiver');
             Swal.fire({
                 title: `Hi ${user?.firstName}`,
@@ -235,12 +236,12 @@ function HomeNav() {
                         </Box>
 
                         {user?._id && (
-                            <h5 className='me-2 m-0'>{user?.firstName} {user?.lastName}</h5>
+                            <h3 className='me-2 m-0'>{user?.firstName} {user?.lastName}</h3>
                         )}
                         <Tooltip title="Donate">
                             <lord-icon
                                 onClick={handleDonor}
-                                style={{ width: "60px", height: "60px",cursor:"pointer" }}
+                                style={{ width: "60px", height: "60px", cursor: "pointer" }}
                                 colors="primary:#e83a30,secondary:#ebe6ef"
                                 src="https://cdn.lordicon.com/tlyvkjxa.json"
                                 trigger="hover"
@@ -253,16 +254,15 @@ function HomeNav() {
                                 src="https://cdn.lordicon.com/uiaaaqiz.json"
                                 trigger="hover"
                                 colors="primary:#e83a30,secondary:#ffffff"
-                                style={{ width: "60px", height: "60px",cursor:"pointer" }}>
+                                style={{ width: "60px", height: "60px", cursor: "pointer" }}>
                             </lord-icon>
                         </Tooltip>
-            
-                        
+
+
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
-
                                 <IconButton className='ms-2' onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    <Avatar alt="Remy Sharp" src={user?.image ?? "https://www.pngarts.com/files/5/User-Avatar-PNG-Transparent-Image.png"} />
                                 </IconButton>
                             </Tooltip>
                             <Menu

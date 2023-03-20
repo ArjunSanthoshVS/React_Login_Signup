@@ -7,7 +7,7 @@ export const adminLogin = createAsyncThunk("admin/login", async ({ data, navigat
         console.log(data);
         const response = await api.adminSignIn(data)
         // navigate('/')
-        window.location = "/admin"
+        window.location = "/dashboard"
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -25,10 +25,6 @@ export const adminSignUp = createAsyncThunk("admin/signup", async ({ data, navig
         return rejectWithValue(error.response.data)
     }
 })
-
-
-
-
 
 
 const adminSlice = createSlice({

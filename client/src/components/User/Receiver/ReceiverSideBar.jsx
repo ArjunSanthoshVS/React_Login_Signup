@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './DonorSideBar.css'
+import './ReceiverSideBar.css'
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
@@ -30,100 +30,44 @@ const settings = ['Profile', 'Logout'];
 
 const drawerWidth = 240;
 
-export default function DonorSideBar() {
+export default function ReceiverSideBar() {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    
-    
+
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { user } = useSelector((state) => ({ ...state?.user?.user }))
     console.log(user, 'mmmmmmmmmmm');
-    
+
     const handleLogout = () => {
         dispatch(setLogout())
         // navigate("/login")
         window.location = "/login"
     }
-    const handleDonate = () => {
-        const radioOptions = {
-            'Yes': 'Yes',
-            'No': 'No',
-        }
 
+    const handleDonor = () => {
+        console.log('handle donor');
         Swal.fire({
-            title: 'Did you donate blood for past 3 months ?',
-            input: 'radio',
-            inputOptions: radioOptions,
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'You must choose an option'
-                }
-            },
+            title: `Hi ${user?.firstName}`,
+            text: 'Continue as a Donor?',
+            icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#054D60',
-            confirmButtonText: 'Submit',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, I want to Donate', // change confirm button text
+        }).then((result) => { // use then to perform an action on confirmation
             if (result.isConfirmed) {
-                console.log(result.value)
-                if (result.value === 'Yes') {
-                    console.log('hjhjhjhjh');
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Sorry',
-                        text: 'You are not eligible because you donated your blood.'
-                    })
-                } else {
-                    handleAntibiotics()
-                }
-                // do something with the input value
+                navigate('/donor') // navigate to next page
             }
-        })
-   }
-    
-    const handleAntibiotics = () => {
-        const radioOptions = {
-            'Yes': 'Yes',
-            'No': 'No',
-        }
-
-        Swal.fire({
-            title: 'Did you take any Antibiotics for past 1 week ?',
-            input: 'radio',
-            inputOptions: radioOptions,
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'You must choose an option'
-                }
-            },
-            showCancelButton: true,
-            confirmButtonColor: '#054D60',
-            confirmButtonText: 'Submit',
-            cancelButtonText: 'Cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                console.log(result.value)
-                if (result.value === "Yes") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Sorry',
-                        text: 'You are not eligible because you conceed antibiotics.'
-                    })
-                } else {
-                    navigate('/donate')
-                }
-                // do something with the input value
-            }
-        })
+        });
     }
-    
     const handleReceiver = () => {
         console.log('handle receiver');
         Swal.fire({
@@ -187,7 +131,7 @@ export default function DonorSideBar() {
                                 color="inherit"
                             >
                             </IconButton>
-                            {/* <Menu
+                            <Menu
                                 id="menu-appbar"
                                 anchorOrigin={{
                                     vertical: 'bottom',
@@ -202,8 +146,8 @@ export default function DonorSideBar() {
                                     display: { xs: 'block', md: 'none' },
                                 }}
                             >
-                            
-                            </Menu> */}
+
+                            </Menu>
                         </Box>
                         {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
                         <Box
@@ -237,20 +181,21 @@ export default function DonorSideBar() {
                             REDWINGS
                         </Typography> */}
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            
+
                         </Box>
 
                         {user?._id && (
                             <h3 className='me-2 m-0'>{user?.firstName} {user?.lastName}</h3>
                         )}
-                        
-                        <Tooltip title="Receive" >
+
+                        <Tooltip title="Donate">
                             <lord-icon
-                                onClick={handleReceiver}
-                                src="https://cdn.lordicon.com/uiaaaqiz.json"
+                                onClick={handleDonor}
+                                style={{ width: "60px", height: "60px", cursor: "pointer" }}
+                                colors="primary:#e83a30,secondary:#ebe6ef"
+                                src="https://cdn.lordicon.com/tlyvkjxa.json"
                                 trigger="hover"
-                                colors="primary:#e83a30,secondary:#ffffff"
-                                style={{ width: "60px", height: "60px", cursor: "pointer" }}>
+                            >
                             </lord-icon>
                         </Tooltip>
                         <Box sx={{ flexGrow: 0 }}>
@@ -294,43 +239,43 @@ export default function DonorSideBar() {
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
-                    [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', backgroundColor:"#e3e3e3" },
+                    [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
                 }}
+               
             >
                 <Toolbar />
                 <Box sx={{ overflow: 'auto' }}>
                     <List>
                         {[
                             { name: 'Home', icon: <HomeIcon /> },
-                            { name: 'Donate Blood', icon: <Doantion /> },
-                            { name: 'Donation History', icon: <HistoryIcon /> },
+                            { name: 'Receive Blood', icon: <Doantion /> },
+                            { name: 'Transfusion History', icon: <HistoryIcon /> },
                             { name: 'Available Branches', icon: <Branch /> },
-                            { name: 'NearBy Patients', icon: <Branch /> },
                             { name: 'Other Donations', icon: < CurrencyRupeeIcon /> }].map((text, index) => (
-                            <ListItem key={text.name} disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
+                                <ListItem key={text.name} disablePadding>
+                                    <ListItemButton>
+                                        <ListItemIcon>
                                             {text.icon}
-                                    </ListItemIcon>
+                                        </ListItemIcon>
                                         <ListItemText primary={text.name}
                                             onClick={() => {
                                                 console.log(text.name);
                                                 let text2 = text.name.toLowerCase()
-                                                text2 === "home" && navigate('/donor') 
-                                                text2 === "donate blood" &&  handleDonate()
-                                                text2 === "donation history" && navigate('/donation_history') 
-                                                text2 === "available branches" && navigate('/branches') 
-                                                text2 === "nearby patients" && navigate('/patients') 
-                                                text2 === "other donations" && navigate('/other_donation') 
-                                                
+                                                text2 === "home" && navigate('/receiver')
+                                                text2 === "receive blood" && navigate('/receive')
+                                                text2 === "transfusion history" && navigate('/transfusion_history')
+                                                text2 === "available branches" && navigate('/branches')
+                                                text2 === "other donations" && navigate('/other_donation')
+
                                             }} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
                     </List>
                 </Box>
 
-                
+
+
             </Drawer>
             {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <Toolbar />

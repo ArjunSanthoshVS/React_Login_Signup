@@ -1,4 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 import Signup from "./components/User/Signup/Signup";
 import Login from "./components/User/Login/Login"
 import Home from "./components/User/Home/Home";
@@ -12,6 +15,14 @@ import { setUser } from "./Redux/Features/User/userSlice";
 import { setAdmin } from "./Redux/Features/Admin/adminSlice";
 import View from "./components/Admin/Users/View";
 import DonorHome from "./components/User/Donor/DonorHome/DonorHome";
+import ReceiverHome from "./components/User/Receiver/ReceiverHome/ReceiverHome";
+import DonateBlood from "./components/User/Donor/Donate/DonateBlood";
+import RequestBlood from "./components/User/Receiver/Request/RequestBlood";
+import Dashboard from "./components/Admin/Dashboard/Dashboard";
+import DonationHistory from "./components/User/Donor/DonationHistory/DonationHistory";
+import Donations from "./components/Admin/Donations/Donations";
+import Requests from "./components/Admin/Requests/Requests";
+import RequestHistory from "./components/User/Receiver/RequestHistory/RequestHistory";
 
 function App() {  
 
@@ -23,7 +34,7 @@ function App() {
   useEffect(() => {
     dispatch(setUser(user))
     dispatch(setAdmin(admin))
-    console.log(user);
+    console.log(user,'ssssssss');
     console.log(admin);
   })
 
@@ -39,16 +50,24 @@ function App() {
         <Route path="/" exact element={<Navigate replace to='/login' />} />
         <Route path="/profile" exact element={<Profile />} />
         <Route path="/donor"exact element={<DonorHome/>}/>
+        <Route path="/receiver"exact element={<ReceiverHome/>}/>
+        <Route path="/donate"exact element={<DonateBlood/>}/>
+        <Route path="/receive" exact element={<RequestBlood />} />
+        <Route path="/donation_history" exact element={<DonationHistory />} />
+        <Route path="/transfusion_history" exact element={<RequestHistory />} />
+        
 
         {/* Admin */}
-        {admin && <Route path="/admin" exact element={<Users />} />}
-        {admin && <Route path="/admin_signup" exact element={<Navigate replace to='/admin' />} />}
-        {admin && <Route path="/admin_login" exact element={<Navigate replace to='/admin' />} />}
+        {admin && <Route path="/dashboard" exact element={<Dashboard />} />}
+        {admin && <Route path="/admin_signup" exact element={<Navigate replace to='/dashboard' />} />}
+        {admin && <Route path="/admin_login" exact element={<Navigate replace to='/dashboard' />} />}
         {admin && <Route path="/view" exact element={<View />} />}
+        {admin && <Route path="/users" exact element={<Users />} />}
         <Route path="/admin_login" exact element={<AdminLogin />} />
         <Route path="/admin_signup" exact element={<AdminSignup />} />
         <Route path="/admin" exact element={<Navigate replace to='/admin_login' />} />
-
+        <Route path="/donations" exact element={<Donations />} />
+        <Route path="/requests" exact element={<Requests />} />
       </Routes>
     </div >
   );

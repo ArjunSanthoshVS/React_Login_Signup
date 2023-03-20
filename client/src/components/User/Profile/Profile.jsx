@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Profile.css'
 import {
     MDBCol,
@@ -10,12 +10,14 @@ import {
     MDBBtn,
     MDBCardText,
     MDBInput,
+    MDBRadio,
 } from 'mdb-react-ui-kit';
 import HomeNav from '../HomeNav/HomeNav'
 import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { profile, setIsEditing, updateUser } from '../../../Redux/Features/User/userSlice';
+import { profile, profilePicture, setIsEditing, updateImage, updateUser } from '../../../Redux/Features/User/userSlice';
 import { useNavigate } from 'react-router-dom';
+import Axios from 'axios';
 
 export default function Profile() {
     // const [profileData, setprofileData] = useState({
@@ -34,8 +36,8 @@ export default function Profile() {
 
     const dispatch = useDispatch()
 
-    const {user} = useSelector((state) => ({ ...state?.user?.user }))
-    console.log(user, 'mnmn');
+    const { user } = useSelector((state) => ({ ...state?.user?.user }))
+    console.log(user.image, 'mnmn');
     const isEditing = useSelector((state) => state.user?.isEditing);
 
 
@@ -47,11 +49,11 @@ export default function Profile() {
 
     const handleChange = ({ currentTarget: input }) => {
         console.log(input, 'kkkk');
-        console.log(user,'klklklk');
+        console.log(user, 'klklklk');
         const data = { ...user, [input.name]: input.value };
         console.log(data);
         dispatch(updateUser(data));
-    };  
+    };
 
 
     const handleEditClick = () => {
@@ -60,53 +62,101 @@ export default function Profile() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        // try {
-        //     const token = JSON.parse(localStorage.getItem("userToken"));
-        //     const result = await axios.post("http://localhost:5000/profile/donor?id=" + token.data.others._id, profileData)
-        //     let data = result.config.data
-        //     console.log(result.config.data, 'lllllllll');
-        //     navigate('/')
-        // } catch (error) {
-        //     console.log('Errorrr aayiii');
-        // }
-        // console.log(profileData, 'ppopopopop');
-        // dispatch(profile({ profileData, navigate }))
         dispatch(profile({ user, navigate }));
         dispatch(setIsEditing(false));
     }
+
+    const genderOptions = [
+        { label: 'Male', value: 'Male', name: 'gender' },
+        { label: 'Female', value: 'Female', name: 'gender' },
+        { label: 'Others', value: 'Others', name: 'gender' }
+    ];
+
+    const [currentImageUrl, setCurrentImageUrl] = useState(null);
+    // const [imageSelected, setImageSelected] = useState("")
+
+    // const uploadImage = (files) => {
+    //     const formData = new FormData()
+    //     formData.append("file", imageSelected)
+    //     formData.append("upload_preset", "jjwrigkf")
+    //     Axios.post("https://api.cloudinary.com/v1_1/dchrawfgy/image/upload", formData).then((response) => {
+    //         const newImageUrl = response.data.url;
+    //         if (newImageUrl !== currentImageUrl) {
+    //             setCurrentImageUrl(newImageUrl);
+    //             const updatedata = { ...user, [user.image]: newImageUrl }
+    //             dispatch(updateUser(updatedata))
+    //             const profileData = { userId: user._id, url: newImageUrl, navigate }
+    //             dispatch(profilePicture({ profileData, navigate }));
+    //         }
+    //     })
+    // }
+
+    const uploadImage = async (files) => {
+        if (!files || files.length === 0) {
+            console.log("No file selected.");
+            return;
+        }
+        const formData = new FormData();
+        formData.append("file", files[0]);
+        formData.append("upload_preset", "kx4ba1m1");
+        try {
+            const response = await Axios.post(
+                "https://api.cloudinary.com/v1_1/dchrawfgy/image/upload",
+                formData
+            );
+            const newImageUrl = response.data.url;
+            console.log(newImageUrl,'urllll');
+            if (newImageUrl !== currentImageUrl) {
+                setCurrentImageUrl(newImageUrl);
+                const updatedata = { ...user, image: newImageUrl };
+                const profileData = { userId: user._id, url: newImageUrl, navigate };
+                dispatch(updateUser(updatedata));
+                dispatch(profilePicture({ profileData, navigate }));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <section>
-            <MDBContainer className="p-5">
+            <MDBContainer className="">
                 <HomeNav />
-                <h1 className='donorHeading mt-5 fw-b'>Red Wings Profile</h1>
-                <MDBRow className=''>
+                <MDBRow className='mt-5'>
                     <MDBCol lg="4" className='d-flex align-items-center justify-content-center'>
-                        <MDBCard className="mb-4">
+                        <MDBCard className="w-75">
+                            <h3 className='donorHeading mt-4 text-center'>Red Wings Profile</h3>
                             <MDBCardBody className="text-center">
                                 <MDBCardImage
-                                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                    src={user.image}
                                     alt="avatar"
                                     className="rounded-circle"
                                     style={{ width: '150px' }}
                                     fluid />
-                                <p className="text-muted mb-1">{user?.firstName} {user?.lastName}</p>
-                                <p className="text-muted mb-4">{user?.bloodGroup}</p>
+                                <h3 className="mt-4 mb-0">{user?.firstName} {user?.lastName}</h3>
+                                <h3 className="mb-4">{user?.bloodGroup}</h3>
                                 <div className="d-flex justify-content-center mb-2">
-                                    <Button variant="contained" component="label">
+                                    <Button onClick={() => {
+                                        const input = document.createElement('input');
+                                        input.type = 'file';
+                                        input.accept = 'image/*';
+                                        input.onchange = (e) => {
+                                            uploadImage(e.target.files);
+                                        };
+                                        input.click();
+                                    }} variant="contained" component="label">
                                         Image
-                                        <input hidden accept="image/*" multiple type="file" />
                                     </Button>
                                 </div>
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>
 
-                    <MDBCol lg="8">
-                        <MDBCard className="mb-4">
+                    <MDBCol lg="8" className='mt-5'>
+                        <MDBCard className="">
                             <MDBCardBody>
                                 <MDBRow>
                                     <MDBCol sm="3">
-                                        <MDBCardText>Full Name</MDBCardText>
+                                        <MDBCardText>First Name</MDBCardText>
                                     </MDBCol>
                                     <MDBCol sm="9">
                                         {isEditing ? (
@@ -119,7 +169,7 @@ export default function Profile() {
                                 <hr />
                                 <MDBRow>
                                     <MDBCol sm="3">
-                                        <MDBCardText>Full Name</MDBCardText>
+                                        <MDBCardText>Last Name</MDBCardText>
                                     </MDBCol>
                                     <MDBCol sm="9">
                                         {isEditing ? (
@@ -155,13 +205,13 @@ export default function Profile() {
                                         )}                                      </MDBCol>
                                 </MDBRow>
                                 <hr />
-                                {/* <MDBRow>
+                                <MDBRow>
                                     <MDBCol sm="3">
                                         <MDBCardText>Blood Group</MDBCardText>
                                     </MDBCol>
                                     <MDBCol sm="9">
                                         {isEditing ? (
-                                            <MDBInput type="text" name='bloodGroup' onChange={handleChange} label={user?.bloodGroup} placeholder={user?.bloodGroup} />
+                                            <MDBInput type="text" name='bloodGroup' onChange={handleChange} value={user?.bloodGroup} />
                                         ) : (
                                             <MDBCardText className="text-muted">{user?.bloodGroup}</MDBCardText>
                                         )}                                      </MDBCol>
@@ -173,7 +223,7 @@ export default function Profile() {
                                     </MDBCol>
                                     <MDBCol sm="9">
                                         {isEditing ? (
-                                            <MDBInput type="text" name='birthDate' onChange={handleChange} label={user?.birthDate} placeholder={user?.birthDate} />
+                                            <MDBInput type="date" name='birthDate' onChange={handleChange} value={user?.birthDate} />
                                         ) : (
                                             <MDBCardText className="text-muted">{user?.birthDate}</MDBCardText>
                                         )}                                      </MDBCol>
@@ -185,7 +235,7 @@ export default function Profile() {
                                     </MDBCol>
                                     <MDBCol sm="9">
                                         {isEditing ? (
-                                            <MDBInput type="text" name='weight' onChange={handleChange} label={user?.weight} placeholder={user?.weight} />
+                                            <MDBInput type="number" name='weight' onChange={handleChange} value={user?.weight} />
                                         ) : (
                                             <MDBCardText className="text-muted">{user?.weight}</MDBCardText>
                                         )}                                      </MDBCol>
@@ -197,7 +247,7 @@ export default function Profile() {
                                     </MDBCol>
                                     <MDBCol sm="9">
                                         {isEditing ? (
-                                            <MDBInput type="text" name='age' onChange={handleChange} label={user?.age} placeholder={user?.age} />
+                                            <MDBInput type="number" name='age' onChange={handleChange} value={user?.age} />
                                         ) : (
                                             <MDBCardText className="text-muted">{user?.age}</MDBCardText>
                                         )}                                      </MDBCol>
@@ -209,7 +259,24 @@ export default function Profile() {
                                     </MDBCol>
                                     <MDBCol sm="9">
                                         {isEditing ? (
-                                            <MDBInput type="text" name='gender' onChange={handleChange} label={user?.gender} placeholder={user?.gender} />
+                                            // <>
+                                            //     <MDBInput label="Male" type="radio" name='gender' onChange={handleChange} value={user?.gender} />
+                                            //     <MDBInput label="Male" type="radio" name='gender' onChange={handleChange} value={user?.gender} />
+                                            //     <MDBInput label="Male" type="radio" name='gender' onChange={handleChange} value={user?.gender} />
+                                            // </>
+                                            <>
+                                                {genderOptions.map(option => (
+                                                    <MDBRadio
+                                                        key={option.value}
+                                                        label={option.label}
+                                                        name={option.name}
+                                                        value={option.value}
+                                                        onChange={handleChange}
+                                                        checked={user?.gender === option.value}
+                                                        inline
+                                                    />
+                                                ))}
+                                            </>
                                         ) : (
                                             <MDBCardText className="text-muted">{user?.gender}</MDBCardText>
                                         )}                                      </MDBCol>
@@ -217,15 +284,15 @@ export default function Profile() {
                                 <hr />
                                 <MDBRow>
                                     <MDBCol sm="3">
-                                        <MDBCardText>Locality</MDBCardText>
+                                        <MDBCardText>District</MDBCardText>
                                     </MDBCol>
                                     <MDBCol sm="9">
                                         {isEditing ? (
-                                            <MDBInput type="text" name='locality' onChange={handleChange} label={user?.locality} placeholder={user?.locality} />
+                                            <MDBInput type="text" name='district' onChange={handleChange} value={user?.district} />
                                         ) : (
-                                            <MDBCardText className="text-muted">{user?.locality}</MDBCardText>
+                                            <MDBCardText className="text-muted">{user?.district}</MDBCardText>
                                         )}                                      </MDBCol>
-                                </MDBRow> */}
+                                </MDBRow>
                                 <MDBRow>
                                     <MDBCol sm="9">
 

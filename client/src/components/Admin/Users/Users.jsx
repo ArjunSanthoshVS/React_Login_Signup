@@ -73,14 +73,14 @@ export default function CustomizedTables() {
                     <DrawerHeader />
 
                     <TableContainer component={Paper}>
-                        < Table sx={{ minWidth: 700 }} aria-label="customized table">
+                        < Table sx={{ minWidth: 700}} aria-label="customized table">
                             <TableHead>
                                 <TableRow>
                                     <StyledTableCell align="center">Full Name</StyledTableCell>
                                     <StyledTableCell align="center">Blood</StyledTableCell>
-                                    <StyledTableCell align="center">D.O.B</StyledTableCell>
                                     <StyledTableCell align="center">Age</StyledTableCell>
-                                    <StyledTableCell align="center">Locality</StyledTableCell>
+                                    <StyledTableCell align="center">District</StyledTableCell>
+                                    <StyledTableCell align="center">Gender</StyledTableCell>
                                     <StyledTableCell align="center">Email</StyledTableCell>
                                     <StyledTableCell align="center">View</StyledTableCell>
                                 </TableRow>
@@ -90,13 +90,13 @@ export default function CustomizedTables() {
                                     users.map((user) => (
                                         <StyledTableRow key={user._id}>
                                             <StyledTableCell align="center" component="th" scope="row">
-                                                {user.firstName} {user.lastName}
+                                                {user?.firstName} {user?.lastName}
                                             </StyledTableCell>
-                                            <StyledTableCell align="center">{user.blood}{user.blood}<span>Not Selected</span></StyledTableCell>
-                                            <StyledTableCell align="center">{user.dob}{user.dob}<span>Not Selected</span></StyledTableCell>
-                                            <StyledTableCell align="center">{user.age}{user.age}<span>Not Selected</span></StyledTableCell>
-                                            <StyledTableCell align="center">{user.locality}{user.locality}<span>Not Selected</span></StyledTableCell>
-                                            <StyledTableCell align="center">{user.email}</StyledTableCell>
+                                            <StyledTableCell align="center"> {user?.bloodGroup ? user?.bloodGroup : <span>not selected</span>}</StyledTableCell>
+                                            <StyledTableCell align="center">{user?.age}</StyledTableCell>
+                                            <StyledTableCell align="center">{user?.district}</StyledTableCell>
+                                            <StyledTableCell align="center">{user?.gender}</StyledTableCell>
+                                            <StyledTableCell align="center">{user?.email}</StyledTableCell>
                                             <StyledTableCell align="center" onClick={() => viewUser(user._id)}><VisibilityIcon/></StyledTableCell>
                                         </StyledTableRow>
                                     ))

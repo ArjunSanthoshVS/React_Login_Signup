@@ -1,10 +1,13 @@
 const adminController = require("express").Router()
-const { Admin } = require("../../models/admin");
-const { User } = require("../../models/user");
+const { Admin } = require("../../models/Admin/admin");
+const { User } = require("../../models/User/user");
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
 require('dotenv').config()
+const ObjectId = require('mongoose').Types.ObjectId;
 const { validateAdminSignup, validatelogin } = require("../../validation/loginValidation");
+const { Donations } = require("../../models/Admin/donations");
+const { Requests } = require("../../models/Admin/requests");
 
 
 adminController.post("/signup", async (req, res) => {
@@ -75,7 +78,7 @@ adminController.get('/users/:id', getUser, (req, res) => {
 async function getUser(req, res, next) {
     console.log('------');
     try {
-        console.log(req.params.id,'zzzzz');
+        console.log(req.params.id, 'zzzzz');
         const user = await User.findById(req.params.id);
         if (user == null) {
             return res.status(404).json({ message: 'User not found' });
@@ -86,5 +89,97 @@ async function getUser(req, res, next) {
         return res.status(500).json({ message: err.message });
     }
 }
+
+adminController.get("/donations", async (req, res) => {
+    console.log('78890sd');
+    try {
+        const donors = await Donations.find({})
+        console.log(donors, 'qazcghnk');
+        res.json(donors);
+    } catch (error) {
+        console.log('donors errrorr adichuu ');
+    }
+})
+
+adminController.get("/userDonations/:id", async (req, res) => {
+    console.log('78890sd');
+    try {
+        const donors = await Donations.find({ userId: req.params.id })
+        console.log(donors, 'qazcghnk');
+        res.json(donors);
+    } catch (error) {
+        console.log('donors errrorr adichuu ');
+    }
+})
+
+adminController.get("/requests", async (req, res) => {
+    console.log('fffffffffff');
+    try {
+        const requestDetails = await Requests.find()
+        console.log(requestDetails, 'zzz');
+        res.json(requestDetails)
+    } catch (error) {
+        res.send(500).send("errrrr")
+    }
+})
+
+adminController.get("/userRequests/:id", async (req, res) => {
+    console.log(req.params.id,'oooo99999');
+    try {
+        const requests = await Requests.find({ userId: req.params.id })
+        console.log(requests, 'qazcghnk');
+        res.json(requests);
+    } catch (error) {
+        console.log('donors errrorr adichuu ');
+    }
+})
+
+adminController.put("/requests/:id/approve", async (req, res) => {
+    console.log(req.params.id, 'fffffffffff');
+    const userId = req.params.id;
+    try {
+        const approve = await Requests.findByIdAndUpdate(userId, { status: 'Approved' }, { new: true });
+        res.json(approve);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+})
+
+adminController.put("/requests/:id/reject", async (req, res) => {
+    console.log(req.params.id, 'fffffffffff');
+    const userId = req.params.id;
+    try {
+        const approve = await Requests.findByIdAndUpdate(userId, { status: 'Rejected' }, { new: true });
+        res.json(approve);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+})
+
+adminController.put("/donations/:id/approveDonation", async (req, res) => {
+    console.log(req.params.id, 'fffffffffff');
+    const userId = req.params.id;
+    try {
+        const approve = await Donations.findByIdAndUpdate(userId, { status: 'Approved' }, { new: true });
+        res.json(approve);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+})
+
+adminController.put("/donations/:id/rejectDonation", async (req, res) => {
+    console.log(req.params.id, 'fffffffffff');
+    const userId = req.params.id;
+    try {
+        const reject = await Donations.findByIdAndUpdate(userId, { status: 'Rejected' }, { new: true });
+        res.json(reject);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+})
 
 module.exports = adminController

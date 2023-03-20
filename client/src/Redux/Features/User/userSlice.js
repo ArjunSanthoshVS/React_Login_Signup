@@ -6,7 +6,8 @@ export const login = createAsyncThunk("user/login", async ({ data, navigate }, {
         console.log(data);
         const response = await api.signIn(data)
         // navigate('/')
-        window.location="/"
+        window.location = "/"
+        console.log(response.data, 'tttttttt');
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
@@ -29,8 +30,21 @@ export const signUp = createAsyncThunk("user/signup", async ({ data, navigate },
 
 export const profile = createAsyncThunk("user/profile", async ({ user, navigate }, { rejectWithValue }) => {
     try {
-        console.log({ user }, 'profileData');
-        const response = await api.profile({ user })
+        console.log(user, 'profileData');
+        const response = await api.profile(user)
+        console.log(response.data, 'zxcvbnm,');
+        navigate('/profile')
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
+
+export const profilePicture = createAsyncThunk("user/profilePicture", async ({ profileData, navigate }, { rejectWithValue }) => {
+    try {
+        console.log(profileData, 'profileData');
+        const response = await api.profilePicture(profileData)
+        console.log(response.data, 'zxcvbnm,');
         navigate('/profile')
         return response.data
     } catch (error) {
@@ -58,8 +72,11 @@ const userSlice = createSlice({
             state.isEditing = action.payload;
         },
         updateUser: (state, action) => {
-            state.user.user = action.payload
-        }
+            console.log(action.payload,'payyyyload');
+            const updatedUser = { ...state.user, user: action.payload };
+            localStorage.setItem('userToken', JSON.stringify(updatedUser));
+            state.user = updatedUser;
+        },
     },
     extraReducers: {
         [login.pending]: (state, action) => {
@@ -85,7 +102,7 @@ const userSlice = createSlice({
         [signUp.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload.message
-        }
+        },
     }
 })
 

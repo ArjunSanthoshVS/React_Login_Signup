@@ -50,8 +50,12 @@ const userSchema = new mongoose.Schema({
     gender: {
         type: String,
     },
-    locality: {
+    district: {
         type: String,
+    },
+    image: {
+        type: String
+
     },
 })
 

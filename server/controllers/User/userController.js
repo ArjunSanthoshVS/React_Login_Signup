@@ -1,11 +1,24 @@
 const userController = require("express").Router();
-const { User } = require("../../models/user");
+const { User } = require("../../models/User/user");
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
 require('dotenv').config()
 const { validateSignup, validatelogin } = require("../../validation/loginValidation");
 const { default: auth } = require("../../Middlewares/auth");
+const multer = require('multer')
+const profileImage = require('../../models/User/profileImg')
+const fs = require('fs')
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+})
+
+const upload = multer({ storage: storage })
 
 userController.post("/signup", async (req, res) => {
     try {
@@ -61,14 +74,38 @@ userController.post("/login", async (req, res) => {
 
 
 userController.put("/profile", async (req, res) => {
-    console.log(req.body, 'vannneee');
+    const updatedFields = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        mobile: req.body.mobile,
+        bloodGroup: req.body.bloodGroup,
+        birthDate: req.body.birthDate,
+        weight: req.body.weight,
+        age: req.body.age,
+        gender: req.body.gender,
+        district: req.body.district,
+    }
+    console.log(updatedFields, 'aaaaa');
+    console.log(req.body._id);
     try {
-        console.log('ppppppprrrrrro');
-        const result = await User.updateOne({ _id: req.body.user._id }, { firstName: req.body.user.firstName })
-        console.log(result);
-        return res.status(201).json({ result, message: "updated" })
+        const updatedUser = await User.findOneAndUpdate({ _id: req.body._id }, updatedFields, { new: true });
+        console.log('updateddddd');
+        return res.status(201).json({ updatedUser, message: "updated" })
     } catch (error) {
-        return res.status(500).send({ message: "Profile Error" });
+        console.error(error);
+        throw new Error('Error updating user profile');
+    }
+})
+
+userController.post("/profilePicture", async (req, res) => {
+    try {
+        console.log(req.body,'jnkjfvjn');
+        const updatedImage = await User.findOneAndUpdate({ _id: req.body.userId }, { image: req.body.url }, { new: true })
+        console.log('updatediaagee');
+        return res.status(201).json({updatedImage})
+    } catch (error) {
+        console.log(error, '[[[[[ifffff');
     }
 })
 

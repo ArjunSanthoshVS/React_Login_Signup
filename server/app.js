@@ -25,6 +25,8 @@ const userController=require('./controllers/User/userController')
 // const profileController = require('./Controllers/User/profileController')
 const adminController=require('./controllers/Admin/adminController')
 // const uploadController = require('./Controllers/uploadController');
+const donorController=require('./controllers/User/Donor/donorController')
+const receiverController=require('./controllers/User/Receiver/receiverController')
 
 
 const app = express();
@@ -61,6 +63,8 @@ app.use('/user', userController);
 // app.use('/profile', profileController);
 app.use('/admin',adminController)
 // app.use('/upload', uploadController)
+app.use('/donor',donorController)
+app.use('/receiver',receiverController)
 
 
 // catch 404 and forward to error handler
