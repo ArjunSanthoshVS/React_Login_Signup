@@ -8,6 +8,7 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const { validateAdminSignup, validatelogin } = require("../../validation/loginValidation");
 const { Donations } = require("../../models/Admin/donations");
 const { Requests } = require("../../models/Admin/requests");
+const { Branches } = require("../../models/Admin/Branches");
 
 
 adminController.post("/signup", async (req, res) => {
@@ -21,6 +22,7 @@ adminController.post("/signup", async (req, res) => {
         if (isExisting) {
             return res.status(409).send({ message: "Admin with given email already Exist!" });
         }
+
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         const newAdmin = await Admin.create({ ...req.body, password: hashedPassword })
         const token = jwt.sign({ email: newAdmin.email, id: newAdmin._id, isAdmin: newAdmin.isAdmin }, process.env.JWT_SECRET, { expiresIn: "5h" })
@@ -124,7 +126,7 @@ adminController.get("/requests", async (req, res) => {
 })
 
 adminController.get("/userRequests/:id", async (req, res) => {
-    console.log(req.params.id,'oooo99999');
+    console.log(req.params.id, 'oooo99999');
     try {
         const requests = await Requests.find({ userId: req.params.id })
         console.log(requests, 'qazcghnk');
@@ -170,16 +172,64 @@ adminController.put("/donations/:id/approveDonation", async (req, res) => {
     }
 })
 
-adminController.put("/donations/:id/rejectDonation", async (req, res) => {
-    console.log(req.params.id, 'fffffffffff');
-    const userId = req.params.id;
+adminController.post("/newBranch", async (req, res) => {
+    console.log(req.body, 'fffffffffff');
     try {
-        const reject = await Donations.findByIdAndUpdate(userId, { status: 'Rejected' }, { new: true });
-        res.json(reject);
+        const existingBranch = await Branches.findOne({ address: req.body.address });
+        if (existingBranch) {
+            return res.status(409).send({ message: "Branch already Exist!" });
+        } else {
+            const branch = new Branches(req.body);
+            await branch.save();
+            return res.status(201).json(branch);
+        }
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
+        console.log(err);
+        res.status(500).send('Internal server error');
+    }
+});
+// adminController.post("/newBranch", async (req, res) => {
+//     console.log(req.body, 'fffffffffff');
+//     try {
+//         const branch = new Branches(req.body);
+//         await branch.save();
+//         return res.status(201).json(branch)
+//     } catch (err) {
+//         console.log(err);
+//         res.status(409).send('Branch already exists');
+//     }
+// });
+
+adminController.get("/branches", async (req, res) => {
+    console.log('branchessss');
+    try {
+        const branches = await Branches.find()
+        res.json(branches)
+    } catch (error) {
+        console.log(error, 'ccccccccccc');
+        res.status(500).json({ error: error.message });
     }
 })
 
+adminController.put("/editBranch", async (req, res) => {
+    console.log(req.body, 'xddxd');
+    const { selectedBranch, district, branch, address, phone } = req.body;
+    try {
+        const response = await Branches.findByIdAndUpdate({ _id: selectedBranch._id }, { ...selectedBranch, district, branch, address, phone })
+        res.json(response)
+    } catch (error) {
+        console.log(error, 'dfyujhbnk');
+        return res.status(409).send({ message: "Branch already Exist!" });
+    }
+})
+
+adminController.delete("/removeBranch/:id", async (req, res) => {
+    console.log(req.params.id, 'xddxd');
+    try {
+        const response = await Branches.findByIdAndDelete({_id:req.params.id})
+        res.json(response)
+    } catch (error) {
+        console.log(error);
+    }
+})
 module.exports = adminController

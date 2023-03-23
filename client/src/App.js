@@ -23,6 +23,7 @@ import DonationHistory from "./components/User/Donor/DonationHistory/DonationHis
 import Donations from "./components/Admin/Donations/Donations";
 import Requests from "./components/Admin/Requests/Requests";
 import RequestHistory from "./components/User/Receiver/RequestHistory/RequestHistory";
+import Branches from "./components/Admin/Branches/Branches";
 
 function App() {  
 
@@ -68,6 +69,7 @@ function App() {
         <Route path="/admin" exact element={<Navigate replace to='/admin_login' />} />
         <Route path="/donations" exact element={<Donations />} />
         <Route path="/requests" exact element={<Requests />} />
+        <Route path="/branches" exact element={<Branches />} />
       </Routes>
     </div >
   );
