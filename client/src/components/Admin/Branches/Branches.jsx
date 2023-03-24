@@ -40,10 +40,16 @@ function Branches() {
     setNewBranchdata({ ...newBranchdata, [input.name]: input.value })
   }
 
+  const modalClose = () => {
+    setAddVisible(false)
+    setErrMsg(" ")
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await dispatch(newBranch({ newBranchdata }));
+      console.log(response,'uytrdcghjnvfrthn');
       if (response?.error?.message === "A branch with the same address already exists.") {
         setAddVisible(true)
         throw new Error('A branch with the same address already exists.');
@@ -52,17 +58,14 @@ function Branches() {
         branchinfo()
       }
     } catch (error) {
-      setEditErrMsg(error);
+      console.log('lkjhgf',error);
+      setErrMsg(error);
     }
   }
   useEffect(() => {
     branchinfo()
   }, [dispatch])
 
-  const modalClose = () => {
-    setAddVisible(false)
-    setErrMsg(" ")
-  }
   const editModalClose = () => {
     setEditVisible(false)
     setEditErrMsg(" ")
@@ -153,9 +156,9 @@ function Branches() {
                   <MDBInput type='text' name='branch' onChange={handleChange} value={newBranchdata.branch} wrapperClass='mb-4' label='Branch' required />
                   <MDBInput type='text' name='address' onChange={handleChange} value={newBranchdata.address} wrapperClass='mb-4' label='Address' required />
                   <MDBInput type='number' name='phone' onChange={handleChange} value={newBranchdata.phone} wrapperClass='mb-4' label='Phone' required />
-                  <MDBBtn type='submit' className='me-1'>Create</MDBBtn>
-                  <MDBBtn onClick={modalClose} color='danger' className='ms-1'>Cancel</MDBBtn>
+                  <MDBBtn type='submit' className='mb-1'>Create</MDBBtn>
                 </form>
+                  <MDBBtn onClick={modalClose} color='danger' className=''>Cancel</MDBBtn>
               </Dialog>
             </div>
           </div>
@@ -177,9 +180,9 @@ function Branches() {
                 <MDBInput type='text' name='branch' onChange={(e) => setBranch(e.target.value)} value={branch} wrapperClass='mb-4' label='Branch' required />
                 <MDBInput type='text' name='address' onChange={(e) => setAddress(e.target.value)} value={address} wrapperClass='mb-4' label='Address' required />
                 <MDBInput type='number' name='phone' onChange={(e) => setPhone(e.target.value)} value={phone} wrapperClass='mb-4' label='Phone' required />
-                <MDBBtn type='submit' className='me-1'>Save Changes</MDBBtn>
-                <MDBBtn onClick={editModalClose} color='danger' className='ms-1'>Cancel Changes</MDBBtn>
+                <MDBBtn type='submit' className='mb-1'>Save Changes</MDBBtn>
               </form>
+                <MDBBtn onClick={editModalClose} color='danger' className=''>Cancel Changes</MDBBtn>
             </Dialog>
           </div>
         </Box>

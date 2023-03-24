@@ -1,16 +1,20 @@
-// import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk } from "@reduxjs/toolkit"
+import * as api from "../../api"
 
-// const districtSlice = createSlice({
-//     name: 'district',
-//     initialState: {
-//         selectedDistrict: null
-//     },
-//     reducers: {
-//         selectDistrict: (state, action) => {
-//             state.selectedDistrict = action.payload;
-//         }
-//     }
-// });
+export const allDistricts = createAsyncThunk("user/allDistricts", async (_, { rejectWithValue }) => {
+    try {
+        const districts = await api.allDistricts()
+        return districts.data
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
 
-// export const { selectDistrict } = districtSlice.actions;
-// export default districtSlice.reducer;
+export const districtChoose = createAsyncThunk("user/districtChoose", async (selectedDistrict, { rejectWithValue }) => {
+    try {
+        const district = await api.districtChoose(selectedDistrict.district)
+        return district.data
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})

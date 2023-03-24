@@ -175,30 +175,20 @@ adminController.put("/donations/:id/approveDonation", async (req, res) => {
 adminController.post("/newBranch", async (req, res) => {
     console.log(req.body, 'fffffffffff');
     try {
-        const existingBranch = await Branches.findOne({ address: req.body.address });
+        const existingBranch = await Branches.findOne({ $or: [{ branch: req.body.branch }, { address: req.body.address }] });
         if (existingBranch) {
-            return res.status(409).send({ message: "Branch already Exist!" });
+            return res.status(409).send({ message: "Branch already exists!" });
         } else {
             const branch = new Branches(req.body);
+            console.log(branch);
             await branch.save();
             return res.status(201).json(branch);
         }
     } catch (err) {
-        console.log(err);
+        console.log(err.message);
         res.status(500).send('Internal server error');
     }
 });
-// adminController.post("/newBranch", async (req, res) => {
-//     console.log(req.body, 'fffffffffff');
-//     try {
-//         const branch = new Branches(req.body);
-//         await branch.save();
-//         return res.status(201).json(branch)
-//     } catch (err) {
-//         console.log(err);
-//         res.status(409).send('Branch already exists');
-//     }
-// });
 
 adminController.get("/branches", async (req, res) => {
     console.log('branchessss');
@@ -226,8 +216,19 @@ adminController.put("/editBranch", async (req, res) => {
 adminController.delete("/removeBranch/:id", async (req, res) => {
     console.log(req.params.id, 'xddxd');
     try {
-        const response = await Branches.findByIdAndDelete({_id:req.params.id})
+        const response = await Branches.findByIdAndDelete({ _id: req.params.id })
         res.json(response)
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+adminController.get("/districtChoose", async (req, res) => {
+    console.log(req.body);
+    try {
+        const response = await Branches.find({ district: req.body })
+        console.log(response, 'jhgfdfghjk');
+        // res.json(response)
     } catch (error) {
         console.log(error);
     }

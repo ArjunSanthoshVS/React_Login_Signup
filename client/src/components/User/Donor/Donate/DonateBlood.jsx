@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     MDBInput,
     MDBBtn,
@@ -11,17 +11,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { donate } from '../../../../Redux/Features/User/DonateSlice';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import { setDonation } from '../../../../Redux/Features/User/userSlice';
+import { allDistricts, districtChoose } from '../../../../Redux/Features/User/DistrictSlice';
 
-const districts = [
-    { id: 1, name: "Thrissur", branches: ["Karuvannur", "Ollur", "Patturaikkal", "Karalam", "Varadiyam"] },
-    { id: 2, name: "Ernamkulam", branches: ["Kakkanad", "Maradu", "MG Road"] },
-    { id: 3, name: "Kottayam", branches: ["Pala"] },
-];
 
 function DonateBlood() {
     const { user } = useSelector((state) => ({ ...state?.user?.user }))
-    console.log(user, 'kkkkkk');
     const b = user?.bloodGroup
     const a = user?.age
     const _id = user?._id
@@ -30,6 +24,7 @@ function DonateBlood() {
     const name = user?.firstName + " " + user?.lastName
     const Gender = user?.gender
 
+    const [districts, setDistricts] = useState([])
     const [selectedDistrict, setSelectedDistrict] = useState('');
     const [selectedBranch, setSelectedBranch] = useState('');
     const [branches, setBranches] = useState([]);
@@ -42,15 +37,23 @@ function DonateBlood() {
     const [fullName, setFullName] = useState(name);
     const [gender, setGender] = useState(Gender);
     const [status, setStatus] = useState('Pending')
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleDistrictChange = (event) => {
-        const selectedDistrict = districts.find((district) => district.name === event.target.value);
-        setSelectedDistrict(selectedDistrict.name);
-        setBranches(selectedDistrict.branches);
-        setSelectedBranch('');
+    useEffect(() => {
+        const Districts = async () => {
+            const response = await dispatch(allDistricts())
+            setDistricts(response.payload.districts)
+        }
+        Districts()
+    }, [dispatch])
+
+    const handleDistrictChange = async (event) => {
+        const selectedDistrict = event.target.value;
+        setSelectedDistrict(selectedDistrict);
+        const response = await dispatch(districtChoose({ district: selectedDistrict }))
+        console.log(response.payload);
+        // setBranches(response.payload.branches);
     };
 
     const successfull = () => {
@@ -70,8 +73,7 @@ function DonateBlood() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const data = { selectedDistrict, selectedBranch, blood, unit, disease, age, userId, donatedDate, fullName, gender,status }
-        console.log(data, '1111');
+        const data = { selectedDistrict, selectedBranch, blood, unit, disease, age, userId, donatedDate, fullName, gender, status }
         dispatch(donate(data))
         successfull()
     }
@@ -94,10 +96,11 @@ function DonateBlood() {
                                         id="district"
                                         value={selectedDistrict}
                                         label="District"
-                                        onChange={handleDistrictChange} >
+                                        onChange={handleDistrictChange}
+                                    >
                                         {districts.map((district) => (
-                                            <MenuItem key={district.id} value={district.name}>
-                                                {district.name}
+                                            <MenuItem key={district._id} value={district}>
+                                                {district}
                                             </MenuItem>
                                         ))}
                                     </Select>
@@ -111,11 +114,11 @@ function DonateBlood() {
                                         onChange={(e) => setSelectedBranch(e.target.value)}
                                         required
                                     >
-                                        {branches.map((b) => (
-                                            <MenuItem key={b} value={b}>
-                                                {b}
-                                            </MenuItem>
-                                        ))}
+                                        {branches.map((branch) => (
+                                        <MenuItem key={branch._id} value={branch.branch}>
+                                            {branch.branch}
+                                        </MenuItem>
+                                    ))}
                                     </Select>
                                 </FormControl>
                                 <MDBInput

@@ -21,6 +21,9 @@ export const donationHistory = (id) => API.get("/donor/donation_history?id="+id)
 export const request = (data) => API.post("/receiver/request", data)
 export const transfusionHistory = (id) => API.get("/receiver/transfusion_history?id="+id)
 export const cancelRequest = (id) => API.put(`/receiver/cancel/${id}`)
+export const allDistricts = () => API.get("/user/allDistricts")
+export const districtChoose = (data) => API.get("/user/districtChoose", { params: { district: data } });
+
 //admin
 export const adminSignIn = (data) => API.post("/admin/login", data)
 export const adminSignUp = (data) => API.post("/admin/signup", data)

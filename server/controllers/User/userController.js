@@ -7,7 +7,8 @@ const { validateSignup, validatelogin } = require("../../validation/loginValidat
 const { default: auth } = require("../../Middlewares/auth");
 const multer = require('multer')
 const profileImage = require('../../models/User/profileImg')
-const fs = require('fs')
+const fs = require('fs');
+const { Branches } = require("../../models/Admin/Branches");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -43,28 +44,22 @@ userController.post("/signup", async (req, res) => {
 
 
 userController.post("/login", async (req, res) => {
-    console.log(req.body);
     try {
         const { error } = validatelogin(req.body);
-        console.log('111111');
         if (error) {
             return res.status(400).send({ message: error.details[0].message });
         }
 
-        console.log('111111');
         const user = await User.findOne({ email: req.body.email })
-        console.log('111111');
         if (!user) {
             return res.status(400).send({ message: "User credentials are wrong" })
         }
         const checkPass = await bcrypt.compare(req.body.password, user.password)
-        console.log('111111');
         if (!checkPass) {
             return res.status(400).send({ message: "User credentials are wrong" })
         }
         const token = jwt.sign({ email: user.email, id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: "5h" })
 
-        console.log('111111');
         return res.status(201).json({ user, token, msg: "Work aayiyii" })
 
     } catch (error) {
@@ -86,11 +81,8 @@ userController.put("/profile", async (req, res) => {
         gender: req.body.gender,
         district: req.body.district,
     }
-    console.log(updatedFields, 'aaaaa');
-    console.log(req.body._id);
     try {
         const updatedUser = await User.findOneAndUpdate({ _id: req.body._id }, updatedFields, { new: true });
-        console.log('updateddddd');
         return res.status(201).json({ updatedUser, message: "updated" })
     } catch (error) {
         console.error(error);
@@ -100,12 +92,28 @@ userController.put("/profile", async (req, res) => {
 
 userController.post("/profilePicture", async (req, res) => {
     try {
-        console.log(req.body,'jnkjfvjn');
         const updatedImage = await User.findOneAndUpdate({ _id: req.body.userId }, { image: req.body.url }, { new: true })
-        console.log('updatediaagee');
-        return res.status(201).json({updatedImage})
+        return res.status(201).json({ updatedImage })
     } catch (error) {
         console.log(error, '[[[[[ifffff');
+    }
+})
+
+userController.get("/allDistricts", async (req, res) => {
+    try {
+        const districts = await Branches.distinct('district');
+        return res.status(201).json({ districts })
+    } catch (error) {
+        return res.status(500).send({ message: "Not getting all districts" })
+    }
+})
+
+userController.get("/districtChoose", async (req, res) => {
+    try {
+        const branches = await Branches.find({ district: req.query.district }, { branch: 1 ,address:1});
+        return res.status(200).json({ branches });
+    } catch (error) {
+        return res.status(500).send({ message: "Error getting branches" });
     }
 })
 

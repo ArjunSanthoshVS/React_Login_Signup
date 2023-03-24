@@ -1,26 +1,20 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, Toolbar } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReceiverSideBar from '../ReceiverSideBar'
 import {
     MDBInput,
     MDBBtn,
     MDBCard,
     MDBCardBody,
-    MDBValidation,
-    MDBValidationItem,
 } from 'mdb-react-ui-kit';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { transfusionRequests } from '../../../../Redux/Features/User/TransfusionSlice';
-const districts = [
-    { id: 1, name: "Thrissur", branches: ["Karuvannur", "Ollur", "Patturaikkal", "Karalam", "Varadiyam"] },
-    { id: 2, name: "Ernamkulam", branches: ["Kakkanad", "Maradu", "MG Road"] },
-    { id: 3, name: "Kottayam", branches: ["Pala"] },
-];
+import { allDistricts, districtChoose } from '../../../../Redux/Features/User/DistrictSlice';
+
 function RequestBlood() {
     const { user } = useSelector((state) => ({ ...state?.user?.user }))
-    console.log(user, 'kkkkkk');
     const b = user?.bloodGroup
     const a = user?.age
     const _id = user?._id
@@ -29,6 +23,7 @@ function RequestBlood() {
     const name = user?.firstName + " " + user?.lastName
     const Gender = user?.gender
 
+    const [districts, setDistricts] = useState([])
     const [selectedDistrict, setSelectedDistrict] = useState('');
     const [selectedBranch, setSelectedBranch] = useState('');
     const [branches, setBranches] = useState([]);
@@ -45,11 +40,20 @@ function RequestBlood() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleDistrictChange = (event) => {
-        const selectedDistrict = districts.find((district) => district.name === event.target.value);
-        setSelectedDistrict(selectedDistrict.name);
-        setBranches(selectedDistrict.branches);
-        setSelectedBranch('');
+    useEffect(() => {
+        const Districts = async () => {
+            const response = await dispatch(allDistricts())
+            setDistricts(response.payload.districts)
+        }
+        Districts()
+    }, [dispatch])
+
+
+    const handleDistrictChange = async(event) => {
+        const selectedDistrict = event.target.value;
+        setSelectedDistrict(selectedDistrict);
+        const response = await dispatch(districtChoose({ district: selectedDistrict }))
+        setBranches(response.payload.branches);
     };
 
     const successfull = () => {
@@ -70,7 +74,6 @@ function RequestBlood() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const data = { selectedDistrict, selectedBranch, blood, unit, reason, age, userId, receivedDate, fullName, gender, status }
-        console.log(data, '1111');
         dispatch(transfusionRequests(data))
         successfull()
     }
@@ -94,8 +97,8 @@ function RequestBlood() {
                                         label="District"
                                         onChange={handleDistrictChange} >
                                         {districts.map((district) => (
-                                            <MenuItem key={district.id} value={district.name}>
-                                                {district.name}
+                                            <MenuItem key={district._id} value={district}>
+                                                {district}
                                             </MenuItem>
                                         ))}
                                     </Select>
@@ -109,9 +112,9 @@ function RequestBlood() {
                                         onChange={(e) => setSelectedBranch(e.target.value)}
                                         required
                                     >
-                                        {branches.map((b) => (
-                                            <MenuItem key={b} value={b}>
-                                                {b}
+                                        {branches.map((branch) => (
+                                            <MenuItem key={branch._id} value={branch.branch}>
+                                                {branch.branch}
                                             </MenuItem>
                                         ))}
                                     </Select>

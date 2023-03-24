@@ -10,3 +10,5 @@ const BranchesSchema = new mongoose.Schema({
 const Branches = mongoose.model("branches", BranchesSchema)
 
 module.exports = { Branches }
+
+
