@@ -58,6 +58,7 @@ export default function DonorSideBar() {
         }
 
         Swal.fire({
+            icon:"question",
             title: 'Did you donate blood for past 3 months ?',
             input: 'radio',
             inputOptions: radioOptions,
@@ -95,6 +96,7 @@ export default function DonorSideBar() {
         }
 
         Swal.fire({
+            icon: "question",
             title: 'Did you take any Antibiotics for past 1 week ?',
             input: 'radio',
             inputOptions: radioOptions,

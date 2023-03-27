@@ -18,14 +18,6 @@ function Dashboard() {
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                     <DrawerHeader />
                     <h1>Admin Dashboard</h1>
-                    <div className="col-6 d-flex">
-                        <div className="col-9">
-
-                        </div>
-                        <div className="col-4">
-                            <h1 >hi funde...</h1>
-                        </div>
-                    </div>
                 </Box>
             </Box>
         </div>

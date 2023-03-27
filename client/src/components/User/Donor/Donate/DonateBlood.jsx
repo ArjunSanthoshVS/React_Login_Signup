@@ -52,8 +52,7 @@ function DonateBlood() {
         const selectedDistrict = event.target.value;
         setSelectedDistrict(selectedDistrict);
         const response = await dispatch(districtChoose({ district: selectedDistrict }))
-        console.log(response.payload);
-        // setBranches(response.payload.branches);
+        setBranches(response.payload.branches);
     };
 
     const successfull = () => {

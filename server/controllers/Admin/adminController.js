@@ -233,4 +233,19 @@ adminController.get("/districtChoose", async (req, res) => {
         console.log(error);
     }
 })
+
+adminController.get("/units", async (req, res) => {
+    try {
+        const response = await Donations.find({status:"Approved"}, { bloodGroup: 1, _id: 0 })
+        const counts = response.reduce((acc, { bloodGroup }) => {
+            acc[bloodGroup] = (acc[bloodGroup] || 0) + 1;
+            return acc;
+        }, {});
+        console.log(counts);
+        res.send(counts) 
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 module.exports = adminController

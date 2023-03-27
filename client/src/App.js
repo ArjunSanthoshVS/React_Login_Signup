@@ -24,6 +24,8 @@ import Donations from "./components/Admin/Donations/Donations";
 import Requests from "./components/Admin/Requests/Requests";
 import RequestHistory from "./components/User/Receiver/RequestHistory/RequestHistory";
 import Branches from "./components/Admin/Branches/Branches";
+import Blood from "./components/Admin/Blood/Blood";
+import NearByPatients from "./components/User/Donor/NearByPatients/NearByPatients";
 
 function App() {  
 
@@ -56,6 +58,7 @@ function App() {
         <Route path="/receive" exact element={<RequestBlood />} />
         <Route path="/donation_history" exact element={<DonationHistory />} />
         <Route path="/transfusion_history" exact element={<RequestHistory />} />
+        <Route path="/patients" exact element={<NearByPatients />} />
         
 
         {/* Admin */}
@@ -70,6 +73,7 @@ function App() {
         <Route path="/donations" exact element={<Donations />} />
         <Route path="/requests" exact element={<Requests />} />
         <Route path="/branches" exact element={<Branches />} />
+        <Route path="/blood_groups" exact element={<Blood />} />
       </Routes>
     </div >
   );

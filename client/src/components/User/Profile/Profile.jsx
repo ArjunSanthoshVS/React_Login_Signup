@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 import './Profile.css'
 import {
-    MDBCol,
-    MDBContainer,
-    MDBRow,
-    MDBCard,
-    MDBCardBody,
-    MDBCardImage,
-    MDBBtn,
-    MDBCardText,
-    MDBInput,
-    MDBRadio,
+    MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardBody, MDBCardImage, MDBBtn, MDBCardText, MDBInput, MDBRadio
 } from 'mdb-react-ui-kit';
+import { FormControl, Select } from 'react-bootstrap';
 import HomeNav from '../HomeNav/HomeNav'
 import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
@@ -72,6 +64,41 @@ export default function Profile() {
         { label: 'Others', value: 'Others', name: 'gender' }
     ];
 
+    const groups = [
+        {
+            value: 'A+ve',
+            text: 'A+ve'
+        },
+        {
+            value: 'A-ve',
+            text: 'A-ve'
+        },
+        {
+            value: 'B+ve',
+            text: 'B+ve'
+        },
+        {
+            value: 'B-ve',
+            text: 'B-ve'
+        },
+        {
+            value: 'AB+ve',
+            text: 'AB+ve'
+        },
+        {
+            value: 'AB-ve',
+            text: 'AB-ve'
+        },
+        {
+            value: 'O+ve',
+            text: 'O+ve'
+        },
+        {
+            value: 'O-ve',
+            text: 'O-ve'
+        }
+    ];
+
     const [currentImageUrl, setCurrentImageUrl] = useState(null);
     // const [imageSelected, setImageSelected] = useState("")
 
@@ -105,7 +132,7 @@ export default function Profile() {
                 formData
             );
             const newImageUrl = response.data.url;
-            console.log(newImageUrl,'urllll');
+            console.log(newImageUrl, 'urllll');
             if (newImageUrl !== currentImageUrl) {
                 setCurrentImageUrl(newImageUrl);
                 const updatedata = { ...user, image: newImageUrl };
@@ -211,10 +238,23 @@ export default function Profile() {
                                     </MDBCol>
                                     <MDBCol sm="9">
                                         {isEditing ? (
-                                            <MDBInput type="text" name='bloodGroup' onChange={handleChange} value={user?.bloodGroup} />
+                                            <FormControl
+                                                as="select"
+                                                name="bloodGroup" 
+                                                value={user?.bloodGroup}
+                                                onChange={handleChange}
+                                            >
+                                                {groups.map((option) => (
+                                                    <option key={option.value} value={option.value}>
+                                                        {option.text}
+                                                    </option>
+                                                ))}
+
+                                            </FormControl>
                                         ) : (
                                             <MDBCardText className="text-muted">{user?.bloodGroup}</MDBCardText>
-                                        )}                                      </MDBCol>
+                                        )}
+                                    </MDBCol>
                                 </MDBRow>
                                 <hr />
                                 <MDBRow>
@@ -430,6 +470,6 @@ export default function Profile() {
                     </MDBCol> */}
                 </MDBRow>
             </MDBContainer>
-        </section>
+        </section >
     );
 }
