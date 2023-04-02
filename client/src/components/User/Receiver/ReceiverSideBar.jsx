@@ -191,7 +191,7 @@ export default function ReceiverSideBar() {
                                                 text2 === "home" && navigate('/receiver')
                                                 text2 === "receive blood" && navigate('/receive')
                                                 text2 === "transfusion history" && navigate('/transfusion_history')
-                                                text2 === "available branches" && navigate('/branches')
+                                                text2 === "available branches" && navigate('/receiverBranches')
                                                 text2 === "other donations" && navigate('/other_donation')
 
                                             }} />

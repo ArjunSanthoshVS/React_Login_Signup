@@ -9,6 +9,7 @@ const { validateAdminSignup, validatelogin } = require("../../validation/loginVa
 const { Donations } = require("../../models/Admin/donations");
 const { Requests } = require("../../models/Admin/requests");
 const { Branches } = require("../../models/Admin/Branches");
+const verifyToken = require("../../Middlewares/auth");
 
 
 adminController.post("/signup", async (req, res) => {
@@ -62,7 +63,7 @@ adminController.post("/login", async (req, res) => {
 
 
 
-adminController.get('/users', async (req, res) => {
+adminController.get('/users',verifyToken, async (req, res) => {
     try {
         console.log('hbjhbjhbmj');
         const users = await User.find();
@@ -172,6 +173,18 @@ adminController.put("/donations/:id/approveDonation", async (req, res) => {
     }
 })
 
+adminController.put("/donations/:id/rejectDonation", async (req, res) => {
+    console.log(req.params.id, 'fffffffffff');
+    const userId = req.params.id;
+    try {
+        const reject = await Donations.findByIdAndUpdate(userId, { status: 'Rejected' }, { new: true });
+        res.json(reject);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+})
+
 adminController.post("/newBranch", async (req, res) => {
     console.log(req.body, 'fffffffffff');
     try {
@@ -228,7 +241,7 @@ adminController.get("/districtChoose", async (req, res) => {
     try {
         const response = await Branches.find({ district: req.body })
         console.log(response, 'jhgfdfghjk');
-        // res.json(response)
+        res.json(response)
     } catch (error) {
         console.log(error);
     }

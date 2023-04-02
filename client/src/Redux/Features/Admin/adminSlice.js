@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import * as api from "../../api"
-import { setUsers } from "./getUsersSlice";
 
 export const adminLogin = createAsyncThunk("admin/login", async ({ data, navigate }, { rejectWithValue }) => {
     try {

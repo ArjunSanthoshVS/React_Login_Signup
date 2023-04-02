@@ -321,7 +321,7 @@ export default function DonorSideBar() {
                                                 text2 === "home" && navigate('/donor') 
                                                 text2 === "donate blood" &&  handleDonate()
                                                 text2 === "donation history" && navigate('/donation_history') 
-                                                text2 === "available branches" && navigate('/branches') 
+                                                text2 === "available branches" && navigate('/donorBranches') 
                                                 text2 === "nearby patients" && navigate('/patients') 
                                                 text2 === "other donations" && navigate('/other_donation') 
                                                 

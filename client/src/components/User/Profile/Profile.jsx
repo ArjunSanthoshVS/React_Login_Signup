@@ -226,7 +226,7 @@ export default function Profile() {
                                     </MDBCol>
                                     <MDBCol sm="9">
                                         {isEditing ? (
-                                            <MDBInput type="number" name='mobile' onChange={handleChange} value={user?.mobile} />
+                                            <MDBInput type="number" name='mobile' min="1000000000" max="9999999999" onChange={handleChange} value={user?.mobile} />
                                         ) : (
                                             <MDBCardText className="text-muted">{user?.mobile}</MDBCardText>
                                         )}                                      </MDBCol>

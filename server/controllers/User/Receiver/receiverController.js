@@ -1,12 +1,13 @@
 const { mongoose } = require("mongoose");
 const { Requests } = require("../../../models/Admin/requests");
 const { User } = require("../../../models/User/user");
+const verifyToken = require("../../../Middlewares/auth");
 const ObjectId = require('mongoose').Types.ObjectId;
 
 const receiverController = require("express").Router();
 
 
-receiverController.post('/request', async (req, res) => {
+receiverController.post('/request', verifyToken, async (req, res) => {
     // const transfusionDetails = {
     //     selectedDistrict: req.body.selectedDistrict,
     //     selectedBranch: req.body.selectedBranch,
@@ -30,7 +31,7 @@ receiverController.post('/request', async (req, res) => {
         reason: req.body.reason,
         receivedDate: req.body.receivedDate,
         status: req.body.status,
-        userId:req.body.userId
+        userId: req.body.userId
     }
     console.log(transfusionRequest, 'bodyyyyy');
     try {
@@ -60,7 +61,7 @@ receiverController.post('/request', async (req, res) => {
     }
 })
 
-receiverController.get('/transfusion_history', async (req, res) => {
+receiverController.get('/transfusion_history', verifyToken, async (req, res) => {
     try {
         console.log(req.query.id, '78542');
         const transfusionHistory = await Requests.find({ userId: req.query.id }).exec()
@@ -71,7 +72,7 @@ receiverController.get('/transfusion_history', async (req, res) => {
     }
 })
 
-receiverController.put('/cancel/:id', async (req, res) => {
+receiverController.put('/cancel/:id', verifyToken, async (req, res) => {
     try {
         const cancel = await Requests.findByIdAndUpdate(req.params.id, { status: 'Cancelled' }, { new: true })
         res.json(cancel)
@@ -79,4 +80,17 @@ receiverController.put('/cancel/:id', async (req, res) => {
         console.log(error);
     }
 })
+
+
+receiverController.get("/totalReceivers", verifyToken, async (req, res) => {
+    try {
+        const response = await Requests.distinct('userId', { status: "Approved" })
+        console.log(response.length);
+        const details = response.length
+        return res.status(200).json(details);
+    } catch (error) {
+        return res.status(500).send({ message: "Error getting branches" });
+    }
+})
+
 module.exports = receiverController

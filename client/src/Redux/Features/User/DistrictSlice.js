@@ -7,7 +7,7 @@ export const allDistricts = createAsyncThunk("user/allDistricts", async (_, { re
         return districts.data
     } catch (error) {
         return rejectWithValue(error.response.data)
-    }
+    }   
 })
 
 export const districtChoose = createAsyncThunk("user/districtChoose", async (selectedDistrict, { rejectWithValue }) => {

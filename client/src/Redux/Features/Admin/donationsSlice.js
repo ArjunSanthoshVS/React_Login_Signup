@@ -20,15 +20,35 @@ export const rejectDonation = createAsyncThunk("admin/rejectDonation", async (id
     }
 })
 
-const requestsSlice = createSlice({
-    name: 'requests',
-    initialState: { requests: [] },
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(approveDonation.fulfilled, (state, action) => {
-                const index = state.donations.findIndex(donation => donation._id === action.payload._id);
-                state.donation[index] = action.payload;
-            });
-    },
+export const getAvailableUnits = createAsyncThunk("blood/getAvailableUnits", async () => {
+    try {
+        const response = await api.getAvailableUnits();
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
 });
+
+export const getDonations = createAsyncThunk("blood/getDonations", async () => {
+    try {
+        const response = await api.getDonations();
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// const requestsSlice = createSlice({
+//     name: 'requests',
+//     initialState: { requests: [] },
+//     reducers: {},
+//     extraReducers: (builder) => {
+//         builder
+//             .addCase(approveDonation.fulfilled, (state, action) => {
+//                 const index = state.donations.findIndex(donation => donation._id === action.payload._id);
+//                 state.donation[index] = action.payload;
+//             });
+//     },
+// });

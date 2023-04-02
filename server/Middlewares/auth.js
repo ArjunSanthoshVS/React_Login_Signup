@@ -1,26 +1,20 @@
-// import jwt from "jsonwebtoken"
-// import { User } from "../models/user"
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
-// const secret = "test"
+const verifyToken = (req, res, next) => {
+    let token = req.headers['authorization']
+    if (token) {
+        token = token.split(' ')[1]
+        jwt.verify(token, process.env.JWT_SECRET, (err, valid) => {
+            if (err) {
+                res.status(401).send({ result: "Please provide valid token...!" })
+            } else {
+                next()
+            }
+        })
+    } else {
+        res.status(403).send({ result: "Please add token with header" })
+    }
+}
 
-// const auth = async (req, res, next) => {
-//     try {
-//         const token = req.headers.authorization.split(" ")[1]
-//         const isCustomAuth = token.length < 500
-//         let decodedData
-//         if (token && isCustomAuth) {
-//             decodedData = jwt.verify(token, secret)
-//             req.userId = decodedData?.id
-//         } else {
-//             decodedData = jwt.decode(token)
-//             const googleId = decodedData?.sub.toString()
-//             const user = await User.findOne({ googleId })
-//             req.userId = user?._id
-//         }
-//         next()
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-
-// export default auth
+module.exports = verifyToken

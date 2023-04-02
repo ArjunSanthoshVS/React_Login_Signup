@@ -30,17 +30,27 @@ export const reject = createAsyncThunk("admin/reject", async (id) => {
     }
 })
 
-const requestsSlice = createSlice({
-    name: 'requests',
-    initialState: { requests: [] },
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(approve.fulfilled, (state, action) => {
-                const index = state.requests.findIndex(request => request._id === action.payload._id);
-                state.requests[index] = action.payload;
-            });
-    },
+export const getTransfusion = createAsyncThunk("blood/getTransfusion", async () => {
+    try {
+        const response = await api.getTransfusion();
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
 });
 
-export default requestsSlice.reducer;
+// const requestsSlice = createSlice({
+//     name: 'requests',
+//     initialState: { requests: [] },
+//     reducers: {},
+//     extraReducers: (builder) => {
+//         builder
+//             .addCase(approve.fulfilled, (state, action) => {
+//                 const index = state.requests.findIndex(request => request._id === action.payload._id);
+//                 state.requests[index] = action.payload;
+//             });
+//     },
+// });
+
+// export default requestsSlice.reducer;

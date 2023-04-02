@@ -19,6 +19,7 @@
     "bootstrap": "^5.2.3",
     "cloudinary": "^1.35.0",
     "mdb-react-ui-kit": "^5.1.0",
+    "moment": "^2.29.4",
     "primeicons": "^6.0.1",
     "primereact": "^9.2.0",
     "react": "^18.2.0",

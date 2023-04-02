@@ -15,32 +15,41 @@ export const donationHistory = createAsyncThunk("donor/donation_history", async 
     try {
         console.log(id);
         const response = await api.donationHistory(id)
-        console.log(response.data,'2345678');
+        console.log(response.data, '2345678');
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
     }
 })
 
-// const donateSlice = createSlice({
-//     name: 'donate',
-//     initialState: {
-//         district: '',
-//         branch: '',
-//         bloodGroup: '',
-//         unit: '',
-//         disease: '',
-//         age: '',
-//         donatedDate: '',
-//         fullName: '',
-//         Gender: '',
-//     },
-//     reducers: {
-//         setDonate: (state, action) => {
-//             state.donate = action.payload
-//         }
-//     },
-// });
+export const pateintDetails = createAsyncThunk("donor/pateintDetails", async (_, { rejectWithValue }) => {
+    try {
+        const response = await api.pateintDetails()
+        console.log(response.data, '2345678');
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
 
-// export const { setDonate } = donateSlice.actions;
-// export default donateSlice.reducer;
+
+export const transfusionDistricts = createAsyncThunk("donor/transfusionDistricts", async (_, { rejectWithValue }) => {
+    try {
+        const response = await api.transfusionDistricts()
+        console.log(response.data, '2345678');
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
+
+export const getBranches = createAsyncThunk("donor/getBranches", async (value, { rejectWithValue }) => {
+    try {
+        console.log(value);
+        const district = await api.getBranches(value)
+        console.log(district);
+        return district.data.branchNames
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})

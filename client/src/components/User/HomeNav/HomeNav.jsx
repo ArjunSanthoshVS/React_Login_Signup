@@ -5,12 +5,10 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { ListItemText } from '@mui/material';
@@ -19,7 +17,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setLogout } from '../../../Redux/Features/User/userSlice';
 
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Donate', 'Receive'];
 const settings = ['Profile', 'Logout'];
 
 function HomeNav() {
@@ -187,7 +185,11 @@ function HomeNav() {
                             >
                                 {pages.map((page) => (
                                     <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">{page}</Typography>
+                                        {/* <Typography textAlign="center">{page}</Typography> */}
+                                        <ListItemText primary={page} onClick={() => {
+                                            let pageText = page.toLowerCase()
+                                            pageText === "donate" ? navigate('/donor') : navigate('/receiver')
+                                        }} />
                                     </MenuItem>
                                 ))}
                             </Menu>
@@ -223,41 +225,32 @@ function HomeNav() {
                         >
                             REDWINGS
                         </Typography> */}
-                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            {pages.map((page) => (
-                                <Button
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
-                                >
-                                    {page}
-                                </Button>
-                            ))}
-                        </Box>
+
 
                         {user?._id && (
-                            <h3 className='me-2 m-0'>{user?.firstName} {user?.lastName}</h3>
+                            <h3 className='ms-auto me-2 m-0'>{user?.firstName} {user?.lastName}</h3>
                         )}
-                        <Tooltip title="Donate">
-                            <lord-icon
-                                onClick={handleDonor}
-                                style={{ width: "60px", height: "60px", cursor: "pointer" }}
-                                colors="primary:#e83a30,secondary:#ebe6ef"
-                                src="https://cdn.lordicon.com/tlyvkjxa.json"
-                                trigger="hover"
-                            >
-                            </lord-icon>
-                        </Tooltip>
-                        <Tooltip title="Receive" >
-                            <lord-icon
-                                onClick={handleReceiver}
-                                src="https://cdn.lordicon.com/uiaaaqiz.json"
-                                trigger="hover"
-                                colors="primary:#e83a30,secondary:#ffffff"
-                                style={{ width: "60px", height: "60px", cursor: "pointer" }}>
-                            </lord-icon>
-                        </Tooltip>
-
+                        <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'block' } }}>
+                            <Tooltip title="Donate">
+                                <lord-icon
+                                    onClick={handleDonor}
+                                    style={{ width: "60px", height: "60px", cursor: "pointer" }}
+                                    colors="primary:#e83a30,secondary:#ebe6ef"
+                                    src="https://cdn.lordicon.com/tlyvkjxa.json"
+                                    trigger="hover"
+                                >
+                                </lord-icon>
+                            </Tooltip>
+                            <Tooltip title="Receive" >
+                                <lord-icon
+                                    onClick={handleReceiver}
+                                    src="https://cdn.lordicon.com/uiaaaqiz.json"
+                                    trigger="hover"
+                                    colors="primary:#e83a30,secondary:#ffffff"
+                                    style={{ width: "60px", height: "60px", cursor: "pointer" }}>
+                                </lord-icon>
+                            </Tooltip>
+                        </Box>
 
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
