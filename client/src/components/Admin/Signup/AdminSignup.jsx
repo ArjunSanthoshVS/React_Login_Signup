@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { adminSignUp } from '../../../Redux/Features/Admin/adminSlice'
 
@@ -13,7 +12,7 @@ function AdminSignup() {
         password: ""
     })
 
-    const { loading, error } = useSelector((state) => ({ ...state.admin }))
+    const { error } = useSelector((state) => ({ ...state.admin }))
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -24,7 +23,6 @@ function AdminSignup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(data, 'lllll');
         dispatch(adminSignUp({ data, navigate }))
     };
 

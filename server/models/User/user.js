@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-// const jwt = require('jsonwebtoken')
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -34,9 +33,6 @@ const userSchema = new mongoose.Schema({
     },
     bloodGroup: {
         type: String,
-    },
-    birthDate: {
-        type: Date,
     },
     weight: {
         type: Number,

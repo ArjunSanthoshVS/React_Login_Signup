@@ -1,11 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import * as api from "../../api"
 
-export const adminLogin = createAsyncThunk("admin/login", async ({ data, navigate }, { rejectWithValue }) => {
+export const adminLogin = createAsyncThunk("admin/login", async (data , { rejectWithValue }) => {
     try {
-        console.log(data);
         const response = await api.adminSignIn(data)
-        // navigate('/')
         window.location = "/dashboard"
         return response.data
     } catch (error) {
@@ -16,7 +14,6 @@ export const adminLogin = createAsyncThunk("admin/login", async ({ data, navigat
 
 export const adminSignUp = createAsyncThunk("admin/signup", async ({ data, navigate }, { rejectWithValue }) => {
     try {
-        console.log(data);
         const response = await api.adminSignUp(data)
         navigate('/admin_login')
         return response.data

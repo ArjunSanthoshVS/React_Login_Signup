@@ -22,13 +22,11 @@ function Signup() {
 
 
     const handleChange = ({ currentTarget: input }) => {
-        console.log({ ...data, [input.name]: input.value });
         setData({ ...data, [input.name]: input.value })
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(data, 'lllll');
         dispatch(signUp({ data, navigate }))
     };
 

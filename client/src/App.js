@@ -29,6 +29,7 @@ import NearByPatients from "./components/User/Donor/NearByPatients/NearByPatient
 import Report from "./components/Admin/Report/Report";
 import DonorBranches from "./components/User/Donor/Branches/DonorBranches";
 import ReceiverBranch from "./components/User/Receiver/ReceiverBranch/ReceiverBranch";
+import Test from "./components/test";
 
 function App() {  
 
@@ -40,8 +41,6 @@ function App() {
   useEffect(() => {
     dispatch(setUser(user))
     dispatch(setAdmin(admin))
-    console.log(user,'ssssssss');
-    console.log(admin);
   })
 
   return (
@@ -64,6 +63,7 @@ function App() {
         <Route path="/patients" exact element={<NearByPatients />} />
         <Route path="/donorBranches" exact element={<DonorBranches />} />
         <Route path="/receiverBranches" exact element={<ReceiverBranch />} />
+        <Route path="/test" exact element={<Test />} />
         
 
         {/* Admin */}

@@ -39,7 +39,6 @@ export default function ReceiverSideBar() {
         window.location = "/login"
     }
     const handleDonor = () => {
-        console.log('handle donor');
         Swal.fire({
             title: `Hi ${user?.firstName}`,
             text: 'Continue as a Donor?',
@@ -60,7 +59,6 @@ export default function ReceiverSideBar() {
             <AppBar style={{ backgroundColor: "#054D60" }} position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
                         <Box
                             component="img"
                             sx={{
@@ -167,7 +165,7 @@ export default function ReceiverSideBar() {
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
-                    [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+                    [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', backgroundColor: "#e3e3e3" },
                 }}
             >
                 <Toolbar />
@@ -175,7 +173,7 @@ export default function ReceiverSideBar() {
                     <List>
                         {[
                             { name: 'Home', icon: <HomeIcon /> },
-                            { name: 'Receive Blood', icon: <Doantion /> },
+                            { name: 'Request Blood', icon: <Doantion /> },
                             { name: 'Transfusion History', icon: <HistoryIcon /> },
                             { name: 'Available Branches', icon: <Branch /> },
                             { name: 'Other Donations', icon: < CurrencyRupeeIcon /> }].map((text, index) => (
@@ -189,11 +187,10 @@ export default function ReceiverSideBar() {
                                                 console.log(text.name);
                                                 let text2 = text.name.toLowerCase()
                                                 text2 === "home" && navigate('/receiver')
-                                                text2 === "receive blood" && navigate('/receive')
+                                                text2 === "request blood" && navigate('/receive')
                                                 text2 === "transfusion history" && navigate('/transfusion_history')
                                                 text2 === "available branches" && navigate('/receiverBranches')
                                                 text2 === "other donations" && navigate('/other_donation')
-
                                             }} />
                                     </ListItemButton>
                                 </ListItem>

@@ -1,15 +1,5 @@
 import { Box, Toolbar } from '@mui/material'
-import {
-    MDBCard,
-    MDBCardHeader,
-    MDBCardBody,
-    MDBCardTitle,
-    MDBCardText,
-    MDBBtn,
-    MDBRow,
-    MDBCol,
-    MDBIcon
-} from 'mdb-react-ui-kit';
+import {MDBCard,MDBCardBody,MDBCardTitle,MDBCardText,MDBRow,MDBCol,MDBIcon} from 'mdb-react-ui-kit';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { donationHistory } from '../../../../Redux/Features/User/DonateSlice';
@@ -18,7 +8,6 @@ import DonorSideBar from '../DonorSideBar'
 
 function DonationHistory() {
     const user = useSelector((state) => state?.user?.user?.user)
-    console.log(user._id, 'asdfghjk');
     const dispatch = useDispatch()
 
     const [loading, setLoading] = useState(true);
@@ -34,8 +23,6 @@ function DonationHistory() {
         };
         fetchDonations();
     }, [dispatch, user._id]);
-
-    console.log(donations, 'qwerfbhjhbjm');
 
     return (
         <>
@@ -53,7 +40,6 @@ function DonationHistory() {
                                         <MDBCardBody className='d-flex justify-content-center align-items-center'>
                                             <div className='me-3'>
                                                 <MDBIcon style={{ fontSize: "100px", color: "#c82b2b"}} fas icon="tint" />
-                                                {/* <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_xkf2gw3b.json" background="transparent" speed="1.5" style={{ width: "10px;", height: "10px;" }} loop autoplay></lottie-player> */}
                                             </div>
                                             <div className='ms-3'>
                                                 <MDBCardTitle><b>{donation.donatedDate}</b></MDBCardTitle>

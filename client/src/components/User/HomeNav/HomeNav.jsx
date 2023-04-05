@@ -44,17 +44,14 @@ function HomeNav() {
 
     const dispatch = useDispatch()
     const { user } = useSelector((state) => ({ ...state?.user?.user }))
-    console.log(user, 'mmmmmmmmmmm');
 
     const handleLogout = () => {
         dispatch(setLogout())
-        // navigate("/login")
         window.location = "/login"
     }
 
     const handleDonor = () => {
-        if (user?.mobile && user?.bloodGroup && user?.birthDate && user?.weight && user?.age && user?.gender && user?.district) {
-            console.log('handle donor');
+        if (user?.mobile && user?.bloodGroup  && user?.weight && user?.age && user?.gender && user?.district) {
             Swal.fire({
                 title: `Hi ${user?.firstName}`,
                 text: 'Continue as a Donor?',
@@ -85,8 +82,7 @@ function HomeNav() {
         }
     }
     const handleReceiver = () => {
-        if (user?.mobile && user?.bloodGroup && user?.birthDate && user?.weight && user?.age && user?.gender && user?.district) {
-            console.log('handle receiver');
+        if (user?.mobile && user?.bloodGroup && user?.weight && user?.age && user?.gender && user?.district) {
             Swal.fire({
                 title: `Hi ${user?.firstName}`,
                 text: 'Are you ready for Transfusion?',
@@ -122,7 +118,6 @@ function HomeNav() {
             <AppBar style={{ backgroundColor: "#054D60" }} position="fixed">
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
                         <Box
                             component="img"
                             sx={{
@@ -136,23 +131,6 @@ function HomeNav() {
                             alt="The house from the offer."
                             src="/images/red wings logo.png"
                         />
-                        {/* <Typography
-                            variant="h5"
-                            noWrap
-                            component="a"
-                            href="/"
-                            sx={{
-                                mr: 2,
-                                display: { xs: 'none', md: 'flex' },
-                                fontFamily: '',
-                                fontWeight: "bolder",
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                            }}
-                        >
-                            REDWINGS
-                        </Typography> */}
 
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                             <IconButton
@@ -185,7 +163,6 @@ function HomeNav() {
                             >
                                 {pages.map((page) => (
                                     <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        {/* <Typography textAlign="center">{page}</Typography> */}
                                         <ListItemText primary={page} onClick={() => {
                                             let pageText = page.toLowerCase()
                                             pageText === "donate" ? navigate('/donor') : navigate('/receiver')
@@ -194,7 +171,6 @@ function HomeNav() {
                                 ))}
                             </Menu>
                         </Box>
-                        {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
                         <Box
                             component="img"
                             sx={{
@@ -207,26 +183,7 @@ function HomeNav() {
                             }}
                             alt="The house from the offer."
                             src="/images/red wings logo.png" />
-                        {/* <Typography
-                            variant="h5"
-                            noWrap
-                            component="a"
-                            href=""
-                            sx={{
-                                mr: 2,
-                                display: { xs: 'flex', md: 'none' },
-                                flexGrow: 1,
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                            }}
-                        >
-                            REDWINGS
-                        </Typography> */}
-
-
+                   
                         {user?._id && (
                             <h3 className='ms-auto me-2 m-0'>{user?.firstName} {user?.lastName}</h3>
                         )}
@@ -276,7 +233,6 @@ function HomeNav() {
                             >
                                 {settings.map((setting) => (
                                     <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        {/* <Typography textAlign="center">{setting}</Typography> */}
                                         <ListItemText primary={setting} onClick={() => {
                                             let text = setting.toLowerCase()
                                             text === "profile" ? navigate('/profile') : handleLogout()
@@ -288,53 +244,6 @@ function HomeNav() {
                     </Toolbar>
                 </Container>
             </AppBar >
-
-
-            {/* 
-            <MDBModal tabIndex='-1' show={centredModal} setShow={setCentredModal}>
-                <MDBModalDialog centered>
-                    <MDBModalContent>
-
-                        <MDBModalBody className='p-4'>
-                            <h3 className='fw-bold text-center' >RED WINGS</h3>
-                            <h5 className='fw-bold text-center'>
-                                Be the reason for someone's heartbeat.
-                            </h5>
-                            <Row>
-                                <Col className='text-center' onClick={() => navigate('/donor')}
-                                    style={{ cursor: 'pointer' }}>
-                                    <lord-icon
-                                        style={{ width: "200px", height: "200px" }}
-                                        colors="primary:#e83a30,secondary:#ebe6ef"
-                                        src="https://cdn.lordicon.com/tlyvkjxa.json"
-                                        trigger="hover">
-                                    </lord-icon>
-                                    <h3 className='text-center'
-                                        style={{
-                                            fontWeight: "bold",
-                                            color: "#e83a30",
-                                        }}>Donate</h3>
-                                </Col>
-                                <Col className='text-center' onClick={() => navigate('/receiver')}
-                                    style={{ cursor: 'pointer' }}>
-                                    <lord-icon
-                                        src="https://cdn.lordicon.com/uiaaaqiz.json"
-                                        trigger="hover"
-                                        colors="primary:#e83a30,secondary:#ffffff"
-                                        style={{ width: "200px", height: "200px" }}>
-                                    </lord-icon>
-                                    <h3 className='text-center'
-                                        style={{
-                                            fontWeight: "bold",
-                                            color: "#e83a30"
-                                        }}>Receive</h3>
-                                </Col>
-                            </Row>
-                        </MDBModalBody>
-
-                    </MDBModalContent>
-                </MDBModalDialog>
-            </MDBModal > */}
         </>
     );
 }

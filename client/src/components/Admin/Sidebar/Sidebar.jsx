@@ -26,8 +26,6 @@ import ReportIcon from '@mui/icons-material/Assessment';
 import OthersIcon from '@mui/icons-material/Savings';
 import { useNavigate } from 'react-router-dom';
 
-// import Table from '../Users/Users';
-
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -176,7 +174,6 @@ export default function Sidebar() {
                                 </ListItemIcon>
                                 <ListItemText primary={text.name} sx={{ opacity: open ? 1 : 0 }}
                                     onClick={() => {
-                                        console.log(text.name);
                                         let text2 = text.name.toLowerCase()
                                         text2 === "dashboard" && navigate('/dashboard')
                                         text2 === "donations" && navigate('/donations')

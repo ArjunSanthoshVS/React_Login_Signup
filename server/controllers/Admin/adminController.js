@@ -36,10 +36,8 @@ adminController.post("/signup", async (req, res) => {
 
 
 adminController.post("/login", async (req, res) => {
-    console.log(req.body, 'fffffff');
     try {
         const { error } = validatelogin(req.body);
-        console.log(error, 'ppppppppp');
         if (error) {
             return res.status(400).send({ message: error.details[0].message });
         }
@@ -51,9 +49,7 @@ adminController.post("/login", async (req, res) => {
         if (!checkPass) {
             return res.status(400).send({ message: "Admin credentials are wrong" })
         }
-        console.log('hdskjaskjbckja');
         const token = jwt.sign({ email: admin.email, id: admin._id, isAdmin: admin.isAdmin }, process.env.JWT_SECRET, { expiresIn: "5h" })
-        console.log('dsfsdvdfz vs');
         return res.status(201).json({ admin, token, msg: "Work aayiyii" })
 
     } catch (error) {
@@ -65,23 +61,18 @@ adminController.post("/login", async (req, res) => {
 
 adminController.get('/users',verifyToken, async (req, res) => {
     try {
-        console.log('hbjhbjhbmj');
         const users = await User.find();
         res.json(users);
     } catch (error) {
-        console.log(error);
         res.status(500).send("Server Error");
     }
 })
 
 adminController.get('/users/:id', getUser, (req, res) => {
-    console.log('ysssssss');
     res.json(res.user);
 });
 async function getUser(req, res, next) {
-    console.log('------');
     try {
-        console.log(req.params.id, 'zzzzz');
         const user = await User.findById(req.params.id);
         if (user == null) {
             return res.status(404).json({ message: 'User not found' });
@@ -94,156 +85,130 @@ async function getUser(req, res, next) {
 }
 
 adminController.get("/donations", async (req, res) => {
-    console.log('78890sd');
     try {
         const donors = await Donations.find({})
-        console.log(donors, 'qazcghnk');
         res.json(donors);
     } catch (error) {
-        console.log('donors errrorr adichuu ');
+        res.status(500).send("Server Error");
     }
 })
 
 adminController.get("/userDonations/:id", async (req, res) => {
-    console.log('78890sd');
     try {
         const donors = await Donations.find({ userId: req.params.id })
-        console.log(donors, 'qazcghnk');
         res.json(donors);
     } catch (error) {
-        console.log('donors errrorr adichuu ');
+        res.status(500).send("Server Error");
     }
 })
 
 adminController.get("/requests", async (req, res) => {
-    console.log('fffffffffff');
     try {
         const requestDetails = await Requests.find()
-        console.log(requestDetails, 'zzz');
         res.json(requestDetails)
     } catch (error) {
-        res.send(500).send("errrrr")
+        res.status(500).send("Server Error");
     }
 })
 
 adminController.get("/userRequests/:id", async (req, res) => {
-    console.log(req.params.id, 'oooo99999');
     try {
         const requests = await Requests.find({ userId: req.params.id })
-        console.log(requests, 'qazcghnk');
         res.json(requests);
     } catch (error) {
-        console.log('donors errrorr adichuu ');
+        res.status(500).send("Server Error");
     }
 })
 
 adminController.put("/requests/:id/approve", async (req, res) => {
-    console.log(req.params.id, 'fffffffffff');
     const userId = req.params.id;
     try {
         const approve = await Requests.findByIdAndUpdate(userId, { status: 'Approved' }, { new: true });
         res.json(approve);
     } catch (err) {
-        console.error(err);
         res.status(500).send('Server Error');
     }
 })
 
 adminController.put("/requests/:id/reject", async (req, res) => {
-    console.log(req.params.id, 'fffffffffff');
     const userId = req.params.id;
     try {
         const approve = await Requests.findByIdAndUpdate(userId, { status: 'Rejected' }, { new: true });
         res.json(approve);
     } catch (err) {
-        console.error(err);
         res.status(500).send('Server Error');
     }
 })
 
 adminController.put("/donations/:id/approveDonation", async (req, res) => {
-    console.log(req.params.id, 'fffffffffff');
     const userId = req.params.id;
     try {
         const approve = await Donations.findByIdAndUpdate(userId, { status: 'Approved' }, { new: true });
         res.json(approve);
     } catch (err) {
-        console.error(err);
         res.status(500).send('Server Error');
     }
 })
-
+ 
 adminController.put("/donations/:id/rejectDonation", async (req, res) => {
-    console.log(req.params.id, 'fffffffffff');
     const userId = req.params.id;
     try {
         const reject = await Donations.findByIdAndUpdate(userId, { status: 'Rejected' }, { new: true });
         res.json(reject);
     } catch (err) {
-        console.error(err);
         res.status(500).send('Server Error');
     }
 })
 
 adminController.post("/newBranch", async (req, res) => {
-    console.log(req.body, 'fffffffffff');
     try {
         const existingBranch = await Branches.findOne({ $or: [{ branch: req.body.branch }, { address: req.body.address }] });
         if (existingBranch) {
             return res.status(409).send({ message: "Branch already exists!" });
         } else {
             const branch = new Branches(req.body);
-            console.log(branch);
             await branch.save();
             return res.status(201).json(branch);
         }
     } catch (err) {
-        console.log(err.message);
         res.status(500).send('Internal server error');
     }
 });
 
 adminController.get("/branches", async (req, res) => {
-    console.log('branchessss');
     try {
         const branches = await Branches.find()
         res.json(branches)
     } catch (error) {
-        console.log(error, 'ccccccccccc');
         res.status(500).json({ error: error.message });
     }
 })
 
 adminController.put("/editBranch", async (req, res) => {
-    console.log(req.body, 'xddxd');
     const { selectedBranch, district, branch, address, phone } = req.body;
     try {
         const response = await Branches.findByIdAndUpdate({ _id: selectedBranch._id }, { ...selectedBranch, district, branch, address, phone })
         res.json(response)
     } catch (error) {
-        console.log(error, 'dfyujhbnk');
         return res.status(409).send({ message: "Branch already Exist!" });
     }
 })
 
 adminController.delete("/removeBranch/:id", async (req, res) => {
-    console.log(req.params.id, 'xddxd');
     try {
         const response = await Branches.findByIdAndDelete({ _id: req.params.id })
         res.json(response)
     } catch (error) {
-        console.log(error);
+        res.status(500).send("Server Error");
     }
 })
 
 adminController.get("/districtChoose", async (req, res) => {
-    console.log(req.body);
     try {
         const response = await Branches.find({ district: req.body })
-        console.log(response, 'jhgfdfghjk');
         res.json(response)
     } catch (error) {
-        console.log(error);
+        res.status(500).send("Server Error");
     }
 })
 
@@ -254,10 +219,9 @@ adminController.get("/units", async (req, res) => {
             acc[bloodGroup] = (acc[bloodGroup] || 0) + 1;
             return acc;
         }, {});
-        console.log(counts);
         res.send(counts) 
     } catch (error) {
-        console.log(error);
+        res.status(500).send("Server Error");
     }
 })
 

@@ -11,6 +11,7 @@ const fs = require('fs');
 const { Branches } = require("../../models/Admin/Branches");
 const verifyToken = require("../../Middlewares/auth");
 const { Donations } = require("../../models/Admin/donations");
+const { Requests } = require("../../models/Admin/requests");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -81,7 +82,6 @@ userController.put("/profile",verifyToken, async (req, res) => {
         email: req.body.email,
         mobile: req.body.mobile,
         bloodGroup: req.body.bloodGroup,
-        birthDate: req.body.birthDate,
         weight: req.body.weight,
         age: req.body.age,
         gender: req.body.gender,
@@ -125,11 +125,29 @@ userController.get("/districtChoose", verifyToken, async (req, res) => {
 
 userController.get("/totalUnits", verifyToken, async (req, res) => {
     try {
-        console.log('kjhgfdfghjkl');
         const response = await Donations.find()
-        console.log(response,'jhghj');
         const details = response.length
         return res.status(200).json(details);
+    } catch (error) {
+        return res.status(500).send({ message: "Error getting branches" });
+    }
+})
+
+userController.get("/sameBloodGroup", verifyToken, async (req, res) => {
+    try {
+        const response = await Requests.find({bloodGroup:req.query.bloodGroup , status:"Pending"})
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).send({ message: "Error getting branches" });
+    }
+})
+
+
+userController.get("/otherBloodGroup", verifyToken, async (req, res) => {
+    try {
+        const blood=req.query.bloodGroup
+        const response = await Requests.find({ bloodGroup: { $ne: blood } ,status:"Pending"});
+        return res.status(200).json(response);
     } catch (error) {
         return res.status(500).send({ message: "Error getting branches" });
     }

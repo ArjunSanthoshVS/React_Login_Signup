@@ -3,11 +3,10 @@ import * as api from "../../api"
 
 export const fetchUser = createAsyncThunk("admin/users", async (id) => {
     try {
-        console.log(id, 'tttttt');
         const response = await api.fetchUser(id)
         return response.data;
     } catch (error) {
-        console.log(error);
+        throw (error);
     }
 })
 

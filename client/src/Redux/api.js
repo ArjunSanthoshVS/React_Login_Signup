@@ -13,6 +13,7 @@ API.interceptors.request.use((req) => {
 
 //user
 export const signIn = (data) => API.post("/user/login", data)
+export const signInGoogle = (accessToken) => API.post("/user/login", { googleAccessToken: accessToken })
 export const signUp = (data) => API.post("/user/signup", data)
 export const profile = (data) => API.put("/user/profile", data)
 export const profilePicture = (data) => API.post("/user/profilePicture", data)
@@ -29,6 +30,12 @@ export const getBranches = (data) => API.get("/donor/getBranches", { params: { d
 export const totalDonors = () => API.get("/donor/totalDonors")
 export const totalUnits = () => API.get("/user/totalUnits")
 export const totalReceivers = () => API.get("/receiver/totalReceivers")
+export const sameBloodGroup = (data) => API.get("/user/sameBloodGroup", { params: { bloodGroup: data } })
+export const otherBloodGroup = (data) => API.get("/user/otherBloodGroup", { params: { bloodGroup: data } })
+export const totalRequests = () => API.get("/receiver/totalRequests")
+export const pendingRequests = () => API.get("/receiver/pendingRequests")
+export const approvedRequests = () => API.get("/receiver/approvedRequests")
+export const rejectedRequests = () => API.get("/receiver/rejectedRequests")
 
 //admin
 export const adminSignIn = (data) => API.post("/admin/login", data)

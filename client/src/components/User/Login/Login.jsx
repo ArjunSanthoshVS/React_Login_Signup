@@ -24,7 +24,6 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(data, 'lllll');
         dispatch(login({ data, navigate }))
     };
 
@@ -64,14 +63,14 @@ function Login() {
                         </button>
                     </form>
 
-                    <GoogleLogin
+                    {/* <GoogleLogin
                         onSuccess={credentialResponse => {
                             console.log(credentialResponse);
                         }}
                         onError={() => {
                             console.log('Login Failed');
                         }}
-                    />
+                    /> */}
                     <Link to={'/signup'}>
                         <button type='button' className='white_btn'>
                             SignUp
