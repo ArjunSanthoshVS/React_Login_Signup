@@ -21,11 +21,11 @@ const connection = require('./DB/db')
 // const donorProfile = require('./routes/UserRoutes/donorProfile')
 // const receiverProfile = require('./routes/UserRoutes/receiverProfile')
 
-const userController=require('./controllers/User/userController')
-const adminController=require('./controllers/Admin/adminController')
-const donorController=require('./controllers/User/Donor/donorController')
-const receiverController=require('./controllers/User/Receiver/receiverController')
-const bloodController=require('./controllers/Admin/bloodController')
+const userRoutes = require('./routes/UserRoutes/userRoutes')
+// const adminRoutes=require('./routes/AdminRoutes/adminRoutes')
+const donorRoutes=require('./routes/UserRoutes/donorRoutes')
+const receiverRoutes=require('./routes/UserRoutes/receiverRoutes')
+// const bloodRoutes=require('./routes/AdminRoutes/bloodRoutes')
 
 
 const app = express();
@@ -58,13 +58,11 @@ app.use(cors())
 // app.use("/api/activeUsers", activeUsers)
 
 
-app.use('/user', userController);
-// app.use('/profile', profileController);
-app.use('/admin',adminController)
-// app.use('/upload', uploadController)
-app.use('/donor',donorController)
-app.use('/receiver',receiverController)
-app.use('/blood',bloodController)
+app.use('/user', userRoutes);
+// app.use('/admin',adminRoutes)
+app.use('/donor', donorRoutes)
+app.use('/receiver', receiverRoutes)
+// app.use('/blood',bloodRoutes)
 
 
 // catch 404 and forward to error handler

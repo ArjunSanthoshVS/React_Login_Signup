@@ -39,6 +39,7 @@ function RequestPage() {
     useEffect(() => {
         const Districts = async () => {
             const response = await dispatch(allDistricts())
+            console.log(response);
             setDistricts(response.payload.districts)
         }
         Districts()

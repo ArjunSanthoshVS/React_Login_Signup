@@ -3,7 +3,7 @@ import { MDBCard, MDBCardBody, MDBRow, MDBCol, MDBContainer, MDBIcon } from 'mdb
 
 function ReceiverHomePage({donors,units,receivers,requests,pending,approved,rejected}) {
   return (
-    <>
+    <>  
           <MDBContainer className='pb-5'>
               <MDBRow>
                   <MDBCol sm='4'>
