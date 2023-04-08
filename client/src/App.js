@@ -29,7 +29,13 @@ import NearByPatients from "./components/User/Donor/NearByPatients/NearByPatient
 import Report from "./components/Admin/Report/Report";
 import DonorBranches from "./components/User/Donor/Branches/DonorBranches";
 import ReceiverBranch from "./components/User/Receiver/ReceiverBranch/ReceiverBranch";
-import Test from "./components/test";
+import OTP from "./components/User/OTP";
+import Google from "./components/User/Google";
+import NotFound from "./components/User/404/NotFound";
+import Success from "./components/User/Success/Success";
+import DonorOtherDonations from "./components/User/Donor/OtherDonations/DonorOtherDonations";
+import ReceiverOtherDonation from "./components/User/Receiver/OtherDonations/ReceiverOtherDonation";
+import AdminOtherDonations from "./components/Admin/OtherDonations/AdminOtherDonations";
 
 function App() {  
 
@@ -63,7 +69,12 @@ function App() {
         <Route path="/patients" exact element={<NearByPatients />} />
         <Route path="/donorBranches" exact element={<DonorBranches />} />
         <Route path="/receiverBranches" exact element={<ReceiverBranch />} />
-        <Route path="/test" exact element={<Test />} />
+        <Route path="/otp" exact element={<OTP/>} />
+        <Route path="/google" exact element={<Google/>} />
+        <Route path="/donor_other_donation" exact element={<DonorOtherDonations/>} />
+        <Route path="/receiver_other_donation" exact element={<ReceiverOtherDonation/>} />
+        <Route path="/success" exact element={<Success/>} />
+        <Route path="*" exact element={<NotFound/>} />
         
 
         {/* Admin */}
@@ -80,6 +91,7 @@ function App() {
         <Route path="/branches" exact element={<Branches />} />
         <Route path="/blood_groups" exact element={<Blood />} />
         <Route path="/blood_report" exact element={<Report />} />
+        <Route path="/admin_other_donations" exact element={<AdminOtherDonations />} />
       </Routes>
     </div >
   );

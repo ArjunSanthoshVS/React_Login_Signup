@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const userController = require('../../controllers/User/userController')
-const verifyToken = require('../../Middlewares/auth')
+const { verifyToken, googleVerify } = require('../../Middlewares/auth')
 
 //user
 router.post('/signup', userController.userSignup)
 router.post('/login', userController.userLogin)
+router.get('/googleLogin', googleVerify, userController.googleLogin)
 router.put('/profile', verifyToken, userController.profile)
 router.post('/profilePicture', verifyToken, userController.profilePicture)
 router.get('/allDistricts', verifyToken, userController.allDistricts)

@@ -182,7 +182,7 @@ export default function Sidebar() {
                                         text2 === "blood groups" && navigate('/blood_groups')
                                         text2 === "branches" && navigate('/branches')
                                         text2 === "blood report" && navigate('/blood_report')
-                                        text2 === "other donations" && navigate('/other_donation')
+                                        text2 === "other donations" && navigate('/admin_other_donations')
                                         text2 === "logout" && handleLogout() 
                                     }} />
                             </ListItemButton>

@@ -7,6 +7,7 @@ const multer = require('multer')
 const { Branches } = require("../../models/Admin/Branches");
 const { Donations } = require("../../models/Admin/donations");
 const { Requests } = require("../../models/Admin/requests");
+const { Payment } = require("../../models/User/payment");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -20,7 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 module.exports = {
-    
+
     userSignup: async (req, res, next) => {
         try {
             const { error } = validateSignup(req.body);
@@ -42,6 +43,29 @@ module.exports = {
             return res.status(201).json({ newUser, token })
         } catch (error) {
             return res.status(500).send({ message: "Internal Server Error" });
+        }
+    },
+
+    googleLogin: async (req, res) => {
+        try {
+            const data = req.headers.authorization
+            let result = data.split(' ')[1]
+            result = jwt.decode(result)
+            const email = result.email
+            const firstName = result.given_name
+            const lastName = result.family_name
+            const googleId = result.sub
+
+            let user = await User.findOne({ email: email })
+
+            if (!user) {
+                user = await User.create({ ...req.body, email, firstName, lastName, googleId })
+            }
+            const token = jwt.sign({ email: user.email, id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: "5h" })
+            return res.status(201).json({ user, token })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Internal server error' });
         }
     },
 
@@ -140,6 +164,16 @@ module.exports = {
             return res.status(200).json(response);
         } catch (error) {
             return res.status(500).send({ message: "Error getting branches" });
+        }
+    },
+
+    paymentDetails: async (req, res) => {
+        console.log(req.query.id);
+        try {
+            const response = await Payment.find({ userId: req.query.id }).exec()
+            res.status(201).json(response)
+        } catch (error) {
+            return res.status(500).send({ message: "Payment details error" })
         }
     }
 }

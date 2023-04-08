@@ -13,7 +13,7 @@ API.interceptors.request.use((req) => {
 
 //user
 export const signIn = (data) => API.post("/user/login", data)
-export const signInGoogle = (accessToken) => API.post("/user/login", { googleAccessToken: accessToken })
+// export const signInGoogle = (data) => API.post("/user/googleLogin",data)
 export const signUp = (data) => API.post("/user/signup", data)
 export const profile = (data) => API.put("/user/profile", data)
 export const profilePicture = (data) => API.post("/user/profilePicture", data)
@@ -38,8 +38,8 @@ export const approvedRequests = () => API.get("/receiver/approvedRequests")
 export const rejectedRequests = () => API.get("/receiver/rejectedRequests")
 
 //admin
-export const adminSignIn = (data) => API.post("/admin/login", data)
-export const adminSignUp = (data) => API.post("/admin/signup", data)
+export const adminSignIn = (data) => API.post("/admin/adminLogin", data)
+export const adminSignUp = (data) => API.post("/admin/adminSignup", data)
 export const fetchUsers = () => API.get("/admin/users")
 export const fetchUser = (id) => API.get(`/admin/users/${id}`)
 export const donations = () => API.get("/admin/donations")
@@ -48,8 +48,8 @@ export const requests = () => API.get("/admin/requests")
 export const userRequests = (id) => API.get(`/admin/userRequests/${id}`)
 export const approve = (id) => API.put(`/admin/requests/${id}/approve`)
 export const reject = (id) => API.put(`/admin/requests/${id}/reject`)
-export const approveDonation = (id) => API.put(`/admin/donations/${id}/approveDonation`)
-export const rejectDonation = (id) => API.put(`/admin/donations/${id}/rejectDonation`)
+export const approveDonation = (id) => API.put(`/admin/donations/${id}/approve`)
+export const rejectDonation = (id) => API.put(`/admin/donations/${id}/reject`)
 export const newBranch = (data) => API.post("/admin/newBranch", data)
 export const branches = () => API.get("/admin/branches")
 export const editBranch = (data) => API.put("/admin/editBranch", data)
@@ -61,3 +61,8 @@ export const units = () => API.get("/admin/units")
 export const getAvailableUnits = () => API.get("/blood/getAvailableUnits");
 export const getTransfusion = () => API.get("/blood/getTransfusion");
 export const getDonations = () => API.get("/blood/getDonations");
+
+
+//stripe
+export const paymentDetails = (id) => API.get("/stripe/paymentDetails?id=" + id);
+export const fullPaymentDetails = () => API.get("/stripe/fullPaymentDetails");

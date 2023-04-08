@@ -4,7 +4,7 @@ import './Login.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../../Redux/Features/User/userSlice'
 import Spinner from 'react-bootstrap/Spinner';
-import { GoogleLogin } from "@react-oauth/google"
+import Google from '../Google'
 
 function Login() {
 
@@ -63,14 +63,7 @@ function Login() {
                         </button>
                     </form>
 
-                    {/* <GoogleLogin
-                        onSuccess={credentialResponse => {
-                            console.log(credentialResponse);
-                        }}
-                        onError={() => {
-                            console.log('Login Failed');
-                        }}
-                    /> */}
+                    <Google />
                     <Link to={'/signup'}>
                         <button type='button' className='white_btn'>
                             SignUp

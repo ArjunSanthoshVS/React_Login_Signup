@@ -190,7 +190,7 @@ export default function ReceiverSideBar() {
                                                 text2 === "request blood" && navigate('/receive')
                                                 text2 === "transfusion history" && navigate('/transfusion_history')
                                                 text2 === "available branches" && navigate('/receiverBranches')
-                                                text2 === "other donations" && navigate('/other_donation')
+                                                text2 === "other donations" && navigate('/receiver_other_donation')
                                             }} />
                                     </ListItemButton>
                                 </ListItem>

@@ -5,22 +5,22 @@ export const login = createAsyncThunk("user/login", async ({ data, navigate }, {
     try {
         const response = await api.signIn(data)
         window.location = "/"
+        console.log(response.data);
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
     }
 })
 
-export const signInGoogle = createAsyncThunk("user/login", async (accessToken, { rejectWithValue }) => {
-    console.log(accessToken, 'kjhv');
-    try {
-        const response = await api.signInGoogle(accessToken)
-        window.location = "/"
-        return response.data
-    } catch (error) {
-        return rejectWithValue(error.response.data)
-    }
-})
+// export const googleLogin = createAsyncThunk("user/googleLogin", async ({ data, navigate }, { rejectWithValue }) => {
+//     try {
+//         const response = await api.signInGoogle(data)
+//         window.location = "/"
+//         return response.data
+//     } catch (error) {
+//         return rejectWithValue(error.response.data)
+//     }
+// })
 
 export const signUp = createAsyncThunk("user/signup", async ({ data, navigate }, { rejectWithValue }) => {
     try {
@@ -85,6 +85,7 @@ const userSlice = createSlice({
             state.loading = true
         },
         [login.fulfilled]: (state, action) => {
+            console.log({ ...action.payload },'zzzzzzz');
             state.loading = false
             localStorage.setItem("userToken", JSON.stringify({ ...action.payload }))
             state.user = action.payload

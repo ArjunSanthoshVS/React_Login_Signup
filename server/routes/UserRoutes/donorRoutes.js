@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const verifyToken = require('../../Middlewares/auth')
 const donorController = require('../../controllers/User/Donor/donorController')
+const { verifyToken } = require('../../Middlewares/auth')
 
 //donor
 router.post('/donate', verifyToken, donorController.donate)

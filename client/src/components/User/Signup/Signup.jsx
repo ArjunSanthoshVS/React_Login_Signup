@@ -4,6 +4,7 @@ import './Signup.css'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from 'react-bootstrap/esm/Spinner'
 import { signUp } from '../../../Redux/Features/User/userSlice'
+import Google from '../Google'
 
 
 function Signup() {
@@ -79,6 +80,7 @@ function Signup() {
                             Signup
                         </button>
                     </form>
+                    <Google/>
                     <Link to={'/login'}>
                         <button type='button' className='white_btn'>
                             SignIn

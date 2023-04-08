@@ -41,7 +41,7 @@ function AdminLogin() {
                                 {error && <div className="error_msg">{error}</div>}
                                 <p className="small mb-3 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p>
                                 <div className="text-center">
-                                    <MDBBtn outline className='px-5' color='white' size='lg'>
+                                    <MDBBtn outline type='submit' className='px-5' color='white' size='lg'>
                                         {loading && (
                                             <Spinner className='me-2' animation="border" size="sm" />
                                         )}

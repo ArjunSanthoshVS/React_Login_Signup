@@ -10,7 +10,8 @@ import { donate } from '../../../Redux/Features/User/DonateSlice';
 function DonatePage() {
   const { user } = useSelector((state) => ({ ...state?.user?.user }))
   const current = new Date();
-  const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
+  const date = current.toLocaleDateString('en-US', options);
   const name = user?.firstName + " " + user?.lastName
   const [districts, setDistricts] = useState([])
   const [selectedDistrict, setSelectedDistrict] = useState('');

@@ -22,11 +22,11 @@ const connection = require('./DB/db')
 // const receiverProfile = require('./routes/UserRoutes/receiverProfile')
 
 const userRoutes = require('./routes/UserRoutes/userRoutes')
-// const adminRoutes=require('./routes/AdminRoutes/adminRoutes')
+const adminRoutes=require('./routes/AdminRoutes/adminRoutes')
 const donorRoutes=require('./routes/UserRoutes/donorRoutes')
 const receiverRoutes=require('./routes/UserRoutes/receiverRoutes')
-// const bloodRoutes=require('./routes/AdminRoutes/bloodRoutes')
-
+const bloodRoutes=require('./routes/AdminRoutes/bloodRoutes')
+const stripeRoutes=require('./routes/UserRoutes/stripeRoute')
 
 const app = express();
 
@@ -59,10 +59,11 @@ app.use(cors())
 
 
 app.use('/user', userRoutes);
-// app.use('/admin',adminRoutes)
+app.use('/admin',adminRoutes)
 app.use('/donor', donorRoutes)
 app.use('/receiver', receiverRoutes)
-// app.use('/blood',bloodRoutes)
+app.use('/blood',bloodRoutes)
+app.use('/stripe',stripeRoutes)
 
 
 // catch 404 and forward to error handler

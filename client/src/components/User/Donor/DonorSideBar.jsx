@@ -258,7 +258,7 @@ export default function DonorSideBar() {
                                                 text2 === "donation history" && navigate('/donation_history')
                                                 text2 === "available branches" && navigate('/donorBranches')
                                                 text2 === "patients" && navigate('/patients')
-                                                text2 === "other donations" && navigate('/other_donation')
+                                                text2 === "other donations" && navigate('/donor_other_donation')
 
                                             }} />
                                     </ListItemButton>
