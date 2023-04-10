@@ -244,7 +244,9 @@ export default function DonorSideBar() {
                             { name: 'Donation History', icon: <HistoryIcon /> },
                             { name: 'Available Branches', icon: <Branch /> },
                             { name: 'Patients', icon: <Branch /> },
-                            { name: 'Other Donations', icon: < CurrencyRupeeIcon /> }].map((text, index) => (
+                            { name: 'Other Donations', icon: < CurrencyRupeeIcon /> },
+                            { name: 'Chats', icon: < CurrencyRupeeIcon /> }
+                        ].map((text, index) => (
                                 <ListItem key={text.name} disablePadding>
                                     <ListItemButton>
                                         <ListItemIcon>
@@ -259,7 +261,7 @@ export default function DonorSideBar() {
                                                 text2 === "available branches" && navigate('/donorBranches')
                                                 text2 === "patients" && navigate('/patients')
                                                 text2 === "other donations" && navigate('/donor_other_donation')
-
+                                                text2 === "chats" && navigate('/chat')
                                             }} />
                                     </ListItemButton>
                                 </ListItem>

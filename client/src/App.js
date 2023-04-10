@@ -36,6 +36,7 @@ import Success from "./components/User/Success/Success";
 import DonorOtherDonations from "./components/User/Donor/OtherDonations/DonorOtherDonations";
 import ReceiverOtherDonation from "./components/User/Receiver/OtherDonations/ReceiverOtherDonation";
 import AdminOtherDonations from "./components/Admin/OtherDonations/AdminOtherDonations";
+import Chat from "./components/User/Chat/Chat";
 
 function App() {  
 
@@ -74,6 +75,7 @@ function App() {
         <Route path="/donor_other_donation" exact element={<DonorOtherDonations/>} />
         <Route path="/receiver_other_donation" exact element={<ReceiverOtherDonation/>} />
         <Route path="/success" exact element={<Success/>} />
+        <Route path="/chat" exact element={<Chat/>} />
         <Route path="*" exact element={<NotFound/>} />
         
 

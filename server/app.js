@@ -1,5 +1,4 @@
 require('dotenv').config()
-
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -7,26 +6,15 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors')
 const connection = require('./DB/db')
-
-
-// //Admin Routes
-// const adminLogin = require("./routes/AdminRoutes/adminLogin");
-// const adminSignup = require("./routes/AdminRoutes/adminSignup")
-// const activeUsers = require("./routes/AdminRoutes/activeUsers")
-
-// //User Routes
-// const signup = require('./routes/UserRoutes/signup');
-// const login = require('./routes/UserRoutes/login');
-// const home = require('./routes/UserRoutes/home');
-// const donorProfile = require('./routes/UserRoutes/donorProfile')
-// const receiverProfile = require('./routes/UserRoutes/receiverProfile')
+const socket = require('socket.io')
 
 const userRoutes = require('./routes/UserRoutes/userRoutes')
-const adminRoutes=require('./routes/AdminRoutes/adminRoutes')
-const donorRoutes=require('./routes/UserRoutes/donorRoutes')
-const receiverRoutes=require('./routes/UserRoutes/receiverRoutes')
-const bloodRoutes=require('./routes/AdminRoutes/bloodRoutes')
-const stripeRoutes=require('./routes/UserRoutes/stripeRoute')
+const adminRoutes = require('./routes/AdminRoutes/adminRoutes')
+const donorRoutes = require('./routes/UserRoutes/donorRoutes')
+const receiverRoutes = require('./routes/UserRoutes/receiverRoutes')
+const bloodRoutes = require('./routes/AdminRoutes/bloodRoutes')
+const stripeRoutes = require('./routes/UserRoutes/stripeRoute')
+const chatRoutes = require('./routes/UserRoutes/chatRouter');
 
 const app = express();
 
@@ -44,26 +32,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
-//User Routes
-// app.use("/api/signup", signup);
-// app.use("/api/login", login);
-// app.use("/api/home", home);
-// app.use("/api/donorProfile", donorProfile)
-// app.use("/api/recieverProfile", receiverProfile)
-
-
-//Admin Routes
-// app.use("/api/admin_signup", adminSignup)
-// app.use("/api/admin_login", adminLogin);
-// app.use("/api/activeUsers", activeUsers)
-
-
 app.use('/user', userRoutes);
-app.use('/admin',adminRoutes)
+app.use('/admin', adminRoutes)
 app.use('/donor', donorRoutes)
 app.use('/receiver', receiverRoutes)
-app.use('/blood',bloodRoutes)
-app.use('/stripe',stripeRoutes)
+app.use('/blood', bloodRoutes)
+app.use('/stripe', stripeRoutes)
+app.use('/chat', chatRoutes)
 
 
 // catch 404 and forward to error handler
@@ -82,4 +57,30 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
+
+const server = app.listen(5000, () =>
+  console.log(`Server started on ${5000}`)
+);
+
+const io = socket(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
+});
+
+global.onlineUsers = new Map();
+io.on("connection", (socket) => {
+  global.chatSocket = socket;
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
+
+  socket.on("send-msg", (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("msg-receive", data.message);
+    }
+  });
+});
 module.exports = app;

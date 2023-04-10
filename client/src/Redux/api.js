@@ -66,3 +66,9 @@ export const getDonations = () => API.get("/blood/getDonations");
 //stripe
 export const paymentDetails = (id) => API.get("/stripe/paymentDetails?id=" + id);
 export const fullPaymentDetails = () => API.get("/stripe/fullPaymentDetails");
+
+
+//chat
+export const allContacts=(id)=>API.get("/chat/allContacts?id="+id)
+export const addMessage=(data)=>API.post("/chat/addMessage",data)
+export const getAllMessage=(data)=>API.post("/chat/getAllMessage",data)

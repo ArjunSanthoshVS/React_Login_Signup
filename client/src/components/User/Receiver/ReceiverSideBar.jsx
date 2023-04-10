@@ -176,7 +176,9 @@ export default function ReceiverSideBar() {
                             { name: 'Request Blood', icon: <Doantion /> },
                             { name: 'Transfusion History', icon: <HistoryIcon /> },
                             { name: 'Available Branches', icon: <Branch /> },
-                            { name: 'Other Donations', icon: < CurrencyRupeeIcon /> }].map((text, index) => (
+                            { name: 'Other Donations', icon: < CurrencyRupeeIcon /> },
+                            { name: 'Chat', icon: <Branch /> },
+                        ].map((text, index) => (
                                 <ListItem key={text.name} disablePadding>
                                     <ListItemButton>
                                         <ListItemIcon>
@@ -191,6 +193,7 @@ export default function ReceiverSideBar() {
                                                 text2 === "transfusion history" && navigate('/transfusion_history')
                                                 text2 === "available branches" && navigate('/receiverBranches')
                                                 text2 === "other donations" && navigate('/receiver_other_donation')
+                                                text2 === "chat" && navigate('/chat')
                                             }} />
                                     </ListItemButton>
                                 </ListItem>
