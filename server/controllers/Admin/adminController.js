@@ -154,7 +154,7 @@ module.exports = {
 
     newBranch: async (req, res) => {
         try {
-            const existingBranch = await Branches.findOne({ $or: [{ branch: req.body.branch }, { address: req.body.address }] });
+            const existingBranch = await Branches.findOne({ $and: [{ district: req.body.district }, { branch: req.body.branch }, { address: req.body.address }, { phone: req.body.phone }] });
             if (existingBranch) {
                 return res.status(409).send({ message: "Branch already exists!" });
             } else {

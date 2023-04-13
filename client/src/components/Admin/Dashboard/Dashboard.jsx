@@ -1,6 +1,9 @@
 import { Box, styled } from '@mui/material'
 import React from 'react'
 import Sidebar from '../Sidebar/Sidebar'
+import DashboardCards from '../../../Pages/Admin/Dashboard/DashboardCards';
+import DashboardChart from '../../../Pages/Admin/Dashboard/DashboardChart';
+import PieChart from '../../../Pages/Admin/Dashboard/PieChart';
 
 function Dashboard() {
     const DrawerHeader = styled('div')(({ theme }) => ({
@@ -17,7 +20,11 @@ function Dashboard() {
                 <Sidebar />
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                     <DrawerHeader />
-                    <h1>Admin Dashboard</h1>
+                    <>
+                        <DashboardCards />
+                        <DashboardChart />
+                        <PieChart />
+                    </>
                 </Box>
             </Box>
         </div>

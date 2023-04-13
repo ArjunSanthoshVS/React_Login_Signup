@@ -39,7 +39,7 @@ module.exports = {
             const newUser = await User.create({ ...req.body, password: hashedPassword })
 
 
-            const token = jwt.sign({ email: newUser.email, id: newUser._id, isAdmin: newUser.isAdmin }, process.env.JWT_SECRET, { expiresIn: "5h" })
+            const token = jwt.sign({ email: newUser.email, id: newUser._id, isAdmin: newUser.isAdmin }, process.env.JWT_SECRET, { expiresIn: "10h" })
             return res.status(201).json({ newUser, token })
         } catch (error) {
             return res.status(500).send({ message: "Internal Server Error" });
@@ -61,7 +61,7 @@ module.exports = {
             if (!user) {
                 user = await User.create({ ...req.body, email, firstName, lastName, googleId })
             }
-            const token = jwt.sign({ email: user.email, id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: "5h" })
+            const token = jwt.sign({ email: user.email, id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: "10h" })
             return res.status(201).json({ user, token })
         } catch (error) {
             console.log(error);
@@ -83,7 +83,24 @@ module.exports = {
             if (!checkPass) {
                 return res.status(400).send({ message: "User credentials are wrong" })
             }
-            const token = jwt.sign({ email: user.email, id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: "5h" })
+            const token = jwt.sign({ email: user.email, id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: "10h" })
+            return res.status(201).json({ user, token, msg: "Work aayiyii" })
+        } catch (error) {
+            return res.status(500).send({ message: "Internal Server Error" });
+        }
+    },
+
+    otpLogin: async (req, res) => {
+        try {
+            console.log(req.body);
+            let mobile = req.body.mob
+            mobile = mobile.slice(3)
+            console.log(mobile);
+            const user = await User.findOne({ mobile: mobile })
+            if (!user) {
+                return res.status(400).send({ message: "User not found" })
+            }
+            const token = jwt.sign({ email: user.email, id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: "10h" })
             return res.status(201).json({ user, token, msg: "Work aayiyii" })
         } catch (error) {
             return res.status(500).send({ message: "Internal Server Error" });
@@ -103,6 +120,16 @@ module.exports = {
             district: req.body.district,
         }
         try {
+            const existingMob = await User.findOne({ mobile: updatedFields.mobile })
+            const mob = existingMob?._id?.toString() || null;
+            const existingMail = await User.findOne({ email: updatedFields.email })
+            const mail = existingMail?._id?.toString() || null;
+            if (existingMob && mob !== req.body._id) {
+                return res.status(400).json({ mobile: "Mobile number already in use" })
+            }
+            if (existingMail && mail !== req.body._id) {
+                return res.status(400).json({ email: "Email already in use" })
+            }
             const updatedUser = await User.findOneAndUpdate({ _id: req.body._id }, updatedFields, { new: true });
             return res.status(201).json({ updatedUser, message: "updated" })
         } catch (error) {
@@ -116,7 +143,7 @@ module.exports = {
             const updatedImage = await User.findOneAndUpdate({ _id: req.body.userId }, { image: req.body.url }, { new: true })
             return res.status(201).json({ updatedImage })
         } catch (error) {
-            console.log(error, '[[[[[ifffff');
+            console.log(error);
         }
     },
 

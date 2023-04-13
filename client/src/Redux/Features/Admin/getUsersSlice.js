@@ -7,8 +7,10 @@ export const fetchUsers = createAsyncThunk("admin/users", async (_, { dispatch }
         const response = await api.fetchUsers()
         const data = await response.data
         dispatch(setUsers(data))
+        console.log(response.data);
+        return response.data
     } catch (error) {
-        throw(error);
+        throw (error);
     }
 })
 
@@ -17,7 +19,7 @@ export const donorDetails = createAsyncThunk("admin/donations", async () => {
         const response = await api.donations()
         return response.data
     } catch (error) {
-        throw(error);
+        throw (error);
     }
 })
 
@@ -26,7 +28,7 @@ export const userDonations = createAsyncThunk("admin/userDonations", async (id) 
         const response = await api.userDonations(id)
         return response.data
     } catch (error) {
-        throw(error);
+        throw (error);
     }
 })
 
@@ -35,7 +37,7 @@ export const requests = createAsyncThunk("admin/requests", async () => {
         const response = await api.requests()
         return response.data;
     } catch (error) {
-        throw(error);
+        throw (error);
     }
 })
 export const userRequests = createAsyncThunk("admin/userRequests", async (id) => {
@@ -43,7 +45,7 @@ export const userRequests = createAsyncThunk("admin/userRequests", async (id) =>
         const response = await api.userRequests(id)
         return response.data
     } catch (error) {
-        throw(error);
+        throw (error);
     }
 })
 

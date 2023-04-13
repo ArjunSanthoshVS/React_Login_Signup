@@ -6,6 +6,7 @@ const { verifyToken, googleVerify } = require('../../Middlewares/auth')
 //user
 router.post('/signup', userController.userSignup)
 router.post('/login', userController.userLogin)
+router.post('/otpLogin', userController.otpLogin)
 router.get('/googleLogin', googleVerify, userController.googleLogin)
 router.put('/profile', verifyToken, userController.profile)
 router.post('/profilePicture', verifyToken, userController.profilePicture)

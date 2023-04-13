@@ -25,19 +25,28 @@ function ProfilePage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const validateData = await validate(user)
-        console.log(validateData);
-        if (Object.keys(validateData).length !== 0) {
-            console.log('jndkjn');
-            dispatch(setIsEditing(true));
-            setFormErrors({ validateData })
-            console.log(formErrors);
-        } else {
-            console.log('jhgfdfghj');
-            dispatch(setIsEditing(false));
-            dispatch(profile({ user, navigate }));
+        try {
+            const validateData = await validate(user)
+            if (Object.keys(validateData).length !== 0) {
+                dispatch(setIsEditing(true));
+                setFormErrors({ validateData })
+            } else {
+                const response = await dispatch(profile({ user, navigate }));
+                if (response.error) {
+                    console.log(response);
+                    dispatch(setIsEditing(true));
+                    setFormErrors({ email: response.payload.email, mobile: response.payload.mobile })
+                    setFormErrors(response.payload)
+                } else {
+                    dispatch(setIsEditing(false));
+                }
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
+
+    console.log(formErrors);
     const genderOptions = genders
     const districts = districtsOptions
     const groups = groupsOptions
@@ -84,7 +93,7 @@ function ProfilePage() {
                             {isEditing ? (
                                 <>
                                     <MDBInput type="email" name='email' onChange={handleChange} value={user?.email} />
-                                    <p className='mb-0 text-danger ms-auto' style={{ fontSize: "12px" }}>{formErrors.validateData && formErrors.validateData.email}</p>
+                                    <p className='mb-0 text-danger ms-auto' style={{ fontSize: "12px" }}>{formErrors.email || (formErrors.validateData && formErrors.validateData.email)}</p>
                                 </>
 
                             ) : (
@@ -101,7 +110,7 @@ function ProfilePage() {
                             {isEditing ? (
                                 <>
                                     <MDBInput type="number" name='mobile' onChange={handleChange} value={user?.mobile} />
-                                    <p className='mb-0 text-danger ms-auto' style={{ fontSize: "12px" }}>{formErrors.validateData && formErrors.validateData.mobile}</p>
+                                    <p className='mb-0 text-danger ms-auto' style={{ fontSize: "12px" }}>{formErrors.mobile || (formErrors.validateData && formErrors.validateData.mobile)}</p>
                                 </>
                             ) : (
                                 <MDBCardText className="text-muted">{user?.mobile}</MDBCardText>

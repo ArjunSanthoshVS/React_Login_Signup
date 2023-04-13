@@ -69,6 +69,9 @@ function Login() {
                             SignUp
                         </button>
                     </Link>
+                    <Link to={'/otp'}>
+                  <p>Forgot Password...?</p>
+                    </Link>
                 </div>
             </div >
         </div >

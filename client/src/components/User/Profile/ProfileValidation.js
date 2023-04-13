@@ -5,6 +5,8 @@ const validate = (values) => {
         errors.firstName = "First name is required!";
     } else if (values.firstName.length > 10) {
         errors.firstName = "First name must less than 10 characters!"
+    } else if (values.firstName.length < 3) {
+        errors.firstName = "First name must more than 3 characters!"
     }
     if (!values.lastName) {
         errors.lastName = "Last name is required!";

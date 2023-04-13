@@ -19,7 +19,7 @@ function Contacts({ currentUser, contacts, changeChat }) {
   }
   return (
     <>
-      {currentUserImage && currentUserName && (
+      {currentUserName && (
         <Container>
           <div className="brand">
             <img src="/images/red wings logo.png" alt="Logo" />
@@ -41,6 +41,7 @@ function Contacts({ currentUser, contacts, changeChat }) {
                   </div>
                   <div className="username">
                     <p className='mb-0'>{contact.firstName + " " + contact.lastName}</p>
+                    <p className='mb-0'>{contact.bloodGroup}</p>
                   </div>
                 </div>
               );

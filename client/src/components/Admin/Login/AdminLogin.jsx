@@ -36,7 +36,7 @@ function AdminLogin() {
                             <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
                             <p className="text-white-50 mb-5">Please enter your login and password!</p>
                             <form onSubmit={handleSubmit}>
-                                <MDBInput className='mb-4' labelClass='text-white' label='Email address' id='formControlLg' type='email' placeholder='Email' name='email' onChange={handleChange} value={data.email} required size="lg" />
+                                <MDBInput className='mb-4' labelClass='text-white' label='Email' id='formControlLg' type='email' placeholder='Email' name='email' onChange={handleChange} value={data.email} required size="lg" />
                                 <MDBInput className='mb-3' labelClass='text-white' label='Password' id='formControlLg' type='password' placeholder='Password' name='password' onChange={handleChange} requiredvalue={data.password} size="lg" />
                                 {error && <div className="error_msg">{error}</div>}
                                 <p className="small mb-3 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p>

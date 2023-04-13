@@ -3,24 +3,28 @@ import * as api from "../../api"
 
 export const login = createAsyncThunk("user/login", async ({ data, navigate }, { rejectWithValue }) => {
     try {
+        console.log(data);
         const response = await api.signIn(data)
-        window.location = "/"
         console.log(response.data);
+        window.location = "/"
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data)
     }
 })
 
-// export const googleLogin = createAsyncThunk("user/googleLogin", async ({ data, navigate }, { rejectWithValue }) => {
-//     try {
-//         const response = await api.signInGoogle(data)
-//         window.location = "/"
-//         return response.data
-//     } catch (error) {
-//         return rejectWithValue(error.response.data)
-//     }
-// })
+export const otpLogin = createAsyncThunk("user/otpLogin", async ({ data, navigate }, { rejectWithValue }) => {
+    try {
+        const response = await api.otpLogin({ mob: data })
+        const user = response.data
+        localStorage.setItem('userToken', JSON.stringify(user));
+        setUser(user)
+        window.location = "/"
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data)
+    }
+})
 
 export const signUp = createAsyncThunk("user/signup", async ({ data, navigate }, { rejectWithValue }) => {
     try {
@@ -71,7 +75,6 @@ const userSlice = createSlice({
             localStorage.removeItem("userToken")
         },
         setIsEditing: (state, action) => {
-            console.log(action.payload);
             state.isEditing = action.payload;
         },
         updateUser: (state, action) => {
@@ -85,7 +88,6 @@ const userSlice = createSlice({
             state.loading = true
         },
         [login.fulfilled]: (state, action) => {
-            console.log({ ...action.payload },'zzzzzzz');
             state.loading = false
             localStorage.setItem("userToken", JSON.stringify({ ...action.payload }))
             state.user = action.payload

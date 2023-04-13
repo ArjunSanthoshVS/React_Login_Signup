@@ -7,18 +7,15 @@ import { setUser } from '../../Redux/Features/User/userSlice'
 function Google() {
     const handleGoogleLoginSuccess = async (credentialResponse) => {
         try {
-            console.log(credentialResponse);
             const { credential } = credentialResponse;
             const payload = credential ? decodeJwt(credential) : undefined;
             if (payload) {
-                console.log(payload);
                 const response = await axios.get('http://localhost:5000/user/googleLogin', {
                     headers: {
                         Authorization: `Bearer ${credential}`
                     }
                 });
                 const user = response.data;
-                console.log( user , 'lllljnj');
                 localStorage.setItem('userToken', JSON.stringify(user));
                 setUser(user) // Store the token in local storage
                 window.location = '/'; // Redirect the user to the home page

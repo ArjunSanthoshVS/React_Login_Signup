@@ -4,7 +4,7 @@ export const genders = [
     { label: 'Others', value: 'Others', name: 'gender' }
 ];
 
-export const districtsOptions = [
+export const districtsOptions = [{text:'Select One'},
     { value: 'Alappuzha', text: 'Alappuzha' }, { value: 'Ernakulam', text: 'Ernakulam' },
     { value: 'Idukki', text: 'Idukki' }, { value: 'Kannur', text: 'Kannur' },
     { value: 'Kasaragod', text: 'Kasaragod' }, { value: 'Kollam', text: 'Kollam' },
