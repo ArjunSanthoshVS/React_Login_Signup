@@ -9,16 +9,6 @@ const { Donations } = require("../../models/Admin/donations");
 const { Requests } = require("../../models/Admin/requests");
 const { Payment } = require("../../models/User/payment");
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname)
-    }
-})
-
-const upload = multer({ storage: storage })
 
 module.exports = {
 

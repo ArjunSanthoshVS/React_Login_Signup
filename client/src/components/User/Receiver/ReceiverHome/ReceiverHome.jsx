@@ -55,7 +55,7 @@ function ReceiverHome() {
                     <MDBContainer className='pt-5 pb-5'>
                         <MDBRow>
                             <MDBCol sm='8'>
-                                <img className='w-100' src="/images/HomeMiddleBanner.png" alt="" />
+                                <img className='w-100' src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681500637/HomeMiddleBanner_pu52f4.png" alt="" />
                             </MDBCol>
                             <MDBCol sm='4'>
                                 <div className=" p-5 text-center my-auto">

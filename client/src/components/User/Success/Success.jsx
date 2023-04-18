@@ -16,7 +16,7 @@ function Success() {
           <h1 className='mt-4'><b>Successfully Donated!</b></h1>
           <p>Thank you for your generous donation.</p>
           <p>Your contribution will make a difference in the lives of those in need.</p>
-          <MDBBtn style={{ background: "#054d60" }} onClick={() => window.history.back()}>Back</MDBBtn>
+          <MDBBtn style={{ background: "#054d60" }} onClick={() => window.history.go(-3)}>Back</MDBBtn>
         </MDBCardBody>
       </MDBCard>
     </div>

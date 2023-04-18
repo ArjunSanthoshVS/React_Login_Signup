@@ -129,7 +129,7 @@ function HomeNav() {
                                 maxWidth: { xs: 350, md: 250 },
                             }}
                             alt="The house from the offer."
-                            src="/images/red wings logo.png"
+                            src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681500637/red_wings_logo_fga789.png"
                         />
 
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -182,7 +182,7 @@ function HomeNav() {
                                 maxWidth: { xs: 350, md: 250 },
                             }}
                             alt="The house from the offer."
-                            src="/images/red wings logo.png" />
+                            src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681500637/red_wings_logo_fga789.png" />
                    
                         {user?._id && (
                             <h3 className='ms-auto me-2 m-0'>{user?.firstName} {user?.lastName}</h3>

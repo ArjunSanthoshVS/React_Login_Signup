@@ -22,7 +22,7 @@ function Contacts({ currentUser, contacts, changeChat }) {
       {currentUserName && (
         <Container>
           <div className="brand">
-            <img src="/images/red wings logo.png" alt="Logo" />
+            <img src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681500637/red_wings_logo_fga789.png" alt="Logo" />
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {

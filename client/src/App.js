@@ -37,6 +37,8 @@ import DonorOtherDonations from "./components/User/Donor/OtherDonations/DonorOth
 import ReceiverOtherDonation from "./components/User/Receiver/OtherDonations/ReceiverOtherDonation";
 import AdminOtherDonations from "./components/Admin/OtherDonations/AdminOtherDonations";
 import Chat from "./components/User/Chat/Chat";
+import DonorCerificate from "./components/User/Donor/DonorCertificate/DonorCerificate";
+import Receipt from "./components/User/Receiver/Receipt/Receipt";
 
 function App() {  
 
@@ -76,6 +78,8 @@ function App() {
         <Route path="/receiver_other_donation" exact element={<ReceiverOtherDonation/>} />
         <Route path="/success" exact element={<Success/>} />
         <Route path="/chat" exact element={<Chat/>} />
+        <Route path="/certificate" exact element={<DonorCerificate/>} />
+        <Route path="/receipt" exact element={<Receipt/>} />
         <Route path="*" exact element={<NotFound/>} />
         
 

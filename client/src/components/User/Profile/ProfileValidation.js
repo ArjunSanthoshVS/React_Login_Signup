@@ -3,8 +3,8 @@ const validate = (values) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if (!values.firstName) {
         errors.firstName = "First name is required!";
-    } else if (values.firstName.length > 10) {
-        errors.firstName = "First name must less than 10 characters!"
+    } else if (values.firstName.length > 30) {
+        errors.firstName = "First name must less than 30 characters!"
     } else if (values.firstName.length < 3) {
         errors.firstName = "First name must more than 3 characters!"
     }
@@ -30,6 +30,8 @@ const validate = (values) => {
         errors.weight="Weight is required!"
     } else if (values.weight < 45) {
         errors.weight="Weight must be more than 45kg!"
+    } else if (values.weight.length > 2) {
+        errors.weight = "Weight must be less than 100kg!"
     }
     if (!values.age) {
         errors.age="Age is required!"

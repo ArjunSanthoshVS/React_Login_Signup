@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ConfirmPopup } from 'primereact/confirmpopup'; // To use <ConfirmPopup> tag
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBRow, MDBCol, MDBIcon, MDBBtn, MDBModal, MDBModalDialog, MDBModalContent } from 'mdb-react-ui-kit';
 import { useDispatch, useSelector } from 'react-redux';
 import { cancelRequest, transfusionHistory } from '../../../Redux/Features/User/TransfusionSlice';
+import Receipt from '../../../components/User/Receiver/Receipt/Receipt';
 
 function RequestHistoryPage() {
     const user = useSelector((state) => state?.user?.user?.user)
@@ -14,6 +15,8 @@ function RequestHistoryPage() {
     const [visible, setVisible] = useState(false);
     const toast = useRef(null);
     const buttonEl = useRef(null);
+    const [showBill, setShowBill] = useState(false);
+    const name = user.firstName + " " + user.lastName
 
     const cancel = async (id) => {
         await dispatch(cancelRequest(id))
@@ -78,6 +81,31 @@ function RequestHistoryPage() {
                                         }
                                     </div>
                                 </MDBCardBody>
+                                {(request.status === 'Approved') &&
+                                    <>
+                                        <MDBBtn size='sm' rounded className='bg-danger m-3 w-75 mx-auto'
+                                            onClick={() => setShowBill(true)}>View Receipt</MDBBtn>
+                                    </>
+                                }
+                                {showBill && (
+                                    <MDBModal show={showBill} setShow={setShowBill} tabIndex='-1' className='pt-5'>
+                                        <MDBModalDialog size='lg'>
+                                            <MDBModalContent>
+                                                <Receipt
+                                                    name={name}
+                                                    unit={request.unit}
+                                                    bloodGroup={request.bloodGroup}
+                                                    date={request.receivedDate}
+                                                    district={request.district}
+                                                    branch={request.branch}
+                                                    age={request.age}
+                                                    gender={request.gender}
+                                                    userDist={user.district}
+                                                />
+                                            </MDBModalContent>
+                                        </MDBModalDialog>
+                                    </MDBModal>
+                                )}
                             </MDBCard>
                         </MDBCol>
                     ))

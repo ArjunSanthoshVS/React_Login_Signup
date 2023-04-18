@@ -22,7 +22,7 @@ function Payment() {
               <MDBCard className='h-100'>
                 <MDBCardBody className='d-flex col-md-12'>
                   <div className='d-flex col-md-5'>
-                    <img className='w-75 my-auto' src="/images/blood.jpg" alt="" />
+                    <img className='w-75 my-auto' src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681500617/blood_qyi4sp.jpg" alt="" />
                   </div>
                   <div className="col-md-7">
                     <h3>₹ {payment.amount}</h3>

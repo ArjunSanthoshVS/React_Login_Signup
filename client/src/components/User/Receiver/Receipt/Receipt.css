@@ -1,0 +1,45 @@
+.receipt-container {
+    border: 20px solid #054D60;
+    display: flex;
+    flex-direction: column;
+    padding: 100px;
+    margin: auto;
+}
+
+.receipt-header {
+    text-align: center;
+    color: #054D60;
+}
+
+.receipt-header h1 {
+    margin: 0;
+    font-size: 36px;
+    font-style: italic;
+}
+
+.receipt-body {
+    line-height: 35px;
+}
+
+.receipt-body p,
+.receipt-body h2,
+.receipt-body h3,
+.receipt-body h4 {
+    margin: 10px 0;
+}
+
+.receipt-body h2 {
+    font-size: 48px;
+}
+
+.receipt-body h3 {
+    font-size: 36px;
+}
+
+.receipt-body h4 {
+    font-size: 24px;
+}
+
+.footer {
+    margin: auto;
+}

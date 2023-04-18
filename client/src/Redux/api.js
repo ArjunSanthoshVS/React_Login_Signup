@@ -16,7 +16,9 @@ export const signIn = (data) => API.post("/user/login", data)
 export const otpLogin = (data) => API.post("/user/otpLogin",data)
 export const signUp = (data) => API.post("/user/signup", data)
 export const profile = (data) => API.put("/user/profile", data)
+
 export const profilePicture = (data) => API.post("/user/profilePicture", data)
+
 export const donate = (data) => API.post("/donor/donate", data)
 export const donationHistory = (id) => API.get("/donor/donation_history?id=" + id)
 export const request = (data) => API.post("/receiver/request", data)
