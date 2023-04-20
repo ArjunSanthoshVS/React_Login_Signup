@@ -48,11 +48,11 @@ export default function Profile() {
                 <MDBRow className='mt-5'>
                     <MDBCol lg="4" className='d-flex align-items-center justify-content-center'>
                         <MDBCard className="w-75">
-                            <h3 className='donorHeading mt-4 text-center'>Red Wings Profile</h3>
+                            <h5 className='donorHeading mt-4 text-center'>Red Wings Profile</h5>
                             <MDBCardBody className="text-center">
                                 <MDBCardImage src={user.image} alt="avatar" className="rounded-circle" style={{ width: '150px' }} fluid />
-                                <h3 className="mt-4 mb-0">{user?.firstName} {user?.lastName}</h3>
-                                <h3 className="mb-4">{user?.bloodGroup}</h3>
+                                <h5 className="mt-4 mb-0">{user?.firstName} {user?.lastName}</h5>
+                                <h5 className="mb-4">{user?.bloodGroup}</h5>
                                 <div className="d-flex justify-content-center mb-2">
                                     <Button onClick={() => { const input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*'; input.onchange = (e) => { uploadImage(e.target.files); }; input.click(); }} variant="contained" component="label">   Image    </Button>
                                 </div>

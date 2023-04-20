@@ -9,7 +9,7 @@ function DonateBlood() {
         <>
             <Box sx={{ display: 'flex' }}>
                 <DonorSideBar />
-                <Box className='vh-100' component="main" sx={{ flexGrow: 1, p: 3 }}>
+                <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                     <Toolbar />
                     <DonatePage/>
                     {/* <SmallFooter/> */}

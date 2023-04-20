@@ -32,63 +32,65 @@ function Signup() {
     };
 
     return (
-        <div className='signup_container'>
-            <div className="signup_form_container">
-                <div className="left">
-                    <img src="" alt="" />
-                </div>
-                <div className="right">
-                    <form className='form_container' onSubmit={handleSubmit}>
-                        <h1 className='text' style={{ color: "#df4e4e" }}>Create Account</h1>
-                        <input
-                            type='text'
-                            placeholder='First Name'
-                            name='firstName'
-                            onChange={handleChange}
-                            value={data.firstName}
-                            className='input'
-                        />
-                        <input
-                            type='text'
-                            placeholder='Last Name'
-                            name='lastName'
-                            onChange={handleChange}
-                            value={data.lastName}
-                            className='input'
-                        />
-                        <input
-                            type='email'
-                            placeholder='Email'
-                            name='email'
-                            onChange={handleChange}
-                            value={data.email}
-                            className='input'
-                        />
-                        <input
-                            type='password'
-                            placeholder='Password'
-                            name='password'
-                            onChange={handleChange}
-                            value={data.password}
-                            className='input'
-                        />
-                        {error && <div className="error_msg">{error}</div>}
-                        <button type='submit' className='green_btn'>
-                            {loading && (
-                                <Spinner className='me-2' animation="border" size="sm" />
-                            )}
-                            Signup
-                        </button>
-                    </form>
-                    <Google/>
-                    <Link to={'/login'}>
-                        <button type='button' className='white_btn'>
-                            SignIn
-                        </button>
-                    </Link>
-                </div>
-            </div >
-        </div >
+        <div className='signup_container bg-secondary p-5'>
+            <div className="conatiner bg-white p-5">
+                <form className='form_container' onSubmit={handleSubmit}>
+                    <div className="logo d-flex">
+                        <img style={{width:"55px"}} src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681886400/favicon_awqu1j.png" alt="" />
+                        <div>
+                            <h1 className='text ms-2 m-0 mt-1' style={{ color: "#df4e4e" }}>Create Account</h1>
+                        </div>
+                    </div>
+                    <input
+                        type='text'
+                        placeholder='First Name'
+                        name='firstName'
+                        onChange={handleChange}
+                        value={data.firstName}
+                        className='input'
+                    />
+                    <input
+                        type='text'
+                        placeholder='Last Name'
+                        name='lastName'
+                        onChange={handleChange}
+                        value={data.lastName}
+                        className='input'
+                    />
+                    <input
+                        type='email'
+                        placeholder='Email'
+                        name='email'
+                        onChange={handleChange}
+                        value={data.email}
+                        className='input'
+                    />
+                    <input
+                        type='password'
+                        placeholder='Password'
+                        name='password'
+                        onChange={handleChange}
+                        value={data.password}
+                        className='input'
+                    />
+                    {error && <div className="error_msg">{error}</div>}
+                    <button type='submit' className='green_btn'>
+                        {loading && (
+                            <Spinner className='me-2' animation="border" size="sm" />
+                        )}
+                        Signup
+                    </button>
+                </form>
+                <Google />
+                <Link to={'/login'}>
+                    <div className="d-flex justify-content-center">
+                    <button type='button' className='white_btn'>
+                        SignIn
+                    </button>
+                    </div>
+                </Link>
+            </div>
+        </div>
     )
 }
 

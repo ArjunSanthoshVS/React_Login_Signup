@@ -22,27 +22,27 @@ function DonorHomeCards() {
 
   return (
     <>
-      <MDBContainer className='pb-5'>
+      <MDBContainer className='p-0 pb-5'>
         <MDBRow>
-          <MDBCol sm='4'>
+          <MDBCol sm='4' className='mb-2'>
             <MDBCard border='3' className='text-center ' style={{ color: "#e3e3e3", background: "#054D60", boxShadow: "black 0px 0px 12px -3px" }}>
-              <MDBCardBody className=''>
+              <MDBCardBody>
                 <h2><b>Total Donors Registered</b></h2>
                 <h2><b>{donors}</b></h2>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
-          <MDBCol sm='4'>
+          <MDBCol sm='4' className='mb-2'>
             <MDBCard border='3' className='text-center' style={{ color: "#e3e3e3", background: "#054D60", boxShadow: "black 0px 0px 12px -3px" }}>
-              <MDBCardBody className=''>
+              <MDBCardBody>
                 <h2><b>Blood Units Collected</b></h2>
                 <h2><b>{units}</b></h2>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
-          <MDBCol sm='4'>
+          <MDBCol sm='4' className='mb-2'>
             <MDBCard border='3' className='text-center' style={{ color: "#e3e3e3", background: "#054D60", boxShadow: "black 0px 0px 12px -3px" }}>
-              <MDBCardBody className=''>
+              <MDBCardBody>
                 <h2><b> Successfull Transfusers</b></h2>
                 <h2><b>{receivers}</b></h2>
               </MDBCardBody>

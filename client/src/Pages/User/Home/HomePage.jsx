@@ -59,9 +59,9 @@ function HomePage() {
     }, [])
   return (
     <>
-       <MDBContainer className='pt-5 pb-5'>
+       <MDBContainer className='pt-3 pb-5'>
                 <MDBRow>
-                    <MDBCol sm='4'>
+                    <MDBCol sm='4' className='mb-2'>
                         <MDBCard border='danger' className='text-center border-2' style={{ boxShadow: "black 0px 0px 12px -3px" }}>
                             <MDBCardBody className='text-danger'>
                                 <h2><b>Total Donors</b></h2>
@@ -69,7 +69,7 @@ function HomePage() {
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>
-                    <MDBCol sm='4'>
+                  <MDBCol sm='4' className='mb-2'>
                         <MDBCard border='danger' className='text-center border-2' style={{ boxShadow: "black 0px 0px 12px -3px" }}>
                             <MDBCardBody className='text-danger'>
                                 <h2><b>Blood Units Collected</b></h2>
@@ -77,7 +77,7 @@ function HomePage() {
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>
-                    <MDBCol sm='4'>
+                  <MDBCol sm='4' className='mb-2'>
                         <MDBCard border='danger' className='text-center border-2' style={{ boxShadow: "black 0px 0px 12px -3px" }}>
                             <MDBCardBody className='text-danger'>
                                 <h2><b>Total Receivers</b></h2>
@@ -88,7 +88,7 @@ function HomePage() {
                 </MDBRow>
             </MDBContainer>
 
-            <MDBContainer className='pt-5 pb-5'>
+            <MDBContainer className='pt-3 pb-5'>
                 <MDBRow>
                     <MDBCol sm='8'>
                       <img className='w-100' src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681500637/HomeMiddleBanner_pu52f4.png" alt="" />
@@ -102,7 +102,7 @@ function HomePage() {
                 </MDBRow>
             </MDBContainer>
 
-            <MDBCard className='m-5 p-4' background='secondary'>
+            <MDBCard className='m-5 mt-3 p-4' background='secondary'>
                 <MDBCardBody>
                     <h2 className='text-center mb-4'><b>Types of <span className='text-danger'>Donations</span></b></h2>
                     <h4 className='text-center' style={{ lineHeight: '50px', fontWeight: "600" }}>

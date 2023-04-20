@@ -3,6 +3,7 @@ import * as api from "../../api"
 
 export const adminLogin = createAsyncThunk("admin/login", async (data , { rejectWithValue }) => {
     try {
+        console.log(data);
         const response = await api.adminSignIn(data)
         window.location = "/dashboard"
         return response.data

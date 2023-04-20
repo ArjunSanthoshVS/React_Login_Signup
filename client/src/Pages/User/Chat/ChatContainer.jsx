@@ -64,7 +64,7 @@ function ChatContainer({ currentChat, currentUser, socket }) {
                     <div className="avatar">
                         <img src={currentChat.image} alt="" />
                     </div>
-                    <div className="username">
+                    <div className="userName">
                         <h5>{name}</h5>
                     </div>
                 </div>
@@ -110,7 +110,7 @@ display: grid;
           height: 2.5rem;
         }
       }
-      .username {
+      .userName {
         h5 {
             margin-bottom:0;
           color: white;

@@ -7,7 +7,6 @@ const validatelogin = (data) => {
         email: Joi.string().email().required().label("Email"),
         password: Joi.string().required().label("Password"),
     });
-    console.log(schema,'jnjnj');
     return schema.validate(data);
 };
 

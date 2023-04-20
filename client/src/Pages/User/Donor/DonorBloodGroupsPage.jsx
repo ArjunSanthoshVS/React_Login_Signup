@@ -23,10 +23,10 @@ function DonorBloodGroupsPage() {
 
     return (
         <>
-            <MDBContainer className='mb-5'>
+            <MDBContainer className='mb-3'>
                 <MDBRow>
                     <MDBCol sm='6'>
-                        <MDBCard className='p-3'>
+                        <MDBCard className='p-3 mb-3'>
                             <MDBCardBody style={{ height: "350px", overflowY: "scroll" }}>
                                 <h4 className='text-center'>Patients who needs {bloodGroup} Blood</h4>
                                 <MDBTable hover>
@@ -56,7 +56,7 @@ function DonorBloodGroupsPage() {
                         </MDBCard>
                     </MDBCol>
                     <MDBCol sm='6'>
-                        <MDBCard className='p-3'>
+                        <MDBCard className='p-3 mb-3'>
                             <MDBCardBody style={{ height: "350px", overflowY: "scroll" }}>
                                 <h4 className='text-center'>Patients who need Other blood Groups</h4>
                                 <MDBTable hover >

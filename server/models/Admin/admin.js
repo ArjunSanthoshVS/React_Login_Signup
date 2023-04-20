@@ -16,10 +16,10 @@ const adminSchema = new mongoose.Schema({
     }
 })
 
-adminSchema.methods.generateAdminToken = function () {
-    const token = jwt.sign({ _id: this._id }, 'REDWINGSADMIN', { expiresIn: '7d' })
-    return token
-}
+// adminSchema.methods.generateAdminToken = function () {
+//     const token = jwt.sign({ _id: this._id }, 'REDWINGSADMIN', { expiresIn: '7d' })
+//     return token
+// }
 
 const Admin = mongoose.model("admin", adminSchema)
 

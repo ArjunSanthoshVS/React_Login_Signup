@@ -28,52 +28,54 @@ function Login() {
     };
 
     return (
-        <div className='login_container'>
-            <div className="login_form_container">
-                <div className="left">
-                </div>
-                <div className="right">
+        <div className='login_container bg-secondary p-5'>
+            <div className="conatiner bg-white p-5">
+                <form className='form_container' onSubmit={handleSubmit}>
+                    <div className="logo d-flex">
+                        <img style={{ width: "55px" }} src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681886400/favicon_awqu1j.png" alt="" />
+                        <div>
+                            <h1 className='text ms-2 m-0 mt-1' style={{ color: "#df4e4e" }}>Login Account</h1>
+                        </div>
+                    </div>
+                    <input
+                        type='email'
+                        placeholder='Email'
+                        name='email'
+                        onChange={handleChange}
+                        value={data.email}
+                        required
+                        className='input'
+                    />
+                    <input
+                        type='password'
+                        placeholder='Password'
+                        name='password'
+                        onChange={handleChange}
+                        required
+                        value={data.password}
+                        className='input'
+                    />
+                    {error && <div className="error_msg">{error}</div>}
+                    <button type='submit' className='green_btn'>
+                        {loading && (
+                            <Spinner className='me-2' animation="border" size="sm" />
+                        )}
+                        Login
+                    </button>
+                </form>
 
-                    <form className='form_container' onSubmit={handleSubmit}>
-                        <h1 className='text' style={{ color: "#df4e4e" }}>Login to your Account</h1>
-                        <input
-                            type='email'
-                            placeholder='Email'
-                            name='email'
-                            onChange={handleChange}
-                            value={data.email}
-                            required
-                            className='input'
-                        />
-                        <input
-                            type='password'
-                            placeholder='Password'
-                            name='password'
-                            onChange={handleChange}
-                            required
-                            value={data.password}
-                            className='input'
-                        />
-                        {error && <div className="error_msg">{error}</div>}
-                        <button type='submit' className='green_btn'>
-                            {loading && (
-                                <Spinner className='me-2' animation="border" size="sm" />
-                            )}
-                            Login
-                        </button>
-                    </form>
-
-                    <Google />
-                    <Link to={'/signup'}>
+                <Google />
+                <Link to={'/signup'}>
+                    <div className="d-flex justify-content-center">
                         <button type='button' className='white_btn'>
                             SignUp
                         </button>
-                    </Link>
-                    <Link to={'/otp'}>
-                  <p>Forgot Password...?</p>
-                    </Link>
-                </div>
-            </div >
+                    </div>
+                </Link>
+                <Link to={'/otp'}>
+                    <p className='text-center'>Forgot Password...?</p>
+                </Link>
+            </div>
         </div >
     )
 }

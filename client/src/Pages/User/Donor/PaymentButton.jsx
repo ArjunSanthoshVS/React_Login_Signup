@@ -26,7 +26,7 @@ function PaymentButton({ amount }) {
     }
     return (
         <>
-            <MDBBtn onClick={() => handlePayment()}>Donate Now</MDBBtn>
+            <MDBBtn className='ms-1' style={{ backgroundColor:"#054D60"}} onClick={() => handlePayment()}>Donate Now</MDBBtn>
         </>
     )
 }

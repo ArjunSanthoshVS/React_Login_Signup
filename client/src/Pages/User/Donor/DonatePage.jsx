@@ -70,7 +70,7 @@ function DonatePage() {
     <>
       <MDBCard className='w-75 mx-auto' style={{ backgroundColor: "#e3e3e3", color: "#054d60" }}>
         <MDBCardBody>
-          <h1 className='text-center p-5 pb-0 fw-bolder' style={{ fontFamily: 'math' }}>Donate Your Most Valuable Blood</h1>
+          <h1 className='text-center p-4 pb-0 fw-bolder' style={{ fontFamily: 'math' }}>Donate Your Most Valuable Blood</h1>
           <p className='text-center'>Please Give proper informations...!</p>
           <form onSubmit={handleSubmit} className='w-50 mx-auto mb-4'>
             <FormControl fullWidth className='form-control-lg mb-2'>

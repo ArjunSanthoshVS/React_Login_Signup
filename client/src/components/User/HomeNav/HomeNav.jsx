@@ -1,5 +1,5 @@
-import * as React from 'react';
 import './HomeNav.css'
+import * as React from 'react';
 import Swal from 'sweetalert2'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -51,7 +51,7 @@ function HomeNav() {
     }
 
     const handleDonor = () => {
-        if (user?.mobile && user?.bloodGroup  && user?.weight && user?.age && user?.gender && user?.district) {
+        if (user?.mobile && user?.bloodGroup && user?.weight && user?.age && user?.gender && user?.district) {
             Swal.fire({
                 title: `Hi ${user?.firstName}`,
                 text: 'Continue as a Donor?',
@@ -132,9 +132,9 @@ function HomeNav() {
                             src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681500637/red_wings_logo_fga789.png"
                         />
 
-                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                        <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' },width:"80px"  }}>
                             <IconButton
-                                size="large"
+                                size="medium"
                                 aria-label="account of current user"
                                 aria-controls="menu-appbar"
                                 aria-haspopup="true"
@@ -183,9 +183,9 @@ function HomeNav() {
                             }}
                             alt="The house from the offer."
                             src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681500637/red_wings_logo_fga789.png" />
-                   
+
                         {user?._id && (
-                            <h3 className='ms-auto me-2 m-0'>{user?.firstName} {user?.lastName}</h3>
+                            <h4 className='username ms-auto me-2 m-0'>{user?.firstName} {user?.lastName}</h4>
                         )}
                         <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'block' } }}>
                             <Tooltip title="Donate">
@@ -209,7 +209,7 @@ function HomeNav() {
                             </Tooltip>
                         </Box>
 
-                        <Box sx={{ flexGrow: 0 }}>
+                        <Box sx={{ flexGrow: 0  }}>
                             <Tooltip title="Open settings">
                                 <IconButton className='ms-2' onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                     <Avatar alt="Remy Sharp" src={user?.image ?? "https://www.pngarts.com/files/5/User-Avatar-PNG-Transparent-Image.png"} />

@@ -39,7 +39,7 @@ function Contacts({ currentUser, contacts, changeChat }) {
                       alt="Avatar"
                     />
                   </div>
-                  <div className="username">
+                  <div className="userName">
                     <p className='mb-0'>{contact.firstName + " " + contact.lastName}</p>
                     <p className='mb-0'>{contact.bloodGroup}</p>
                   </div>
@@ -54,7 +54,7 @@ function Contacts({ currentUser, contacts, changeChat }) {
                 alt="Avatar"
               />
             </div>
-            <div className="username">
+            <div className="userName">
               <p className='mb-0'>{currentUserName}</p>
             </div>
           </div>
@@ -81,6 +81,7 @@ grid-template-rows: 10% 78% 12%;
       text-transform: uppercase;
     }
   }
+
   .contacts {
     display: flex;
     flex-direction: column;
@@ -95,6 +96,7 @@ grid-template-rows: 10% 78% 12%;
         border-radius: 1rem;
       }
     }
+
     .contact {
       background-color: #ffffff34;
       min-height: 5rem;
@@ -112,7 +114,7 @@ grid-template-rows: 10% 78% 12%;
           height: 3rem;
         }
       }
-      .username {
+      .userName {
         p {
           color: white;
         }
@@ -134,20 +136,13 @@ grid-template-rows: 10% 78% 12%;
         max-inline-size: 100%;
       }
     }
-    .username {
+    .userName {
       p {
        font-weight: bold;
-        color: white;
+      color: white;
       }
     }
-    @media screen and (min-width: 720px) and (max-width: 1080px) {
-      gap: 0.5rem;
-      .username {
-        p {
-          font-size: 1rem;
-        }
-      }
-    }
+    
   }
 `;
 export default Contacts

@@ -28,14 +28,12 @@ function Google() {
     return (
         <>
             <Toaster toastOptions={{ duration: 4000 }} />
-            <div className="App">
-                <div className="card">
+            <div className="App d-flex justify-content-center">
                     <GoogleLogin
                         onSuccess={handleGoogleLoginSuccess}
                         onError={console.error}
                         useOneTap
                     />
-                </div>
             </div>
         </>
     )

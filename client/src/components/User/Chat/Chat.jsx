@@ -47,7 +47,6 @@ function Chat() {
         </>
     )
 }
-
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
@@ -57,6 +56,7 @@ const Container = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: lightblue;
+  
   .container {
     padding:0;
     height: 85vh;
@@ -64,8 +64,13 @@ const Container = styled.div`
     background-color: #e3e3e3;
     display: grid;
     grid-template-columns: 25% 75%;
-    @media screen and (min-width: 720px) and (max-width: 1080px) {
-      grid-template-columns: 35% 65%;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .container {
+      height: 100%;
+      width: 100%;
+      grid-template-columns: 1fr;
     }
   }
 `;

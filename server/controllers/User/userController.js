@@ -12,8 +12,9 @@ const { Payment } = require("../../models/User/payment");
 
 module.exports = {
 
-    userSignup: async (req, res, next) => {
+    userSignup: async (req, res) => {
         try {
+            console.log(req.body);
             const { error } = validateSignup(req.body);
             if (error) {
                 return res.status(400).send({ message: error.details[0].message })
@@ -23,13 +24,10 @@ module.exports = {
             if (isExisting) {
                 return res.status(409).send({ message: "User with given email already Exist!" });
             }
+
             const hashedPassword = await bcrypt.hash(req.body.password, 10)
-
-
             const newUser = await User.create({ ...req.body, password: hashedPassword })
-
-
-            const token = jwt.sign({ email: newUser.email, id: newUser._id, isAdmin: newUser.isAdmin }, process.env.JWT_SECRET, { expiresIn: "10h" })
+            const token = jwt.sign({ email: newUser.email, id: newUser._id, isAdmin: newUser.isAdmin }, process.env.JWT_SECRET, { expiresIn: "5h" })
             return res.status(201).json({ newUser, token })
         } catch (error) {
             return res.status(500).send({ message: "Internal Server Error" });
@@ -39,6 +37,7 @@ module.exports = {
     googleLogin: async (req, res) => {
         try {
             const data = req.headers.authorization
+            console.log(data);
             let result = data.split(' ')[1]
             result = jwt.decode(result)
             const email = result.email

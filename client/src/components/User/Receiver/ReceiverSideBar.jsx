@@ -1,29 +1,37 @@
 import * as React from 'react';
-import './ReceiverSideBar.css'
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
+import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
 import HomeIcon from '@mui/icons-material/Home';
 import Doantion from '@mui/icons-material/VolunteerActivismOutlined';
 import HistoryIcon from '@mui/icons-material/History';
 import Branch from '@mui/icons-material/Business';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLogout } from '../../../Redux/Features/User/userSlice';
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import { Avatar, Container, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
-
+import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
 const settings = ['Profile', 'Logout'];
 const drawerWidth = 240;
-export default function ReceiverSideBar() {
+
+function ReceiverSideBar(props) {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const { user } = useSelector((state) => ({ ...state?.user?.user }))
+    const { window } = props;
+    const [mobileOpen, setMobileOpen] = React.useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -31,13 +39,56 @@ export default function ReceiverSideBar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const { user } = useSelector((state) => ({ ...state?.user?.user }))
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+
     const handleLogout = () => {
         dispatch(setLogout())
         window.location = "/login"
     }
+    const drawer = (
+        <div>
+            <div className="d-flex m-2">
+                <div>
+                    <img style={{ width: "50px" }} className='ms-2' src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681886400/favicon_awqu1j.png" alt="" />
+                </div>
+                <div className='mx-auto my-auto'>
+                    {user ? (<h5 className='m-0 text-center fw-b'>{user?.firstName + " " + user?.lastName}</h5>) : (<p>Redwings always be with you.</p>)}
+                </div>
+            </div>
+            <Divider />
+            <List>
+                {[
+                    { name: 'Home', icon: <HomeIcon /> },
+                    { name: 'Request Blood', icon: <Doantion /> },
+                    { name: 'Transfusion History', icon: <HistoryIcon /> },
+                    { name: 'Available Branches', icon: <Branch /> },
+                    { name: 'Other Donations', icon: < CurrencyRupeeIcon /> },
+                    { name: 'Chat', icon: <Branch /> },
+                ].map((text, index) => (
+                    <ListItem key={text.name} disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                {text.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={text.name}
+                                onClick={() => {
+                                    console.log(text.name);
+                                    let text2 = text.name.toLowerCase()
+                                    text2 === "home" && navigate('/receiver')
+                                    text2 === "request blood" && navigate('/receive')
+                                    text2 === "transfusion history" && navigate('/transfusion_history')
+                                    text2 === "available branches" && navigate('/receiverBranches')
+                                    text2 === "other donations" && navigate('/receiver_other_donation')
+                                    text2 === "chat" && navigate('/chat')
+                                }} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+        </div>
+    );
     const handleDonor = () => {
         Swal.fire({
             title: `Hi ${user?.firstName}`,
@@ -53,68 +104,42 @@ export default function ReceiverSideBar() {
             }
         });
     }
+    const container = window !== undefined ? () => window().document.body : undefined;
+
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar style={{ backgroundColor: "#054D60" }} position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-                <Container maxWidth="xl">
-                    <Toolbar disableGutters>
-                        <Box
-                            component="img"
-                            sx={{
-                                display: { xs: 'none', md: 'flex' },
-                                mr: 1,
-                                height: 50,
-                                width: 200,
-                                maxHeight: { xs: 233, md: 167 },
-                                maxWidth: { xs: 350, md: 250 },
-                            }}
-                            alt="The house from the offer."
-                            src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681500637/red_wings_logo_fga789.png"
-                        />
-                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                            <IconButton
-                                size="large"
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                color="inherit"
-                            >
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'left',
-                                }}
-                                sx={{
-                                    display: { xs: 'block', md: 'none' },
-                                }}
-                            >
-                            </Menu>
-                        </Box>
-                        <Box
-                            component="img"
-                            sx={{
-                                display: { xs: 'flex', md: 'none' },
-                                mr: 1,
-                                height: 50,
-                                width: 200,
-                                maxHeight: { xs: 233, md: 167 },
-                                maxWidth: { xs: 350, md: 250 },
-                            }}
-                            alt="The house from the offer."
-                            src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681500637/red_wings_logo_fga789.png" />
-                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        </Box>
-                        {user?._id && (
-                            <h3 className='me-2 m-0'>{user?.firstName} {user?.lastName}</h3>
-                        )}
+            <AppBar
+                position="fixed"
+                sx={{
+                    width: { sm: `calc(100% - ${drawerWidth}px)` },
+                    ml: { sm: `${drawerWidth}px` },
+                    backgroundColor: "#054D60"
+                }}
+            >
+                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        sx={{ mr: 2, display: { sm: 'none' } }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Box sx={{
+                        mr: 1,
+                        height: 50,
+                        width: 200,
+                        maxHeight: { xs: 233, md: 167 },
+                        maxWidth: { xs: 350, md: 250 },
+                    }}
+                        component="img"
+                        alt="The house from the offer."
+                        src="https://res.cloudinary.com/dchrawfgy/image/upload/v1681500637/red_wings_logo_fga789.png"
+                    />
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+
                         <Tooltip title="Donate">
                             <lord-icon
                                 onClick={handleDonor}
@@ -157,50 +182,52 @@ export default function ReceiverSideBar() {
                                 ))}
                             </Menu>
                         </Box>
-                    </Toolbar>
-                </Container>
-            </AppBar >
-            <Drawer
-                variant="permanent"
-                sx={{
-                    width: drawerWidth,
-                    flexShrink: 0,
-                    [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', backgroundColor: "#e3e3e3" },
-                }}
+                    </Box>
+                </Toolbar>
+            </AppBar>
+            <Box
+                component="nav"
+                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                aria-label="mailbox folders"
             >
-                <Toolbar />
-                <Box sx={{ overflow: 'auto' }}>
-                    <List>
-                        {[
-                            { name: 'Home', icon: <HomeIcon /> },
-                            { name: 'Request Blood', icon: <Doantion /> },
-                            { name: 'Transfusion History', icon: <HistoryIcon /> },
-                            { name: 'Available Branches', icon: <Branch /> },
-                            { name: 'Other Donations', icon: < CurrencyRupeeIcon /> },
-                            { name: 'Chat', icon: <Branch /> },
-                        ].map((text, index) => (
-                                <ListItem key={text.name} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            {text.icon}
-                                        </ListItemIcon>
-                                        <ListItemText primary={text.name}
-                                            onClick={() => {
-                                                console.log(text.name);
-                                                let text2 = text.name.toLowerCase()
-                                                text2 === "home" && navigate('/receiver')
-                                                text2 === "request blood" && navigate('/receive')
-                                                text2 === "transfusion history" && navigate('/transfusion_history')
-                                                text2 === "available branches" && navigate('/receiverBranches')
-                                                text2 === "other donations" && navigate('/receiver_other_donation')
-                                                text2 === "chat" && navigate('/chat')
-                                            }} />
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
-                    </List>
-                </Box>
-            </Drawer>
+                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+                <Drawer
+                    container={container}
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                        display: { xs: 'block', sm: 'none' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                >
+                    {drawer}
+                </Drawer>
+                <Drawer
+                    variant="permanent"
+                    sx={{
+                        display: { xs: 'none', sm: 'block' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                    open
+                >
+                    {drawer}
+                </Drawer>
+            </Box>
+
         </Box>
     );
 }
+
+ReceiverSideBar.propTypes = {
+    /**
+     * Injected by the documentation to work in an iframe.
+     * You won't need it on your project.
+     */
+    window: PropTypes.func,
+};
+
+export default ReceiverSideBar;

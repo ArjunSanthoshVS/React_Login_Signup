@@ -76,8 +76,8 @@ function OTP() {
             });
     }
     return (
-        <div className='d-flex align-items-center justify-content-center vh-100'>
-            <MDBCard className='p-5'>
+        <div className='d-flex align-items-center justify-content-center vh-100 bg-secondary p-4'>
+            <MDBCard className='p-3'>
                 <MDBCardBody className='d-flex flex-column align-items-center'>
                     <Toaster toastOptions={{ duration: 4000 }} />
                     <div id="recaptcha-container"></div>
