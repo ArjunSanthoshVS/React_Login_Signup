@@ -96,6 +96,21 @@ module.exports = {
         }
     },
 
+    isPh: async (req, res) => {
+        try {
+            console.log(req.query);
+            let mobile = req.query.mobile
+            mobile = mobile.slice(3)
+            console.log(mobile);
+            const user = await User.findOne({ mobile: mobile })
+            if (!user) {
+            return res.status(404).send({ message: "User not found" })
+        }
+        return res.status(201).send({message:"User is here"})
+    } catch (error) {
+        return res.status(404).send({message:"User not foundxcvbn"})
+    }
+},
     profile: async (req, res) => {
         const updatedFields = {
             firstName: req.body.firstName,

@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login, otpLogin } from '../../Redux/Features/User/userSlice';
 import { MDBBtn, MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
+import axios from 'axios';
 
 function OTP() {
     const [otp, setOtp] = useState("");
@@ -36,28 +37,31 @@ function OTP() {
         }
     }
 
-    function onSignup() {
+    const onSignup = async () => {
         setLoading(true);
         onCaptchVerify();
 
         const appVerifier = window.recaptchaVerifier;
 
         const formatPh = "+" + ph;
-
-        signInWithPhoneNumber(auth, formatPh, appVerifier)
-            .then((confirmationResult) => {
-                window.confirmationResult = confirmationResult;
-                console.log(confirmationResult);
-                // const user=await dispatch(userWithPH())
-                setLoading(false);
-                setShowOTP(true);
-                toast.success("OTP sended successfully!");
-            })
-            .catch((error) => {
-                console.log(error);
-                setErr(error.message)
-                setLoading(false);
-            });
+        try {
+            await axios.get("http://localhost:5000/user/isPh", { params: { mobile: formatPh } })
+            signInWithPhoneNumber(auth, formatPh, appVerifier)
+                .then((confirmationResult) => {
+                    window.confirmationResult = confirmationResult;
+                    console.log(confirmationResult);
+                    setLoading(false);
+                    setShowOTP(true);
+                    toast.success("OTP sended successfully!");
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setLoading(false);
+                });
+        } catch (error) {
+            toast.error("Check your mobile number..!")
+            setLoading(false)
+        }
     }
 
     function onOTPVerify() {
